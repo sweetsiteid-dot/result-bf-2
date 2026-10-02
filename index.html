@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram • Deandra & Akbar</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:"DM Sans",sans-serif;
+    background:#fafafa;
+    color:#171717;
+    overflow-x:hidden;
+}
+
+button{
+    font-family:inherit;
+    cursor:pointer;
+}
+
+.hidden{
+    display:none!important;
+}
+
+/* =========================
+   PIN SCREEN
+========================= */
+
+#pinScreen{
+    position:fixed;
+    inset:0;
+    z-index:9999;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:25px;
+}
+
+.pin-box{
+    width:100%;
+    max-width:390px;
+    text-align:center;
+}
+
+.insta-logo{
+    font-family:"Playfair Display",serif;
+    font-style:italic;
+    font-size:48px;
+    margin-bottom:12px;
+}
+
+.pin-box h2{
+    font-size:20px;
+    margin-bottom:8px;
+}
+
+.pin-box p{
+    color:#737373;
+    font-size:14px;
+    line-height:1.6;
+    margin-bottom:25px;
+}
+
+.pin-input{
+    width:100%;
+    height:52px;
+    border:1px solid #dbdbdb;
+    border-radius:10px;
+    text-align:center;
+    font-size:22px;
+    letter-spacing:9px;
+    outline:none;
+}
+
+.pin-input:focus{
+    border-color:#777;
+}
+
+.login-btn{
+    width:100%;
+    height:45px;
+    margin-top:13px;
+    border:0;
+    border-radius:9px;
+    background:#0095f6;
+    color:#fff;
+    font-weight:700;
+    font-size:14px;
+}
+
+.pin-error{
+    color:#ed4956;
+    font-size:13px;
+    margin-top:12px;
+    min-height:18px;
+}
+
+.from-to{
+    margin-top:35px;
+    font-size:13px;
+    color:#737373;
+}
+
+.from-to strong{
+    color:#171717;
+}
+
+/* =========================
+   APP
+========================= */
+
+#app{
+    min-height:100vh;
+}
+
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:60px;
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid #dbdbdb;
+    z-index:1000;
+}
+
+.nav-inner{
+    max-width:975px;
+    height:100%;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+}
+
+.nav-logo{
+    font-family:"Playfair Display",serif;
+    font-style:italic;
+    font-size:28px;
+}
+
+.nav-icons{
+    display:flex;
+    gap:20px;
+    font-size:23px;
+}
+
+.nav-icons span{
+    cursor:pointer;
+    transition:.2s;
+}
+
+.nav-icons span:hover{
+    transform:scale(1.12);
+}
+
+.music-control{
+    position:fixed;
+    right:18px;
+    bottom:20px;
+    z-index:1500;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    border:1px solid #ddd;
+    background:#fff;
+    box-shadow:0 5px 25px rgba(0,0,0,.15);
+    font-size:20px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    width:100%;
+    max-width:975px;
+    margin:auto;
+    padding-top:80px;
+    padding-bottom:80px;
+}
+
+.content{
+    width:100%;
+    max-width:630px;
+    margin:auto;
+}
+
+/* =========================
+   STORIES
+========================= */
+
+.stories{
+    background:#fff;
+    border:1px solid #dbdbdb;
+    border-radius:8px;
+    padding:16px 10px;
+    display:flex;
+    gap:17px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    margin-bottom:20px;
+}
+
+.stories::-webkit-scrollbar{
+    display:none;
+}
+
+.story{
+    min-width:66px;
+    text-align:center;
+    font-size:11px;
+    cursor:pointer;
+}
+
+.story-ring{
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    padding:3px;
+    background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);
+    margin:auto auto 5px;
+}
+
+.story-ring img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:50%;
+    border:3px solid white;
+}
+
+.story-name{
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/* =========================
+   POST
+========================= */
+
+.post{
+    background:#fff;
+    border:1px solid #dbdbdb;
+    border-radius:8px;
+    margin-bottom:20px;
+    overflow:hidden;
+}
+
+.post-head{
+    height:58px;
+    display:flex;
+    align-items:center;
+    padding:0 14px;
+    gap:11px;
+}
+
+.avatar{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    overflow:hidden;
+}
+
+.avatar img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.post-user{
+    font-weight:700;
+    font-size:14px;
+}
+
+.post-sub{
+    color:#737373;
+    font-size:11px;
+}
+
+.more{
+    margin-left:auto;
+    font-size:20px;
+}
+
+.post-image{
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    display:block;
+    cursor:pointer;
+}
+
+.post-actions{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:12px 14px 5px;
+    font-size:25px;
+}
+
+.post-actions span{
+    cursor:pointer;
+    transition:.15s;
+}
+
+.post-actions span:hover{
+    transform:scale(1.12);
+}
+
+.save{
+    margin-left:auto;
+}
+
+.liked{
+    color:#ed4956;
+}
+
+.post-body{
+    padding:0 14px 16px;
+}
+
+.likes{
+    font-size:13px;
+    font-weight:700;
+    margin-bottom:7px;
+}
+
+.caption{
+    font-size:14px;
+    line-height:1.55;
+}
+
+.caption b{
+    margin-right:5px;
+}
+
+.comment-line{
+    color:#737373;
+    font-size:13px;
+    margin-top:8px;
+}
+
+.date{
+    color:#aaa;
+    font-size:10px;
+    text-transform:uppercase;
+    margin-top:10px;
+    letter-spacing:.5px;
+}
+
+/* =========================
+   SPECIAL CARD
+========================= */
+
+.special{
+    background:#fff;
+    border:1px solid #dbdbdb;
+    border-radius:8px;
+    padding:30px 22px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.special h2{
+    font-family:"Playfair Display",serif;
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.special p{
+    color:#737373;
+    line-height:1.7;
+    font-size:14px;
+}
+
+.gradient-btn{
+    margin-top:20px;
+    border:0;
+    padding:12px 25px;
+    border-radius:25px;
+    color:#fff;
+    font-weight:700;
+    background:linear-gradient(45deg,#feda75,#d62976,#962fbf,#4f5bd5);
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile{
+    background:#fff;
+    border:1px solid #dbdbdb;
+    border-radius:8px;
+    padding:28px 20px;
+    margin-bottom:20px;
+}
+
+.profile-top{
+    display:flex;
+    align-items:center;
+    gap:30px;
+    margin-bottom:25px;
+}
+
+.profile-pic{
+    width:95px;
+    height:95px;
+    border-radius:50%;
+    padding:3px;
+    background:linear-gradient(45deg,#feda75,#d62976,#962fbf);
+}
+
+.profile-pic img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:50%;
+    border:3px solid white;
+}
+
+.profile-info{
+    flex:1;
+}
+
+.profile-info h2{
+    font-size:20px;
+    margin-bottom:8px;
+}
+
+.stats{
+    display:flex;
+    gap:25px;
+}
+
+.stat{
+    text-align:center;
+}
+
+.stat strong{
+    display:block;
+}
+
+.stat span{
+    font-size:12px;
+}
+
+.bio{
+    font-size:13px;
+    line-height:1.6;
+}
+
+.bio .script{
+    font-family:"Playfair Display",serif;
+    font-style:italic;
+    font-size:18px;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:3px;
+}
+
+.grid img{
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.grid img:hover{
+    filter:brightness(.8);
+}
+
+/* =========================
+   GAME
+========================= */
+
+.game{
+    background:#111;
+    color:white;
+    border-radius:12px;
+    padding:28px 20px;
+    text-align:center;
+    margin-bottom:20px;
+    overflow:hidden;
+    position:relative;
+}
+
+.game h2{
+    font-family:"Playfair Display",serif;
+    font-size:28px;
+    margin-bottom:7px;
+}
+
+.game p{
+    color:#aaa;
+    font-size:13px;
+}
+
+.game-area{
+    position:relative;
+    height:280px;
+    margin-top:15px;
+    border:1px solid #333;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.heart{
+    position:absolute;
+    font-size:28px;
+    cursor:pointer;
+    animation:heartPop 1.8s linear forwards;
+}
+
+@keyframes heartPop{
+    0%{
+        transform:scale(.5);
+        opacity:0;
+    }
+    15%{
+        opacity:1;
+    }
+    100%{
+        transform:translateY(-40px) scale(1.2);
+        opacity:0;
+    }
+}
+
+.score{
+    margin-top:12px;
+    font-weight:700;
+}
+
+/* =========================
+   SECRET
+========================= */
+
+.secret{
+    background:#fff;
+    border:1px solid #dbdbdb;
+    border-radius:8px;
+    padding:30px 20px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.lock{
+    font-size:45px;
+    margin-bottom:10px;
+}
+
+.secret h2{
+    font-family:"Playfair Display",serif;
+}
+
+.secret-message{
+    display:none;
+    margin-top:20px;
+    font-family:"Playfair Display",serif;
+    font-style:italic;
+    font-size:20px;
+    line-height:1.7;
+}
+
+.secret-message.show{
+    display:block;
+    animation:fadeUp .8s ease;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   LETTER
+========================= */
+
+.letter{
+    background:#fff;
+    border:1px solid #dbdbdb;
+    border-radius:8px;
+    padding:35px 28px;
+    margin-bottom:20px;
+}
+
+.letter h2{
+    font-family:"Playfair Display",serif;
+    font-size:30px;
+    margin-bottom:22px;
+}
+
+.letter p{
+    font-family:"Playfair Display",serif;
+    line-height:1.9;
+    font-size:16px;
+    color:#333;
+    margin-bottom:15px;
+}
+
+.signature{
+    text-align:right;
+    font-family:"Playfair Display",serif;
+    font-style:italic;
+    font-size:21px;
+    margin-top:25px;
+}
+
+/* =========================
+   STORY MODAL
+========================= */
+
+.story-modal{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    background:#000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+}
+
+.story-modal.show{
+    display:flex;
+}
+
+.story-modal img{
+    max-height:90vh;
+    max-width:90vw;
+    object-fit:contain;
+}
+
+.close-story{
+    position:absolute;
+    top:20px;
+    right:25px;
+    color:white;
+    font-size:30px;
+    cursor:pointer;
+}
+
+.story-caption{
+    position:absolute;
+    bottom:30px;
+    left:20px;
+    right:20px;
+    color:#fff;
+    text-align:center;
+    font-size:14px;
+}
+
+/* =========================
+   IMAGE MODAL
+========================= */
+
+.image-modal{
+    position:fixed;
+    inset:0;
+    z-index:6000;
+    background:rgba(0,0,0,.85);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.image-modal.show{
+    display:flex;
+}
+
+.image-modal img{
+    max-width:90%;
+    max-height:90%;
+    object-fit:contain;
+}
+
+.close-image{
+    position:absolute;
+    top:20px;
+    right:25px;
+    color:#fff;
+    font-size:32px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:650px){
+
+    .navbar{
+        height:55px;
+    }
+
+    .nav-inner{
+        padding:0 15px;
+    }
+
+    .nav-logo{
+        font-size:25px;
+    }
+
+    .main{
+        padding-top:68px;
+    }
+
+    .content{
+        width:100%;
+    }
+
+    .stories,
+    .post,
+    .special,
+    .profile,
+    .secret,
+    .letter{
+        border-left:0;
+        border-right:0;
+        border-radius:0;
+    }
+
+    .profile-top{
+        gap:18px;
+    }
+
+    .profile-pic{
+        width:82px;
+        height:82px;
+    }
+
+    .stats{
+        gap:16px;
+    }
+
+    .letter{
+        padding:30px 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     PIN
+========================= -->
+
+<section id="pinScreen">
+
+    <div class="pin-box">
+
+        <div class="insta-logo">Instagram</div>
+
+        <h2>Private Account 🔒</h2>
+
+        <p>
+            This account contains a little piece of someone's heart.
+            <br>
+            Enter the PIN to continue.
+        </p>
+
+        <input
+            id="pinInput"
+            class="pin-input"
+            type="password"
+            maxlength="4"
+            inputmode="numeric"
+            placeholder="••••"
+        >
+
+        <button class="login-btn" onclick="checkPin()">
+            Log in
+        </button>
+
+        <div id="pinError" class="pin-error"></div>
+
+        <div class="from-to">
+            from <strong>Deandra</strong>
+            <br>
+            to <strong>Akbar</strong>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     APP
+========================= -->
+
+<div id="app" class="hidden">
+
+<header class="navbar">
+
+    <div class="nav-inner">
+
+        <div class="nav-logo">
+            Instagram
+        </div>
+
+        <div class="nav-icons">
+            <span onclick="scrollToId('home')">⌂</span>
+            <span onclick="scrollToId('profile')">♡</span>
+            <span onclick="scrollToId('letter')">♧</span>
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="main">
+
+<div class="content" id="home">
+
+<!-- STORIES -->
+
+<div class="stories">
+
+    <div class="story" onclick="openStory(1)">
+        <div class="story-ring">
+            <img src="foto1.jpg">
+        </div>
+        <div class="story-name">first memory</div>
+    </div>
+
+    <div class="story" onclick="openStory(2)">
+        <div class="story-ring">
+            <img src="foto2.jpg">
+        </div>
+        <div class="story-name">you</div>
+    </div>
+
+    <div class="story" onclick="openStory(3)">
+        <div class="story-ring">
+            <img src="foto3.jpg">
+        </div>
+        <div class="story-name">us</div>
+    </div>
+
+    <div class="story" onclick="openStory(4)">
+        <div class="story-ring">
+            <img src="foto4.jpg">
+        </div>
+        <div class="story-name">little things</div>
+    </div>
+
+    <div class="story" onclick="openStory(5)">
+        <div class="story-ring">
+            <img src="foto5.jpg">
+        </div>
+        <div class="story-name">favorite</div>
+    </div>
+
+    <div class="story" onclick="openStory(6)">
+        <div class="story-ring">
+            <img src="foto6.jpg">
+        </div>
+        <div class="story-name">always</div>
+    </div>
+
+    <div class="story" onclick="openStory(7)">
+        <div class="story-ring">
+            <img src="foto7.jpg">
+        </div>
+        <div class="story-name">♡</div>
+    </div>
+
+</div>
+
+
+<!-- POST 1 -->
+
+<article class="post">
+
+    <div class="post-head">
+
+        <div class="avatar">
+            <img src="foto1.jpg">
+        </div>
+
+        <div>
+            <div class="post-user">deandra</div>
+            <div class="post-sub">Boyfriend Day • 2026</div>
+        </div>
+
+        <div class="more">•••</div>
+
+    </div>
+
+    <img
+        class="post-image"
+        src="foto1.jpg"
+        ondblclick="likePost(this)"
+        onclick="openImage(this.src)"
+    >
+
+    <div class="post-actions">
+
+        <span onclick="likePost(this.closest('.post'))">♡</span>
+        <span onclick="showComment()">♡</span>
+        <span onclick="sharePost()">➤</span>
+        <span class="save">♡</span>
+
+    </div>
+
+    <div class="post-body">
+
+        <div class="likes" id="likeCount1">
+            111 likes
+        </div>
+
+        <div class="caption">
+            <b>deandra</b>
+            happy boyfriend day to the person who somehow
+            makes ordinary days feel a little more special. 🤍
+        </div>
+
+        <div class="comment-line">
+            View all 7 comments
+        </div>
+
+        <div class="date">
+            october 2, 2026
+        </div>
+
+    </div>
+
+</article>
+
+
+<!-- POST 2 -->
+
+<article class="post">
+
+    <div class="post-head">
+
+        <div class="avatar">
+            <img src="foto2.jpg">
+        </div>
+
+        <div>
+            <div class="post-user">deandra</div>
+            <div class="post-sub">somewhere between then & now</div>
+        </div>
+
+        <div class="more">•••</div>
+
+    </div>
+
+    <img
+        class="post-image"
+        src="foto2.jpg"
+        ondblclick="likePost(this.closest('.post'))"
+        onclick="openImage(this.src)"
+    >
+
+    <div class="post-actions">
+        <span onclick="likePost(this.closest('.post'))">♡</span>
+        <span>💬</span>
+        <span>➤</span>
+        <span class="save">♡</span>
+    </div>
+
+    <div class="post-body">
+
+        <div class="likes">
+            87 likes
+        </div>
+
+        <div class="caption">
+            <b>deandra</b>
+            If I could save moments the way Instagram saves
+            memories, I'd probably save every moment with you.
+        </div>
+
+        <div class="comment-line">
+            ♡ akbar liked this
+        </div>
+
+        <div class="date">
+            a memory worth keeping
+        </div>
+
+    </div>
+
+</article>
+
+
+<!-- SPECIAL MESSAGE -->
+
+<section class="special">
+
+    <h2>For You, Akbar. 🤍</h2>
+
+    <p>
+        You just unlocked a tiny corner of our story.
+        But don't leave yet...
+        there are still things hidden inside this account.
+    </p>
+
+    <button
+        class="gradient-btn"
+        onclick="scrollToId('game')"
+    >
+        Explore our account →
+    </button>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section class="profile" id="profile">
+
+    <div class="profile-top">
+
+        <div class="profile-pic">
+            <img src="foto7.jpg">
+        </div>
+
+        <div class="profile-info">
+
+            <h2>deandra ♡ akbar</h2>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <strong>7</strong>
+                    <span>memories</span>
+                </div>
+
+                <div class="stat">
+                    <strong>∞</strong>
+                    <span>moments</span>
+                </div>
+
+                <div class="stat">
+                    <strong>1</strong>
+                    <span>favorite</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="bio">
+
+        <div class="script">
+            "a little archive of us."
+        </div>
+
+        <br>
+
+        not everything needs to be posted.
+        some things are better kept between two people.
+        <br><br>
+
+        ♡ boyfriend day
+        <br>
+        ♡ deandra → akbar
+
+    </div>
+
+</section>
+
+
+<!-- PHOTO GRID -->
+
+<section class="post">
+
+    <div class="post-head">
+
+        <div class="avatar">
+            <img src="foto7.jpg">
+        </div>
+
+        <div>
+            <div class="post-user">our archive</div>
+            <div class="post-sub">7 posts • countless memories</div>
+        </div>
+
+    </div>
+
+    <div class="grid">
+
+        <img src="foto1.jpg" onclick="openImage(this.src)">
+        <img src="foto2.jpg" onclick="openImage(this.src)">
+        <img src="foto3.jpg" onclick="openImage(this.src)">
+        <img src="foto4.jpg" onclick="openImage(this.src)">
+        <img src="foto5.jpg" onclick="openImage(this.src)">
+        <img src="foto6.jpg" onclick="openImage(this.src)">
+        <img src="foto7.jpg" onclick="openImage(this.src)">
+
+    </div>
+
+</section>
+
+
+<!-- GAME -->
+
+<section class="game" id="game">
+
+    <h2>Catch My Hearts ♡</h2>
+
+    <p>
+        tap the hearts before they disappear.
+        let's see how much love you can collect.
+    </p>
+
+    <div class="game-area" id="gameArea"></div>
+
+    <div class="score">
+        Hearts collected: <span id="score">0</span> / 10
+    </div>
+
+</section>
+
+
+<!-- SECRET -->
+
+<section class="secret">
+
+    <div class="lock" id="lock">
+        🔐
+    </div>
+
+    <h2>There Is Something Hidden...</h2>
+
+    <p style="margin-top:10px;color:#737373;font-size:13px;">
+        collect 10 hearts first.
+    </p>
+
+    <div class="secret-message" id="secretMessage">
+
+        "If I had to choose one person
+        to keep in all the little chapters
+        of my life...
+
+        <br><br>
+
+        I'd still choose you."
+
+        <br><br>
+
+        — Deandra 🤍
+
+    </div>
+
+</section>
+
+
+<!-- FINAL LETTER -->
+
+<section class="letter" id="letter">
+
+    <h2>Dear Akbar,</h2>
+
+    <p>
+        Happy Boyfriend Day.
+    </p>
+
+    <p>
+        I know this is just a little website,
+        a few pictures, a song, some silly games,
+        and a bunch of words on a screen.
+    </p>
+
+    <p>
+        But behind every little thing here,
+        there's a thought about you.
+    </p>
+
+    <p>
+        Thank you for being someone I can laugh with,
+        talk to, miss, annoy, and still choose
+        at the end of the day.
+    </p>
+
+    <p>
+        Maybe I can't give you everything in the world,
+        but I hope I can always give you a place
+        where you feel loved.
+    </p>
+
+    <p>
+        So whenever you forget how much you mean to me,
+        come back here.
+    </p>
+
+    <p>
+        Scroll through the pictures.
+        Play the little game.
+        Listen to our song.
+        Read this again.
+    </p>
+
+    <p>
+        And remember that somewhere,
+        someone is very grateful
+        that you exist.
+    </p>
+
+    <div class="signature">
+        always yours,<br>
+        Deandra ♡
+    </div>
+
+</section>
+
+
+<div style="
+text-align:center;
+color:#aaa;
+font-size:11px;
+padding:20px;
+">
+    made with love • deandra × akbar
+    <br><br>
+    end of our little instagram.
+</div>
+
+
+</div>
+</main>
+
+
+<!-- MUSIC -->
+
+<audio id="bgMusic" loop>
+    <source src="shapeofmyheart.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music-control" id="musicBtn" onclick="toggleMusic()">
+    ♫
+</button>
+
+
+<!-- STORY MODAL -->
+
+<div class="story-modal" id="storyModal">
+
+    <div class="close-story" onclick="closeStory()">×</div>
+
+    <img id="storyImage">
+
+    <div class="story-caption" id="storyCaption"></div>
+
+</div>
+
+
+<!-- IMAGE MODAL -->
+
+<div class="image-modal" id="imageModal" onclick="closeImage()">
+
+    <div class="close-image">×</div>
+
+    <img id="modalImage">
+
+</div>
+
+
+<script>
+
+/* =========================
+   PIN
+========================= */
+
+const CORRECT_PIN = "1111";
+
+const pinScreen = document.getElementById("pinScreen");
+const app = document.getElementById("app");
+const pinInput = document.getElementById("pinInput");
+const pinError = document.getElementById("pinError");
+
+function checkPin(){
+
+    if(pinInput.value === CORRECT_PIN){
+
+        pinScreen.style.opacity = "0";
+        pinScreen.style.transition = ".5s";
+
+        setTimeout(() => {
+
+            pinScreen.classList.add("hidden");
+            app.classList.remove("hidden");
+
+            startMusic();
+
+        },500);
+
+    }else{
+
+        pinError.textContent = "Wrong PIN. Try again ♡";
+
+        pinInput.value = "";
+
+        pinInput.animate([
+            {transform:"translateX(-8px)"},
+            {transform:"translateX(8px)"},
+            {transform:"translateX(-5px)"},
+            {transform:"translateX(5px)"},
+            {transform:"translateX(0)"}
+        ],{
+            duration:350
+        });
+
+    }
+}
+
+pinInput.addEventListener("keydown",function(e){
+
+    if(e.key === "Enter"){
+        checkPin();
+    }
+
+});
+
+
+/* =========================
+   MUSIC
+========================= */
+
+const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
+
+function startMusic(){
+
+    music.volume = .45;
+
+    music.play().catch(()=>{});
+
+}
+
+function toggleMusic(){
+
+    if(music.paused){
+
+        music.play();
+
+        musicBtn.textContent = "♫";
+
+    }else{
+
+        music.pause();
+
+        musicBtn.textContent = "▶";
+
+    }
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function scrollToId(id){
+
+    document.getElementById(id).scrollIntoView({
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =========================
+   STORIES
+========================= */
+
+const storyTexts = {
+
+    1:"the beginning of something beautiful.",
+    2:"my favorite person.",
+    3:"one of my favorite places is beside you.",
+    4:"it's always the little things.",
+    5:"still my favorite.",
+    6:"and hopefully, always.",
+    7:"this one is for you. ♡"
+
+};
+
+function openStory(num){
+
+    document.getElementById("storyImage").src =
+        "foto" + num + ".jpg";
+
+    document.getElementById("storyCaption").textContent =
+        storyTexts[num];
+
+    document.getElementById("storyModal")
+        .classList.add("show");
+
+}
+
+function closeStory(){
+
+    document.getElementById("storyModal")
+        .classList.remove("show");
+
+}
+
+
+/* =========================
+   IMAGE
+========================= */
+
+function openImage(src){
+
+    document.getElementById("modalImage").src = src;
+
+    document.getElementById("imageModal")
+        .classList.add("show");
+
+}
+
+function closeImage(){
+
+    document.getElementById("imageModal")
+        .classList.remove("show");
+
+}
+
+
+/* =========================
+   LIKE
+========================= */
+
+function likePost(element){
+
+    let post;
+
+    if(element.classList.contains("post")){
+        post = element;
+    }else{
+        post = element.closest(".post");
+    }
+
+    const likeButton = post.querySelector(".post-actions span");
+
+    likeButton.classList.toggle("liked");
+
+    if(likeButton.classList.contains("liked")){
+
+        likeButton.textContent = "♥";
+
+    }else{
+
+        likeButton.textContent = "♡";
+
+    }
+
+}
+
+
+/* =========================
+   COMMENTS
+========================= */
+
+function showComment(){
+
+    alert(
+        "💬 Akbar: \"This website is suspiciously cute.\""
+    );
+
+}
+
+
+/* =========================
+   SHARE
+========================= */
+
+function sharePost(){
+
+    alert(
+        "➤ You tried to share this memory...\n\n" +
+        "But some memories are only meant for us. 🤍"
+    );
+
+}
+
+
+/* =========================
+   HEART GAME
+========================= */
+
+let score = 0;
+const gameArea = document.getElementById("gameArea");
+const scoreText = document.getElementById("score");
+
+function createHeart(){
+
+    if(score >= 10) return;
+
+    const heart = document.createElement("div");
+
+    heart.className = "heart";
+    heart.textContent = ["♡","♥","🤍","💗","💖"][Math.floor(Math.random()*5)];
+
+    heart.style.left =
+        Math.random()*85 + "%";
+
+    heart.style.top =
+        Math.random()*80 + "%";
+
+    heart.onclick = function(){
+
+        score++;
+
+        scoreText.textContent = score;
+
+        heart.remove();
+
+        if(score >= 10){
+
+            unlockSecret();
+
+        }
+
+    };
+
+    gameArea.appendChild(heart);
+
+    setTimeout(()=>{
+
+        if(heart.parentNode){
+            heart.remove();
+        }
+
+    },1800);
+
+}
+
+setInterval(createHeart,900);
+
+
+function unlockSecret(){
+
+    document.getElementById("lock").textContent = "🔓";
+
+    document.getElementById("secretMessage")
+        .classList.add("show");
+
+    setTimeout(()=>{
+
+        document.getElementById("secretMessage")
+            .scrollIntoView({
+                behavior:"smooth",
+                block:"center"
+            });
+
+    },300);
+
+}
+
+
+/* =========================
+   DOUBLE CLICK HEART
+========================= */
+
+document.querySelectorAll(".post-image").forEach(img => {
+
+    img.addEventListener("dblclick",function(){
+
+        const heart = document.createElement("div");
+
+        heart.textContent = "♥";
+
+        heart.style.position = "fixed";
+        heart.style.left = "50%";
+        heart.style.top = "45%";
+        heart.style.transform = "translate(-50%,-50%)";
+        heart.style.fontSize = "100px";
+        heart.style.color = "#ed4956";
+        heart.style.zIndex = "9999";
+        heart.style.pointerEvents = "none";
+
+        document.body.appendChild(heart);
+
+        heart.animate([
+            {
+                transform:"translate(-50%,-50%) scale(.5)",
+                opacity:0
+            },
+            {
+                transform:"translate(-50%,-50%) scale(1.2)",
+                opacity:1
+            },
+            {
+                transform:"translate(-50%,-50%) scale(1)",
+                opacity:0
+            }
+        ],{
+            duration:800
+        });
+
+        setTimeout(()=>{
+            heart.remove();
+        },800);
+
+    });
+
+});
+
+
+/* =========================
+   KONAMI STYLE SECRET
+========================= */
+
+let secretClicks = 0;
+
+document.querySelector(".nav-logo")
+.addEventListener("click",()=>{
+
+    secretClicks++;
+
+    if(secretClicks === 5){
+
+        alert(
+            "🤍 You found a tiny secret.\n\n" +
+            "Deandra loves Akbar more than this website can explain."
+        );
+
+        secretClicks = 0;
+
+    }
+
+});
+
+
+/* =========================
+   PAGE LOAD EFFECT
+========================= */
+
+window.addEventListener("load",()=>{
+
+    document.body.style.opacity = "0";
+
+    setTimeout(()=>{
+
+        document.body.style.transition = "opacity .7s";
+        document.body.style.opacity = "1";
+
+    },100);
+
+});
+
+</script>
+
+</body>
+  </html>
