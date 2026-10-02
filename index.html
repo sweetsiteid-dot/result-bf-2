@@ -1,3138 +1,1647 @@
+```html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" class="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080808">
-
-<title>The Private Archive — Deandra × Akbar</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-:root{
-    --black:#070707;
-    --black2:#0d0d0d;
-    --card:#111111;
-    --ivory:#f4f0e8;
-    --muted:#9a968e;
-    --gold:#c9aa70;
-    --gold2:#e3c993;
-    --line:rgba(255,255,255,.09);
-    --glass:rgba(255,255,255,.055);
-}
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    background:var(--black);
-    color:var(--ivory);
-    font-family:"DM Sans",sans-serif;
-    overflow-x:hidden;
-}
-
-body.locked{
-    overflow:hidden;
-}
-
-button{
-    font-family:inherit;
-}
-
-img{
-    display:block;
-    width:100%;
-}
-
-::selection{
-    background:var(--gold);
-    color:#000;
-}
-
-/* =====================================================
-   GRAIN
-===================================================== */
-
-.grain{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:9999;
-    opacity:.055;
-    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
-}
-
-/* =====================================================
-   PARTICLES
-===================================================== */
-
-.particles{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:1;
-    overflow:hidden;
-}
-
-.particle{
-    position:absolute;
-    width:2px;
-    height:2px;
-    border-radius:50%;
-    background:var(--gold2);
-    opacity:0;
-    animation:floatParticle linear infinite;
-}
-
-@keyframes floatParticle{
-    0%{
-        transform:translateY(110vh) scale(.4);
-        opacity:0;
-    }
-    15%{opacity:.7}
-    80%{opacity:.35}
-    100%{
-        transform:translateY(-10vh) scale(1.3);
-        opacity:0;
-    }
-}
-
-/* =====================================================
-   OPENING
-===================================================== */
-
-#opening{
-    position:fixed;
-    inset:0;
-    z-index:1000;
-    background:
-        radial-gradient(circle at 50% 45%,rgba(201,170,112,.12),transparent 28%),
-        #050505;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    transition:1.2s ease;
-}
-
-#opening.hide{
-    opacity:0;
-    visibility:hidden;
-    transform:scale(1.04);
-}
-
-.opening-inner{
-    width:min(90%,520px);
-    position:relative;
-    z-index:2;
-}
-
-.eyebrow{
-    color:var(--gold2);
-    font-size:10px;
-    letter-spacing:5px;
-    text-transform:uppercase;
-    margin-bottom:25px;
-}
-
-.opening-title{
-    font-family:"Playfair Display",serif;
-    font-size:clamp(46px,11vw,92px);
-    font-weight:400;
-    line-height:.9;
-    letter-spacing:-3px;
-}
-
-.opening-title em{
-    color:var(--gold2);
-    font-weight:400;
-}
-
-.opening-sub{
-    color:var(--muted);
-    margin:25px auto 38px;
-    font-size:13px;
-    line-height:1.8;
-    max-width:370px;
-}
-
-.open-btn{
-    position:relative;
-    border:1px solid rgba(201,170,112,.6);
-    background:rgba(201,170,112,.05);
-    color:var(--ivory);
-    padding:16px 34px;
-    border-radius:50px;
-    letter-spacing:3px;
-    font-size:10px;
-    text-transform:uppercase;
-    cursor:pointer;
-    overflow:hidden;
-    transition:.4s;
-}
-
-.open-btn::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    transform:translateX(-110%);
-    background:var(--gold);
-    transition:.5s;
-    z-index:-1;
-}
-
-.open-btn:hover{
-    color:#000;
-    box-shadow:0 0 40px rgba(201,170,112,.2);
-}
-
-.open-btn:hover::before{
-    transform:translateX(0);
-}
-
-/* =====================================================
-   PIN
-===================================================== */
-
-#pinScreen{
-    position:fixed;
-    inset:0;
-    z-index:900;
-    background:#070707;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-}
-
-.pin-box{
-    width:min(90%,380px);
-}
-
-.pin-symbol{
-    width:65px;
-    height:65px;
-    margin:0 auto 25px;
-    border:1px solid rgba(201,170,112,.4);
-    border-radius:50%;
-    display:grid;
-    place-items:center;
-    color:var(--gold2);
-    font-size:22px;
-}
-
-.pin-title{
-    font-family:"Playfair Display",serif;
-    font-size:34px;
-    margin-bottom:8px;
-}
-
-.pin-sub{
-    color:var(--muted);
-    font-size:12px;
-    margin-bottom:28px;
-}
-
-.pin-dots{
-    display:flex;
-    justify-content:center;
-    gap:13px;
-    margin-bottom:30px;
-}
-
-.pin-dot{
-    width:9px;
-    height:9px;
-    border:1px solid var(--gold);
-    border-radius:50%;
-    transition:.2s;
-}
-
-.pin-dot.active{
-    background:var(--gold);
-    box-shadow:0 0 12px rgba(201,170,112,.7);
-}
-
-.keypad{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    max-width:280px;
-    margin:auto;
-}
-
-.key{
-    height:58px;
-    border:1px solid var(--line);
-    background:var(--glass);
-    color:var(--ivory);
-    border-radius:15px;
-    cursor:pointer;
-    font-size:16px;
-    transition:.25s;
-}
-
-.key:hover{
-    border-color:var(--gold);
-    color:var(--gold2);
-    transform:translateY(-2px);
-}
-
-.key.zero{
-    grid-column:2;
-}
-
-.pin-error{
-    height:18px;
-    margin-top:18px;
-    font-size:11px;
-    color:#c98787;
-}
-
-/* =====================================================
-   MAIN
-===================================================== */
-
-#main{
-    display:none;
-    position:relative;
-    z-index:2;
-}
-
-.container{
-    width:min(1120px,92%);
-    margin:auto;
-}
-
-/* =====================================================
-   NAV
-===================================================== */
-
-.nav{
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    z-index:100;
-    height:70px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:linear-gradient(to bottom,rgba(5,5,5,.95),transparent);
-    pointer-events:none;
-}
-
-.nav-inner{
-    width:min(1120px,92%);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    pointer-events:auto;
-}
-
-.logo{
-    font-family:"Playfair Display",serif;
-    font-size:21px;
-    letter-spacing:-.5px;
-}
-
-.logo span{
-    color:var(--gold2);
-}
-
-.nav-actions{
-    display:flex;
-    gap:8px;
-}
-
-.nav-btn{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    border:1px solid var(--line);
-    background:rgba(0,0,0,.35);
-    color:var(--ivory);
-    cursor:pointer;
-    transition:.3s;
-}
-
-.nav-btn:hover{
-    border-color:var(--gold);
-    color:var(--gold2);
-}
-
-/* =====================================================
-   HERO PROFILE
-===================================================== */
-
-.hero{
-    min-height:100vh;
-    padding-top:100px;
-    display:flex;
-    align-items:center;
-}
-
-.profile-grid{
-    display:grid;
-    grid-template-columns:1fr 1.2fr;
-    gap:70px;
-    align-items:center;
-}
-
-.profile-photo{
-    position:relative;
-    max-width:430px;
-    margin:auto;
-}
-
-.profile-photo::before{
-    content:"";
-    position:absolute;
-    inset:-15px;
-    border:1px solid rgba(201,170,112,.25);
-    transform:rotate(3deg);
-}
-
-.profile-photo img{
-    aspect-ratio:4/5;
-    object-fit:cover;
-    filter:saturate(.8) contrast(1.04);
-}
-
-.profile-photo::after{
-    content:"PRIVATE / 001";
-    position:absolute;
-    bottom:-28px;
-    left:0;
-    color:var(--gold);
-    font-size:9px;
-    letter-spacing:4px;
-}
-
-.profile-info .small{
-    color:var(--gold2);
-    font-size:10px;
-    letter-spacing:4px;
-    text-transform:uppercase;
-    margin-bottom:18px;
-}
-
-.profile-info h1{
-    font-family:"Playfair Display",serif;
-    font-weight:400;
-    font-size:clamp(50px,8vw,88px);
-    line-height:.88;
-    letter-spacing:-4px;
-}
-
-.profile-info h1 em{
-    color:var(--gold2);
-}
-
-.profile-bio{
-    color:var(--muted);
-    line-height:1.8;
-    font-size:13px;
-    max-width:470px;
-    margin:28px 0;
-}
-
-.profile-stats{
-    display:flex;
-    gap:40px;
-    border-top:1px solid var(--line);
-    padding-top:25px;
-}
-
-.stat strong{
-    display:block;
-    font-family:"Playfair Display",serif;
-    font-size:24px;
-    font-weight:400;
-}
-
-.stat span{
-    color:var(--muted);
-    font-size:9px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-}
-
-.scroll-hint{
-    margin-top:55px;
-    color:#666;
-    font-size:9px;
-    letter-spacing:3px;
-    text-transform:uppercase;
-}
-
-.scroll-hint::after{
-    content:"↓";
-    display:block;
-    color:var(--gold);
-    font-size:18px;
-    margin-top:8px;
-    animation:bounce 1.5s infinite;
-}
-
-@keyframes bounce{
-    50%{transform:translateY(6px)}
-}
-
-/* =====================================================
-   SECTION
-===================================================== */
-
-.section{
-    padding:120px 0;
-    position:relative;
-}
-
-.section-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:end;
-    margin-bottom:35px;
-}
-
-.section-kicker{
-    color:var(--gold);
-    letter-spacing:4px;
-    font-size:9px;
-    text-transform:uppercase;
-    margin-bottom:10px;
-}
-
-.section-title{
-    font-family:"Playfair Display",serif;
-    font-size:clamp(35px,6vw,62px);
-    font-weight:400;
-    line-height:1;
-}
-
-.section-desc{
-    color:var(--muted);
-    font-size:11px;
-    max-width:250px;
-    line-height:1.7;
-}
-
-/* =====================================================
-   STORIES
-===================================================== */
-
-.stories{
-    display:flex;
-    gap:18px;
-    overflow-x:auto;
-    scrollbar-width:none;
-    padding:10px 5px 25px;
-}
-
-.stories::-webkit-scrollbar{
-    display:none;
-}
-
-.story{
-    min-width:95px;
-    cursor:pointer;
-    text-align:center;
-}
-
-.story-ring{
-    width:82px;
-    height:82px;
-    padding:3px;
-    margin:auto;
-    border-radius:50%;
-    background:linear-gradient(135deg,var(--gold),#66502d,var(--gold2));
-    transition:.4s;
-}
-
-.story:hover .story-ring{
-    transform:scale(1.08);
-    box-shadow:0 0 30px rgba(201,170,112,.2);
-}
-
-.story-ring img{
-    width:100%;
-    height:100%;
-    border-radius:50%;
-    object-fit:cover;
-    border:3px solid var(--black);
-}
-
-.story-name{
-    font-size:9px;
-    margin-top:10px;
-    color:#bbb;
-}
-
-/* =====================================================
-   FEED
-===================================================== */
-
-.feed{
-    max-width:650px;
-    margin:auto;
-}
-
-.post{
-    background:#0c0c0c;
-    border:1px solid var(--line);
-    margin-bottom:35px;
-    overflow:hidden;
-}
-
-.post-top{
-    padding:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.post-user{
-    display:flex;
-    gap:10px;
-    align-items:center;
-}
-
-.mini-avatar{
-    width:35px;
-    height:35px;
-    border-radius:50%;
-    object-fit:cover;
-}
-
-.user-name{
-    font-size:11px;
-}
-
-.user-loc{
-    display:block;
-    color:#666;
-    font-size:8px;
-    margin-top:3px;
-}
-
-.post-number{
-    color:#666;
-    font-size:9px;
-    letter-spacing:2px;
-}
-
-.post-img-wrap{
-    position:relative;
-    overflow:hidden;
-}
-
-.post-img{
-    aspect-ratio:1/1;
-    object-fit:cover;
-    transition:1s;
-}
-
-.post:hover .post-img{
-    transform:scale(1.025);
-}
-
-.big-heart{
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%) scale(0);
-    font-size:90px;
-    color:white;
-    filter:drop-shadow(0 5px 20px rgba(0,0,0,.4));
-    pointer-events:none;
-}
-
-.big-heart.show{
-    animation:heartPop .9s ease forwards;
-}
-
-@keyframes heartPop{
-    0%{transform:translate(-50%,-50%) scale(0)}
-    25%{transform:translate(-50%,-50%) scale(1.15)}
-    70%{transform:translate(-50%,-50%) scale(1)}
-    100%{transform:translate(-50%,-50%) scale(0)}
-}
-
-.post-actions{
-    padding:15px 15px 5px;
-    display:flex;
-    gap:15px;
-}
-
-.action{
-    border:0;
-    background:none;
-    color:#bbb;
-    font-size:20px;
-    cursor:pointer;
-    transition:.25s;
-}
-
-.action:hover{
-    color:var(--gold2);
-    transform:scale(1.1);
-}
-
-.action.liked{
-    color:#d58c8c;
-}
-
-.post-body{
-    padding:8px 15px 20px;
-}
-
-.likes{
-    font-size:10px;
-    margin-bottom:8px;
-}
-
-.caption{
-    font-size:12px;
-    line-height:1.7;
-    color:#bbb;
-}
-
-.caption b{
-    color:var(--ivory);
-}
-
-.post-date{
-    color:#555;
-    font-size:8px;
-    letter-spacing:2px;
-    margin-top:12px;
-}
-
-/* =====================================================
-   TIMELINE
-===================================================== */
-
-.timeline{
-    position:relative;
-    max-width:800px;
-    margin:60px auto 0;
-}
-
-.timeline::before{
-    content:"";
-    position:absolute;
-    left:50%;
-    top:0;
-    bottom:0;
-    width:1px;
-    background:linear-gradient(to bottom,transparent,var(--gold),transparent);
-}
-
-.timeline-item{
-    width:50%;
-    padding:25px 45px;
-    position:relative;
-}
-
-.timeline-item:nth-child(odd){
-    text-align:right;
-}
-
-.timeline-item:nth-child(even){
-    margin-left:50%;
-}
-
-.timeline-dot{
-    position:absolute;
-    top:32px;
-    width:9px;
-    height:9px;
-    border:1px solid var(--gold);
-    border-radius:50%;
-    background:var(--black);
-    box-shadow:0 0 15px rgba(201,170,112,.3);
-}
-
-.timeline-item:nth-child(odd) .timeline-dot{
-    right:-5px;
-}
-
-.timeline-item:nth-child(even) .timeline-dot{
-    left:-5px;
-}
-
-.timeline-year{
-    color:var(--gold);
-    font-size:9px;
-    letter-spacing:3px;
-}
-
-.timeline-item h3{
-    font-family:"Playfair Display",serif;
-    font-size:25px;
-    font-weight:400;
-    margin:8px 0;
-}
-
-.timeline-item p{
-    color:var(--muted);
-    font-size:11px;
-    line-height:1.7;
-}
-
-/* =====================================================
-   MUSIC
-===================================================== */
-
-.music-card{
-    max-width:720px;
-    margin:50px auto;
-    padding:28px;
-    border:1px solid var(--line);
-    background:linear-gradient(135deg,#101010,#090909);
-    display:flex;
-    align-items:center;
-    gap:25px;
-    position:relative;
-    overflow:hidden;
-}
-
-.vinyl{
-    width:100px;
-    height:100px;
-    flex:none;
-    border-radius:50%;
-    background:
-        repeating-radial-gradient(circle,#171717 0,#171717 2px,#0a0a0a 3px,#171717 4px);
-    border:4px solid #191919;
-    box-shadow:0 10px 35px rgba(0,0,0,.6);
-    display:grid;
-    place-items:center;
-    animation:spin 8s linear infinite;
-    animation-play-state:paused;
-}
-
-.vinyl.playing{
-    animation-play-state:running;
-}
-
-.vinyl::after{
-    content:"";
-    width:27px;
-    height:27px;
-    background:var(--gold);
-    border-radius:50%;
-    box-shadow:inset 0 0 0 8px #171717;
-}
-
-@keyframes spin{
-    to{transform:rotate(360deg)}
-}
-
-.music-info{
-    flex:1;
-}
-
-.music-label{
-    color:var(--gold);
-    font-size:8px;
-    letter-spacing:3px;
-}
-
-.music-info h3{
-    font-family:"Playfair Display",serif;
-    font-size:27px;
-    font-weight:400;
-    margin:5px 0;
-}
-
-.music-info p{
-    color:#777;
-    font-size:10px;
-}
-
-.music-btn{
-    border:1px solid var(--gold);
-    background:none;
-    color:var(--gold2);
-    width:48px;
-    height:48px;
-    border-radius:50%;
-    cursor:pointer;
-}
-
-/* =====================================================
-   GAME
-===================================================== */
-
-.game-card{
-    max-width:650px;
-    margin:50px auto;
-    padding:45px 30px;
-    text-align:center;
-    border:1px solid var(--line);
-    background:
-        radial-gradient(circle at 50% 0,rgba(201,170,112,.08),transparent 50%),
-        #0c0c0c;
-}
-
-.game-icon{
-    font-size:30px;
-    margin-bottom:20px;
-}
-
-.game-card h3{
-    font-family:"Playfair Display",serif;
-    font-size:32px;
-    font-weight:400;
-}
-
-.game-card p{
-    color:var(--muted);
-    font-size:11px;
-    line-height:1.7;
-    margin:12px auto 25px;
-    max-width:420px;
-}
-
-.game-start{
-    padding:13px 25px;
-    border-radius:30px;
-    border:1px solid var(--gold);
-    color:var(--gold2);
-    background:none;
-    cursor:pointer;
-    font-size:9px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-}
-
-.quiz{
-    display:none;
-}
-
-.question{
-    font-family:"Playfair Display",serif;
-    font-size:25px;
-    margin-bottom:25px;
-}
-
-.answers{
-    display:grid;
-    gap:10px;
-}
-
-.answer{
-    border:1px solid var(--line);
-    background:#111;
-    color:#bbb;
-    padding:14px;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.answer:hover{
-    border-color:var(--gold);
-    color:var(--gold2);
-}
-
-.game-result{
-    display:none;
-}
-
-/* =====================================================
-   ACHIEVEMENTS
-===================================================== */
-
-.achievements{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:12px;
-    margin-top:45px;
-}
-
-.badge{
-    border:1px solid var(--line);
-    background:var(--glass);
-    padding:25px 15px;
-    text-align:center;
-    opacity:.38;
-    filter:grayscale(1);
-    transition:.5s;
-}
-
-.badge.unlocked{
-    opacity:1;
-    filter:none;
-    border-color:rgba(201,170,112,.4);
-    box-shadow:0 0 30px rgba(201,170,112,.05);
-}
-
-.badge-icon{
-    font-size:25px;
-    margin-bottom:12px;
-}
-
-.badge h4{
-    font-family:"Playfair Display",serif;
-    font-weight:400;
-    font-size:17px;
-}
-
-.badge p{
-    color:#777;
-    font-size:8px;
-    margin-top:6px;
-}
-
-/* =====================================================
-   SECRET MEMORY
-===================================================== */
-
-.secret-wrap{
-    max-width:800px;
-    margin:auto;
-    text-align:center;
-}
-
-.locked-memory{
-    position:relative;
-    min-height:300px;
-    border:1px solid var(--line);
-    overflow:hidden;
-    cursor:pointer;
-    background:#111;
-}
-
-.locked-memory img{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    filter:blur(18px) brightness(.3);
-    transform:scale(1.08);
-    transition:1s;
-}
-
-.lock-overlay{
-    position:absolute;
-    inset:0;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    background:rgba(0,0,0,.3);
-}
-
-.lock-icon{
-    font-size:35px;
-    margin-bottom:15px;
-}
-
-.lock-overlay h3{
-    font-family:"Playfair Display",serif;
-    font-size:28px;
-    font-weight:400;
-}
-
-.lock-overlay p{
-    color:#aaa;
-    font-size:10px;
-    margin-top:8px;
-}
-
-.locked-memory.unlocked img{
-    filter:brightness(.65);
-    transform:scale(1);
-}
-
-.locked-memory.unlocked .lock-overlay{
-    opacity:0;
-}
-
-/* =====================================================
-   DM
-===================================================== */
-
-.dm{
-    max-width:650px;
-    margin:50px auto;
-    border:1px solid var(--line);
-    background:#0c0c0c;
-}
-
-.dm-head{
-    padding:17px;
-    border-bottom:1px solid var(--line);
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.dm-head img{
-    width:35px;
-    height:35px;
-    border-radius:50%;
-    object-fit:cover;
-}
-
-.dm-head strong{
-    font-size:11px;
-}
-
-.dm-head span{
-    display:block;
-    color:#5f9b70;
-    font-size:8px;
-    margin-top:3px;
-}
-
-.dm-body{
-    min-height:330px;
-    padding:25px;
-    display:flex;
-    flex-direction:column;
-    justify-content:end;
-    gap:10px;
-}
-
-.message{
-    max-width:75%;
-    padding:12px 15px;
-    border-radius:17px;
-    font-size:11px;
-    line-height:1.6;
-}
-
-.message.left{
-    align-self:flex-start;
-    background:#191919;
-    color:#bbb;
-    border-bottom-left-radius:4px;
-}
-
-.message.right{
-    align-self:flex-end;
-    background:#d6bd88;
-    color:#17120b;
-    border-bottom-right-radius:4px;
-}
-
-.typing{
-    display:none;
-    color:#666;
-    font-size:10px;
-}
-
-/* =====================================================
-   LOVE LETTER
-===================================================== */
-
-.letter{
-    max-width:750px;
-    margin:50px auto;
-    padding:60px 45px;
-    background:
-        linear-gradient(rgba(244,240,232,.97),rgba(244,240,232,.97)),
-        #f4f0e8;
-    color:#24211c;
-    position:relative;
-    box-shadow:0 30px 80px rgba(0,0,0,.3);
-}
-
-.letter::before{
-    content:"PRIVATE ARCHIVE";
-    position:absolute;
-    top:20px;
-    left:25px;
-    color:#9a8152;
-    font-size:7px;
-    letter-spacing:3px;
-}
-
-.letter::after{
-    content:"♡";
-    position:absolute;
-    bottom:20px;
-    right:25px;
-    color:#9a8152;
-    font-size:25px;
-}
-
-.letter h3{
-    font-family:"Playfair Display",serif;
-    font-size:35px;
-    font-weight:400;
-    margin-bottom:25px;
-}
-
-.letter p{
-    font-family:"Playfair Display",serif;
-    font-size:15px;
-    line-height:2;
-    color:#504a40;
-}
-
-.signature{
-    margin-top:30px;
-    color:#9a8152;
-    font-family:"Playfair Display",serif;
-    font-style:italic;
-    font-size:20px;
-}
-
-/* =====================================================
-   SECRET ROOM
-===================================================== */
-
-.secret-room{
-    display:none;
-    position:fixed;
-    inset:0;
-    z-index:800;
-    background:
-        radial-gradient(circle at center,rgba(201,170,112,.1),transparent 35%),
-        #050505;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:25px;
-}
-
-.secret-room.show{
-    display:flex;
-    animation:fadeIn .8s ease;
-}
-
-@keyframes fadeIn{
-    from{opacity:0}
-    to{opacity:1}
-}
-
-.secret-content{
-    max-width:600px;
-}
-
-.secret-content .tiny{
-    color:var(--gold);
-    letter-spacing:4px;
-    font-size:8px;
-}
-
-.secret-content h2{
-    font-family:"Playfair Display",serif;
-    font-size:clamp(42px,8vw,75px);
-    font-weight:400;
-    margin:20px 0;
-}
-
-.secret-content p{
-    color:#aaa;
-    line-height:1.9;
-    font-size:12px;
-}
-
-.close-secret{
-    margin-top:35px;
-    border:1px solid var(--line);
-    background:none;
-    color:#aaa;
-    padding:12px 20px;
-    cursor:pointer;
-}
-
-/* =====================================================
-   FOOTER
-===================================================== */
-
-footer{
-    padding:100px 0 60px;
-    text-align:center;
-}
-
-.footer-logo{
-    font-family:"Playfair Display",serif;
-    font-size:45px;
-}
-
-.footer-logo span{
-    color:var(--gold);
-}
-
-footer p{
-    color:#555;
-    font-size:9px;
-    letter-spacing:2px;
-    margin-top:15px;
-}
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-.toast{
-    position:fixed;
-    left:50%;
-    bottom:30px;
-    transform:translate(-50%,20px);
-    background:#171717;
-    border:1px solid var(--line);
-    padding:13px 20px;
-    font-size:10px;
-    color:#ddd;
-    opacity:0;
-    pointer-events:none;
-    transition:.4s;
-    z-index:1200;
-}
-
-.toast.show{
-    opacity:1;
-    transform:translate(-50%,0);
-}
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media(max-width:750px){
-
-    .profile-grid{
-        grid-template-columns:1fr;
-        gap:60px;
-    }
-
-    .profile-photo{
-        max-width:300px;
-    }
-
-    .profile-info{
-        text-align:center;
-    }
-
-    .profile-bio{
-        margin-left:auto;
-        margin-right:auto;
-    }
-
-    .profile-stats{
-        justify-content:center;
-    }
-
-    .scroll-hint{
-        margin-top:35px;
-    }
-
-    .section{
-        padding:90px 0;
-    }
-
-    .section-head{
-        display:block;
-    }
-
-    .section-desc{
-        margin-top:15px;
-    }
-
-    .timeline::before{
-        left:10px;
-    }
-
-    .timeline-item,
-    .timeline-item:nth-child(even){
-        width:100%;
-        margin-left:0;
-        text-align:left;
-        padding-left:40px;
-        padding-right:0;
-    }
-
-    .timeline-item:nth-child(odd) .timeline-dot,
-    .timeline-item:nth-child(even) .timeline-dot{
-        left:6px;
-        right:auto;
-    }
-
-    .music-card{
-        padding:20px;
-        gap:15px;
-    }
-
-    .vinyl{
-        width:75px;
-        height:75px;
-    }
-
-    .music-info h3{
-        font-size:21px;
-    }
-
-    .achievements{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .letter{
-        padding:50px 25px;
-    }
-
-    .letter h3{
-        font-size:29px;
-    }
-}
-
-@media(max-width:430px){
-    .opening-title{
-        font-size:52px;
-    }
-
-    .achievements{
-        grid-template-columns:1fr;
-    }
-
-    .profile-stats{
-        gap:25px;
-    }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Boyfriend Day | Deandra & Akbar</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        igDark: '#000000',
+                        igCard: '#121212',
+                        igBorder: '#262626',
+                        igHover: '#1a1a1a',
+                        igPink: '#E1306C',
+                        igPurple: '#833AB4',
+                        igOrange: '#FCD145',
+                        igRed: '#FD1D1D'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        insta: ['Grand Hotel', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* Custom Scrollbar hiding */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        html, body {
+            background-color: #000000;
+            color: #f5f5f5;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .glass-card {
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-nav {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .story-gradient {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .text-ig-gradient {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Animations */
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(225, 48, 108, 0.4)); }
+            50% { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(225, 48, 108, 0.8)); }
+        }
+
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes shakeError {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-12px); }
+            40%, 80% { transform: translateX(12px); }
+        }
+
+        .animate-spin-slow { animation: spinSlow 12s linear infinite; }
+        .animate-pulse-glow { animation: pulseGlow 2.5s ease-in-out infinite; }
+        .shake-animation { animation: shakeError 0.4s ease-in-out; }
+
+        /* Equalizer Animation */
+        .eq-bar {
+            animation: eqAnim 1.2s ease-in-out infinite alternate;
+        }
+        .eq-bar:nth-child(1) { animation-delay: 0.1s; }
+        .eq-bar:nth-child(2) { animation-delay: 0.3s; }
+        .eq-bar:nth-child(3) { animation-delay: 0.2s; }
+        .eq-bar:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes eqAnim {
+            0% { height: 4px; }
+            100% { height: 18px; }
+        }
+
+        /* Heart Pop Animation for Double Tap */
+        .heart-pop {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            pointer-events: none;
+            z-index: 30;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+        }
+        .heart-pop.active {
+            transform: translate(-50%, -50%) scale(1.3);
+            opacity: 1;
+        }
+
+        /* Memory Card Flip Animation */
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+    </style>
 </head>
+<body class="bg-black text-gray-100 min-h-screen relative flex flex-col justify-between items-center selection:bg-pink-500 selection:text-white">
 
-<body class="locked">
+    <canvas id="bgHeartsCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-40"></canvas>
 
-<div class="grain"></div>
-<div class="particles" id="particles"></div>
+    <!-- 1. PASSCODE LOCK SCREEN MODAL -->
+    <div id="pinLockScreen" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-4 bg-black/90 backdrop-blur-2xl transition-all duration-700">
+        <div class="glass-card max-w-sm w-full rounded-3xl p-8 flex flex-col items-center text-center shadow-2xl border border-white/10 relative overflow-hidden">
+            <!-- Decorative Glow -->
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-pink-600/30 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-purple-600/30 rounded-full blur-3xl"></div>
 
-<!-- =====================================================
-     OPENING
-===================================================== -->
+            <!-- Profile Avatar Preview -->
+            <div class="relative mb-4">
+                <div class="w-20 h-20 rounded-full p-[3px] story-gradient animate-pulse-glow">
+                    <img src="foto1.jpg" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80'" alt="Deandra & Akbar" class="w-full h-full object-cover rounded-full border-2 border-black">
+                </div>
+                <span class="absolute bottom-0 right-0 bg-pink-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow-lg">
+                    <i class="fa-solid fa-heart"></i>
+                </span>
+            </div>
 
-<section id="opening">
+            <h2 class="text-xl font-bold text-white mb-1">National Boyfriend Day ✨</h2>
+            <p class="text-xs text-gray-400 mb-6">Masukan Passcode Khusus Akbar 🤍</p>
 
-    <div class="opening-inner">
+            <!-- PIN Dots Display -->
+            <div id="pinDots" class="flex gap-4 mb-8">
+                <div class="dot w-4 h-4 rounded-full border-2 border-gray-600 transition-all duration-200"></div>
+                <div class="dot w-4 h-4 rounded-full border-2 border-gray-600 transition-all duration-200"></div>
+                <div class="dot w-4 h-4 rounded-full border-2 border-gray-600 transition-all duration-200"></div>
+                <div class="dot w-4 h-4 rounded-full border-2 border-gray-600 transition-all duration-200"></div>
+            </div>
 
-        <div class="eyebrow">A Private Digital Archive</div>
+            <!-- Lock Status Message -->
+            <p id="pinErrorMsg" class="text-xs text-pink-500 font-semibold h-4 mb-4 transition-opacity opacity-0">Kode salah, coba lagi ya sayang! 🥺</p>
 
-        <h1 class="opening-title">
-            Deandra<br>
-            <em>×</em> Akbar
-        </h1>
+            <!-- Keypad Matrix -->
+            <div class="grid grid-cols-3 gap-4 w-full max-w-[240px] mb-2">
+                <button onclick="pressPin('1')" class="keypad-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/15 active:scale-95 text-xl font-semibold transition-all flex items-center justify-center border border-white/5">1</button>
+                <button onclick="pressPin('2')" class="keypad-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/15 active:scale-95 text-xl font-semibold transition-all flex items-center justify-center border border-white/5">2</button>
+                <button onclick="pressPin('3')" class="keypad-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/15 active:scale-95 text-xl font-semibold transition-all flex items-center justify-center border border-white/5">3</button>
+                <button onclick="pressPin('4')" class="keypad-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/15 active:scale-95 text-xl font-semibold transition-all flex items-center justify-center border border-white/5">4</button>
+                <button onclick="pressPin('5')" class="keypad-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/15 active:scale-95 text-xl font-semibold transition-all flex items-center justify-center border border-white/5">5</button>
+                <button onclick="pressPin('6')" class="keypad-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/15 active:scale-95 text-xl font-semibold transition-all flex items-center justify-center border border-white/5">6</button>
+                <button onclick="pressPin('7')" class="keypad-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/15 active:scale-95 text-xl font-semibold transition-all flex items-center justify-center border border-white/5">7</button>
+                <button onclick="pressPin('8')" class="keypad-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/15 active:scale-95 text-xl font-semibold transition-all flex items-center justify-center border border-white/5">8</button>
+                <button onclick="pressPin('9')" class="keypad-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/15 active:scale-95 text-xl font-semibold transition-all flex items-center justify-center border border-white/5">9</button>
+                <button onclick="clearPin()" class="w-16 h-16 rounded-full text-xs font-medium text-gray-400 hover:text-white active:scale-95 transition-all flex items-center justify-center">CLEAR</button>
+                <button onclick="pressPin('0')" class="keypad-btn w-16 h-16 rounded-full bg-white/5 hover:bg-white/15 active:scale-95 text-xl font-semibold transition-all flex items-center justify-center border border-white/5">0</button>
+                <button onclick="backspacePin()" class="w-16 h-16 rounded-full text-sm text-gray-400 hover:text-white active:scale-95 transition-all flex items-center justify-center"><i class="fa-solid fa-backspace"></i></button>
+            </div>
 
-        <p class="opening-sub">
-            Some memories are not meant to be posted.
-            They are meant to be kept somewhere only
-            two people know how to find.
-        </p>
-
-        <button class="open-btn" id="enterBtn">
-            Enter The Archive
-        </button>
-
+            <p class="text-[10px] text-gray-500 mt-2">Hint: Angka favorit Deandra (1111) 💌</p>
+        </div>
     </div>
 
-</section>
+    <!-- MAIN APPLICATION WRAPPER -->
+    <div id="mainContent" class="w-full max-w-md min-h-screen bg-black flex flex-col relative z-10 opacity-0 transition-opacity duration-1000">
 
-<!-- =====================================================
-     PIN
-===================================================== -->
+        <!-- TOP HEADER BAR -->
+        <header class="sticky top-0 z-40 glass-nav px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <h1 class="font-insta text-3xl tracking-wide bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent">Instagram</h1>
+                <span class="text-[10px] bg-pink-500/20 text-pink-400 border border-pink-500/30 px-2 py-0.5 rounded-full font-semibold">Boyfriend Edition</span>
+            </div>
+            
+            <div class="flex items-center gap-4 text-xl">
+                <!-- Lyrics Drawer Trigger -->
+                <button onclick="openLyricsDrawer()" class="text-gray-200 hover:text-pink-500 transition-colors title='Lihat Lirik Lagu'">
+                    <i class="fa-solid fa-align-left text-sm"></i>
+                </button>
 
-<section id="pinScreen">
+                <!-- Direct Message Trigger -->
+                <button onclick="switchTab('dm')" class="relative text-gray-200 hover:text-pink-500 transition-colors">
+                    <i class="fa-regular fa-paper-plane"></i>
+                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-pink-500 rounded-full animate-ping"></span>
+                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-pink-500 rounded-full"></span>
+                </button>
+                
+                <!-- Audio Mute/Unmute Button -->
+                <button id="soundToggleBtn" onclick="toggleAudio()" class="text-gray-200 hover:text-pink-500 transition-colors">
+                    <i id="soundIcon" class="fa-solid fa-volume-high text-pink-500"></i>
+                </button>
+            </div>
+        </header>
 
-    <div class="pin-box">
+        <!-- STORIES BAR -->
+        <section class="py-3 px-2 border-b border-gray-800/80 bg-black/40 overflow-x-auto no-scrollbar">
+            <div class="flex gap-3 px-2">
+                <!-- User Profile Story -->
+                <div class="flex flex-col items-center gap-1 min-w-[70px]">
+                    <div class="relative w-16 h-16 rounded-full p-[2px] bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600">
+                        <img src="foto1.jpg" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover rounded-full border-2 border-black">
+                        <span class="absolute bottom-0 right-0 bg-blue-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-black font-bold">+</span>
+                    </div>
+                    <span class="text-[11px] text-gray-300 truncate w-16 text-center font-medium">deandra_aa</span>
+                </div>
 
-        <div class="pin-symbol">♡</div>
+                <!-- Story 1 - 7 Items -->
+                <div onclick="openStoryModal(0)" class="cursor-pointer flex flex-col items-center gap-1 min-w-[70px] group">
+                    <div class="w-16 h-16 rounded-full p-[2.5px] story-gradient group-hover:scale-105 transition-transform">
+                        <img src="foto1.jpg" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover rounded-full border-2 border-black">
+                    </div>
+                    <span class="text-[11px] text-gray-300 truncate w-16 text-center">My Boy 🤍</span>
+                </div>
 
-        <div class="eyebrow">Private Access</div>
+                <div onclick="openStoryModal(1)" class="cursor-pointer flex flex-col items-center gap-1 min-w-[70px] group">
+                    <div class="w-16 h-16 rounded-full p-[2.5px] story-gradient group-hover:scale-105 transition-transform">
+                        <img src="foto2.jpg" onerror="this.src='https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover rounded-full border-2 border-black">
+                    </div>
+                    <span class="text-[11px] text-gray-300 truncate w-16 text-center">Memories 📸</span>
+                </div>
 
-        <h2 class="pin-title">A little secret.</h2>
+                <div onclick="openStoryModal(2)" class="cursor-pointer flex flex-col items-center gap-1 min-w-[70px] group">
+                    <div class="w-16 h-16 rounded-full p-[2.5px] story-gradient group-hover:scale-105 transition-transform">
+                        <img src="foto3.jpg" onerror="this.src='https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover rounded-full border-2 border-black">
+                    </div>
+                    <span class="text-[11px] text-gray-300 truncate w-16 text-center">Fav Person ✨</span>
+                </div>
 
-        <p class="pin-sub">
-            Enter the four numbers that belong to us.
-        </p>
+                <div onclick="openStoryModal(3)" class="cursor-pointer flex flex-col items-center gap-1 min-w-[70px] group">
+                    <div class="w-16 h-16 rounded-full p-[2.5px] story-gradient group-hover:scale-105 transition-transform">
+                        <img src="foto4.jpg" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover rounded-full border-2 border-black">
+                    </div>
+                    <span class="text-[11px] text-gray-300 truncate w-16 text-center">Bestie 🫶</span>
+                </div>
 
-        <div class="pin-dots">
-            <span class="pin-dot"></span>
-            <span class="pin-dot"></span>
-            <span class="pin-dot"></span>
-            <span class="pin-dot"></span>
-        </div>
+                <div onclick="openStoryModal(4)" class="cursor-pointer flex flex-col items-center gap-1 min-w-[70px] group">
+                    <div class="w-16 h-16 rounded-full p-[2.5px] story-gradient group-hover:scale-105 transition-transform">
+                        <img src="foto5.jpg" onerror="this.src='https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover rounded-full border-2 border-black">
+                    </div>
+                    <span class="text-[11px] text-gray-300 truncate w-16 text-center">Sweetest 🍯</span>
+                </div>
 
-        <div class="keypad">
+                <div onclick="openStoryModal(5)" class="cursor-pointer flex flex-col items-center gap-1 min-w-[70px] group">
+                    <div class="w-16 h-16 rounded-full p-[2.5px] story-gradient group-hover:scale-105 transition-transform">
+                        <img src="foto6.jpg" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover rounded-full border-2 border-black">
+                    </div>
+                    <span class="text-[11px] text-gray-300 truncate w-16 text-center">Handsome 😎</span>
+                </div>
 
-            <button class="key" data-key="1">1</button>
-            <button class="key" data-key="2">2</button>
-            <button class="key" data-key="3">3</button>
+                <div onclick="openStoryModal(6)" class="cursor-pointer flex flex-col items-center gap-1 min-w-[70px] group">
+                    <div class="w-16 h-16 rounded-full p-[2.5px] story-gradient group-hover:scale-105 transition-transform">
+                        <img src="foto7.jpg" onerror="this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover rounded-full border-2 border-black">
+                    </div>
+                    <span class="text-[11px] text-gray-300 truncate w-16 text-center">Forever 💖</span>
+                </div>
+            </div>
+        </section>
 
-            <button class="key" data-key="4">4</button>
-            <button class="key" data-key="5">5</button>
-            <button class="key" data-key="6">6</button>
+        <!-- MULTI-TAB PAGE VIEWS CONTAINER -->
+        <main class="flex-1 pb-24">
+            
+            <!-- TAB 1: FEED TIMELINE -->
+            <section id="tab-feed" class="tab-view space-y-6 py-4">
+                <div id="feedContainer" class="space-y-6 px-0">
+                    <!-- Dynamic Feed Posts rendered via JavaScript -->
+                </div>
+            </section>
 
-            <button class="key" data-key="7">7</button>
-            <button class="key" data-key="8">8</button>
-            <button class="key" data-key="9">9</button>
+            <!-- TAB 2: ARCADE GAMES HUB -->
+            <section id="tab-games" class="tab-view hidden p-4 space-y-6">
+                <!-- Arcade Sub-Header -->
+                <div class="glass-card p-4 rounded-2xl border border-pink-500/20 text-center relative overflow-hidden">
+                    <span class="text-xs font-bold text-pink-400 uppercase tracking-widest block mb-1">Akbar's Play Zone 🎮</span>
+                    <h2 class="text-lg font-bold text-white">Arcade Spesial Boyfriend Day</h2>
+                    <p class="text-xs text-gray-400 mt-1">Mainkan game seru ini & dapatkan hadiah istimewa dari Deandra!</p>
+                </div>
 
-            <button class="key zero" data-key="0">0</button>
+                <!-- Games Selector Pills -->
+                <div class="flex gap-2 overflow-x-auto no-scrollbar py-1">
+                    <button onclick="switchGameMode('memory')" id="btn-game-memory" class="game-pill-btn active px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg">
+                        🧠 Memory Match
+                    </button>
+                    <button onclick="switchGameMode('catcher')" id="btn-game-catcher" class="game-pill-btn px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap bg-gray-800 text-gray-300 hover:text-white">
+                        💖 Love Catcher
+                    </button>
+                    <button onclick="switchGameMode('quiz')" id="btn-game-quiz" class="game-pill-btn px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap bg-gray-800 text-gray-300 hover:text-white">
+                        ❓ Trivia Quiz
+                    </button>
+                    <button onclick="switchGameMode('coupons')" id="btn-game-coupons" class="game-pill-btn px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap bg-gray-800 text-gray-300 hover:text-white">
+                        🎟️ Kupon Cinta
+                    </button>
+                </div>
 
-        </div>
+                <!-- GAME 1: MEMORY MATCH CARD GAME -->
+                <div id="game-view-memory" class="game-container space-y-4">
+                    <div class="flex justify-between items-center text-xs text-gray-400 px-1">
+                        <span>Moves: <strong id="memoryMoves" class="text-white">0</strong></span>
+                        <span>Pairs Matched: <strong id="memoryMatches" class="text-white">0 / 6</strong></span>
+                        <button onclick="initMemoryGame()" class="text-pink-400 hover:text-pink-300 font-medium"><i class="fa-solid fa-rotate-right"></i> Reset</button>
+                    </div>
 
-        <div class="pin-error" id="pinError"></div>
+                    <div id="memoryGrid" class="grid grid-cols-3 gap-3">
+                        <!-- 12 Memory Cards dynamically generated -->
+                    </div>
+                </div>
 
-    </div>
+                <!-- GAME 2: LOVE CATCHER MINI CANVAS GAME -->
+                <div id="game-view-catcher" class="game-container hidden space-y-4">
+                    <div class="glass-card p-3 rounded-2xl flex items-center justify-between text-xs">
+                        <div>Score: <strong id="catcherScore" class="text-pink-400 text-sm">0</strong></div>
+                        <div>Lives: <span id="catcherLives" class="text-red-500 text-sm">❤️❤️❤️</span></div>
+                        <button onclick="startCatcherGame()" class="bg-pink-500 hover:bg-pink-600 px-3 py-1 rounded-full text-white font-bold text-xs">
+                            <i class="fa-solid fa-play"></i> Main
+                        </button>
+                    </div>
 
-</section>
+                    <div class="relative w-full aspect-[3/4] max-h-[380px] bg-gradient-to-b from-gray-950 to-purple-950/40 rounded-2xl overflow-hidden border border-gray-800 shadow-2xl flex items-center justify-center">
+                        <canvas id="catcherCanvas" class="w-full h-full"></canvas>
+                        
+                        <!-- Overlay Start/Over Screen -->
+                        <div id="catcherOverlay" class="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center space-y-3">
+                            <i class="fa-solid fa-gamepad text-4xl text-pink-500"></i>
+                            <h3 class="text-base font-bold text-white">Love Catcher Game</h3>
+                            <p class="text-xs text-gray-300 leading-relaxed">Geser keranjang Akbar untuk menangkap Hati 💖 (+10) dan Bintang ⭐ (+25). Hindari Bom 💣!</p>
+                            <button onclick="startCatcherGame()" class="bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold px-6 py-2.5 rounded-full text-xs shadow-lg active:scale-95">
+                                Mulai Permainan 🔥
+                            </button>
+                        </div>
+                    </div>
 
-<!-- =====================================================
-     MAIN
-===================================================== -->
+                    <!-- Touch Controls for Mobile Catcher -->
+                    <div class="flex justify-between items-center gap-4">
+                        <button id="btnMoveLeft" class="flex-1 py-3 bg-gray-800/80 active:bg-pink-600 rounded-xl text-white font-bold text-lg border border-gray-700">
+                            ◀ LEFT
+                        </button>
+                        <button id="btnMoveRight" class="flex-1 py-3 bg-gray-800/80 active:bg-pink-600 rounded-xl text-white font-bold text-lg border border-gray-700">
+                            RIGHT ▶
+                        </button>
+                    </div>
+                </div>
 
-<main id="main">
+                <!-- GAME 3: TRIVIA QUIZ GAME -->
+                <div id="game-view-quiz" class="game-container hidden space-y-4">
+                    <div id="quizBox" class="glass-card p-5 rounded-2xl border border-white/10 space-y-4">
+                        <div class="flex items-center justify-between text-xs text-gray-400">
+                            <span id="quizStepText">Pertanyaan 1 dari 5</span>
+                            <span id="quizScoreText">Score: 0</span>
+                        </div>
 
-<nav class="nav">
+                        <h3 id="quizQuestion" class="text-sm font-bold text-white leading-relaxed">
+                            Loading Question...
+                        </h3>
 
-    <div class="nav-inner">
+                        <div id="quizOptions" class="space-y-2.5">
+                            <!-- Options injected by JS -->
+                        </div>
+                    </div>
+                </div>
 
-        <div class="logo">
-            D<span>×</span>A
-        </div>
+                <!-- GAME 4: LOVE COUPONS SCRATCH-OFF -->
+                <div id="game-view-coupons" class="game-container hidden space-y-4">
+                    <p class="text-xs text-gray-400 text-center">Klik atau sentuh kupon di bawah ini untuk mengklaim hadiah spesial dari Deandra! 🎁</p>
+                    <div id="couponsGrid" class="grid grid-cols-2 gap-3">
+                        <!-- Coupons generated via JS -->
+                    </div>
+                </div>
+            </section>
 
-        <div class="nav-actions">
+            <!-- TAB 3: DIRECT MESSAGES (DM) SIMULATOR -->
+            <section id="tab-dm" class="tab-view hidden p-4 space-y-4">
+                <div class="glass-card rounded-2xl border border-gray-800 overflow-hidden flex flex-col h-[75vh]">
+                    <!-- DM Header -->
+                    <div class="p-3.5 border-b border-gray-800 flex items-center justify-between bg-black/80">
+                        <div class="flex items-center gap-3">
+                            <div class="relative">
+                                <img src="foto1.jpg" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80'" class="w-10 h-10 rounded-full object-cover border border-pink-500">
+                                <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-black"></span>
+                            </div>
+                            <div>
+                                <h3 class="text-xs font-bold text-white flex items-center gap-1">
+                                    deandra_aa <i class="fa-solid fa-circle-check text-blue-400 text-[10px]"></i>
+                                </h3>
+                                <p class="text-[10px] text-gray-400">Active now • Boyfriend Day Special</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-circle-info text-gray-400 text-lg"></i>
+                    </div>
 
-            <button class="nav-btn" onclick="scrollToId('music')">
-                ♫
+                    <!-- DM Message Scroll Area -->
+                    <div id="dmScrollArea" class="flex-1 p-4 overflow-y-auto space-y-4 text-xs">
+                        <div class="text-center my-2">
+                            <span class="text-[10px] bg-gray-800/80 text-gray-400 px-3 py-1 rounded-full">National Boyfriend Day • Today 00:01</span>
+                        </div>
+
+                        <!-- Deandra Message -->
+                        <div class="flex items-end gap-2 max-w-[85%]">
+                            <img src="foto1.jpg" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80'" class="w-6 h-6 rounded-full object-cover">
+                            <div class="bg-gradient-to-tr from-purple-900/60 to-pink-900/60 border border-pink-500/30 p-3.5 rounded-2xl rounded-bl-none text-gray-100 shadow-lg space-y-2">
+                                <p class="font-bold text-pink-300 text-sm">Happy National Boyfriend Day, Akbar! 💖✨</p>
+                                <p>Haloo Akbar sayang! Makasih banyak yaa udah selalu ada buat aku, sabar banget meladeni kelakuanku yang kadang random ini, dan selalu jadi laki-laki paling perhatian di hidupku! 🥰</p>
+                                <p>Di hari spesial ini, aku cuma mau ngingetin kalau kamu itu sangat berharga buat aku. Makasih udah bikin hari-hariku jadi jauh lebih berwarna.</p>
+                                <p class="font-semibold text-pink-200">I'm so lucky to have you as my boyfriend and bestie! Love you always! 🤍🌸</p>
+                                <span class="text-[9px] text-pink-300/60 block text-right">00:01</span>
+                            </div>
+                        </div>
+
+                        <!-- Voice Note Bubble -->
+                        <div class="flex items-end gap-2 max-w-[80%]">
+                            <img src="foto1.jpg" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80'" class="w-6 h-6 rounded-full object-cover">
+                            <div class="bg-gray-800 border border-gray-700 p-3 rounded-2xl rounded-bl-none flex items-center gap-3 w-full">
+                                <button onclick="toggleAudio()" class="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-play text-xs"></i>
+                                </button>
+                                <div class="flex-1 space-y-1">
+                                    <div class="flex items-center gap-1 h-3">
+                                        <div class="w-1 bg-pink-400 h-2 rounded"></div>
+                                        <div class="w-1 bg-pink-400 h-3 rounded"></div>
+                                        <div class="w-1 bg-pink-400 h-1.5 rounded"></div>
+                                        <div class="w-1 bg-pink-400 h-4 rounded"></div>
+                                        <div class="w-1 bg-pink-400 h-2.5 rounded"></div>
+                                    </div>
+                                    <span class="text-[9px] text-gray-400">Voice Note • Shape of My Heart 🎵</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Typing Indicator simulation -->
+                    <div id="dmTypingIndicator" class="px-4 py-1 text-[10px] text-gray-500 italic hidden">
+                        Deandra is typing...
+                    </div>
+
+                    <!-- DM Input Bar -->
+                    <div class="p-3 border-t border-gray-800 bg-black/80 flex items-center gap-2">
+                        <input id="dmInput" type="text" placeholder="Balas pesan ke Deandra..." class="flex-1 bg-gray-900 border border-gray-800 rounded-full px-4 py-2 text-xs text-white focus:outline-none focus:border-pink-500" onkeypress="handleDmKeyPress(event)">
+                        <button onclick="sendDmMessage()" class="text-pink-500 font-bold text-xs px-3 py-2 hover:text-pink-400">Send</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: TIME CAPSULE & ROMANCE COUNTER -->
+            <section id="tab-counter" class="tab-view hidden p-4 space-y-6">
+                <!-- Relationship Counter Banner -->
+                <div class="glass-card p-6 rounded-3xl text-center space-y-4 border border-pink-500/30 relative overflow-hidden">
+                    <div class="absolute -top-10 -left-10 w-28 h-28 bg-pink-500/20 rounded-full blur-2xl"></div>
+                    <span class="text-xs font-bold text-pink-400 uppercase tracking-widest block">Time Spent Together ⏳</span>
+                    <h2 class="text-xl font-bold text-white">Deandra & Akbar</h2>
+
+                    <!-- Live Timer Digits -->
+                    <div class="grid grid-cols-4 gap-2 pt-2">
+                        <div class="bg-black/60 border border-white/10 p-2.5 rounded-2xl">
+                            <span id="timerDays" class="text-xl font-extrabold text-pink-500 block">365</span>
+                            <span class="text-[9px] text-gray-400 uppercase font-semibold">Days</span>
+                        </div>
+                        <div class="bg-black/60 border border-white/10 p-2.5 rounded-2xl">
+                            <span id="timerHours" class="text-xl font-extrabold text-pink-500 block">12</span>
+                            <span class="text-[9px] text-gray-400 uppercase font-semibold">Hours</span>
+                        </div>
+                        <div class="bg-black/60 border border-white/10 p-2.5 rounded-2xl">
+                            <span id="timerMins" class="text-xl font-extrabold text-pink-500 block">45</span>
+                            <span class="text-[9px] text-gray-400 uppercase font-semibold">Mins</span>
+                        </div>
+                        <div class="bg-black/60 border border-white/10 p-2.5 rounded-2xl">
+                            <span id="timerSecs" class="text-xl font-extrabold text-pink-500 block">20</span>
+                            <span class="text-[9px] text-gray-400 uppercase font-semibold">Secs</span>
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-gray-400 italic">"And every second with you feels like magic ✨"</p>
+                </div>
+
+                <!-- Memory Photo Gallery Album Grid -->
+                <div class="space-y-3">
+                    <h3 class="text-xs font-bold text-gray-300 uppercase tracking-wider">Memory Album 📸</h3>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div onclick="openStoryModal(0)" class="aspect-square rounded-xl overflow-hidden bg-gray-900 border border-gray-800 cursor-pointer hover:opacity-80 transition-opacity">
+                            <img src="foto1.jpg" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover">
+                        </div>
+                        <div onclick="openStoryModal(1)" class="aspect-square rounded-xl overflow-hidden bg-gray-900 border border-gray-800 cursor-pointer hover:opacity-80 transition-opacity">
+                            <img src="foto2.jpg" onerror="this.src='https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover">
+                        </div>
+                        <div onclick="openStoryModal(2)" class="aspect-square rounded-xl overflow-hidden bg-gray-900 border border-gray-800 cursor-pointer hover:opacity-80 transition-opacity">
+                            <img src="foto3.jpg" onerror="this.src='https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover">
+                        </div>
+                        <div onclick="openStoryModal(3)" class="aspect-square rounded-xl overflow-hidden bg-gray-900 border border-gray-800 cursor-pointer hover:opacity-80 transition-opacity">
+                            <img src="foto4.jpg" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover">
+                        </div>
+                        <div onclick="openStoryModal(4)" class="aspect-square rounded-xl overflow-hidden bg-gray-900 border border-gray-800 cursor-pointer hover:opacity-80 transition-opacity">
+                            <img src="foto5.jpg" onerror="this.src='https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover">
+                        </div>
+                        <div onclick="openStoryModal(5)" class="aspect-square rounded-xl overflow-hidden bg-gray-900 border border-gray-800 cursor-pointer hover:opacity-80 transition-opacity">
+                            <img src="foto6.jpg" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- FIXED BOTTOM TAB BAR -->
+        <nav class="fixed bottom-0 left-0 right-0 z-40 max-w-md mx-auto glass-nav px-6 py-3 flex items-center justify-between text-xl border-t border-gray-800">
+            <button onclick="switchTab('feed')" id="nav-feed" class="nav-btn active text-pink-500 flex flex-col items-center gap-0.5">
+                <i class="fa-solid fa-house"></i>
+                <span class="text-[9px] font-medium">Feed</span>
             </button>
-
-            <button class="nav-btn" onclick="openSecret()">
-                ✦
+            <button onclick="switchTab('games')" id="nav-games" class="nav-btn text-gray-400 hover:text-white flex flex-col items-center gap-0.5">
+                <i class="fa-solid fa-gamepad"></i>
+                <span class="text-[9px] font-medium">Arcade</span>
             </button>
-
-        </div>
-
+            <button onclick="switchTab('dm')" id="nav-dm" class="nav-btn text-gray-400 hover:text-white flex flex-col items-center gap-0.5 relative">
+                <i class="fa-regular fa-paper-plane"></i>
+                <span class="text-[9px] font-medium">Letter</span>
+                <span class="absolute top-0 right-1 w-2 h-2 bg-pink-500 rounded-full"></span>
+            </button>
+            <button onclick="switchTab('counter')" id="nav-counter" class="nav-btn text-gray-400 hover:text-white flex flex-col items-center gap-0.5">
+                <i class="fa-regular fa-clock"></i>
+                <span class="text-[9px] font-medium">Memory</span>
+            </button>
+        </nav>
     </div>
 
-</nav>
-
-<!-- =====================================================
-     HERO
-===================================================== -->
-
-<section class="hero">
-
-<div class="container">
-
-<div class="profile-grid">
-
-    <div class="profile-photo">
-
-        <img src="foto1.jpg" alt="Memory">
-
-    </div>
-
-    <div class="profile-info">
-
-        <div class="small">
-            The Private Archive / 2026
-        </div>
-
-        <h1>
-            Deandra<br>
-            <em>for Akbar.</em>
-        </h1>
-
-        <p class="profile-bio">
-            Welcome to our little corner of the internet.
-            No followers. No strangers. No algorithm.
-            Just memories, little moments, and a story
-            that belongs to us.
-        </p>
-
-        <div class="profile-stats">
-
-            <div class="stat">
-                <strong>07</strong>
-                <span>Memories</span>
+    <!-- AUDIO LYRICS DRAWER MODAL -->
+    <div id="lyricsDrawer" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-xl hidden flex flex-col justify-end transition-all">
+        <div class="glass-card w-full max-w-md mx-auto rounded-t-3xl p-6 border-t border-pink-500/30 flex flex-col max-h-[80vh]">
+            <div class="w-12 h-1 bg-gray-600 rounded-full mx-auto mb-4"></div>
+            
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                    <img src="foto1.jpg" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80'" class="w-12 h-12 rounded-2xl object-cover border border-pink-500">
+                    <div>
+                        <h4 class="text-sm font-bold text-white">Shape of My Heart</h4>
+                        <p class="text-xs text-gray-400">Special Theme Song for Akbar 🎵</p>
+                    </div>
+                </div>
+                <button onclick="closeLyricsDrawer()" class="text-gray-400 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
 
-            <div class="stat">
-                <strong>∞</strong>
-                <span>Feelings</span>
+            <!-- Song Lyrics Scroll Box -->
+            <div class="flex-1 overflow-y-auto space-y-3 text-center text-xs text-gray-300 py-4 leading-relaxed font-serif italic">
+                <p class="text-pink-400 font-bold font-sans">"He deals the cards as a meditation..."</p>
+                <p>"And those he plays never suspect..."</p>
+                <p>"He doesn't play for the money he wins..."</p>
+                <p>"He don't play for respect..."</p>
+                <p class="text-sm font-bold text-white font-sans not-italic py-2">"I know that the spades are the swords of a soldier..."</p>
+                <p class="text-sm font-bold text-pink-400 font-sans not-italic">"I know that the clubs are weapons of war..."</p>
+                <p class="text-sm font-bold text-white font-sans not-italic">"I know that diamonds mean money for this art..."</p>
+                <p class="text-base font-extrabold text-pink-500 font-sans not-italic py-2 drop-shadow-md">"But that's not the shape of my heart..." 💖</p>
+                <p>"And if I told you that I loved you..."</p>
+                <p>"You'd maybe think there's something wrong..."</p>
+                <p class="text-pink-300 font-semibold font-sans">For Akbar, forever and always 🤍</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN INSTAGRAM STORY MODAL -->
+    <div id="storyModal" class="fixed inset-0 z-50 bg-black hidden flex flex-col items-center justify-center">
+        <div class="relative w-full max-w-md h-full bg-black flex flex-col justify-between overflow-hidden">
+            
+            <!-- Story Progress Bars Container -->
+            <div id="storyProgressBars" class="absolute top-3 left-0 right-0 z-20 px-3 flex gap-1">
+                <!-- Bars generated dynamically -->
             </div>
 
-            <div class="stat">
-                <strong>01</strong>
-                <span>Us</span>
+            <!-- Story Header -->
+            <div class="absolute top-7 left-0 right-0 z-20 px-4 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <img src="foto1.jpg" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80'" class="w-8 h-8 rounded-full border border-pink-500 object-cover">
+                    <span class="text-xs font-bold text-white flex items-center gap-1">
+                        deandra_aa <i class="fa-solid fa-circle-check text-blue-400 text-[10px]"></i>
+                    </span>
+                    <span class="text-[10px] text-gray-300">2h</span>
+                </div>
+                <button onclick="closeStoryModal()" class="text-white text-xl p-2">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
 
-        </div>
+            <!-- Story Touch Navigation Zones -->
+            <div class="absolute inset-0 z-10 flex">
+                <div onclick="prevStory()" class="w-1/3 h-full"></div>
+                <div onclick="nextStory()" class="w-2/3 h-full"></div>
+            </div>
 
-        <div class="scroll-hint">
-            Explore the archive
-        </div>
+            <!-- Story Main Image Display -->
+            <div class="w-full h-full flex items-center justify-center relative">
+                <img id="storyModalImg" src="" class="w-full h-full object-cover">
+                
+                <!-- Floating Caption Glass Overlay -->
+                <div class="absolute bottom-20 left-4 right-4 z-20 glass-card p-4 rounded-2xl border border-white/20 shadow-xl">
+                    <p id="storyModalCaption" class="text-xs font-medium text-white leading-relaxed text-center"></p>
+                </div>
+            </div>
 
-    </div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =====================================================
-     STORIES
-===================================================== -->
-
-<section class="section">
-
-<div class="container">
-
-<div class="section-head">
-
-    <div>
-        <div class="section-kicker">01 / Little moments</div>
-        <h2 class="section-title">Our Stories</h2>
-    </div>
-
-    <div class="section-desc">
-        Tap each circle.
-        Some stories have something
-        hidden inside.
-    </div>
-
-</div>
-
-<div class="stories">
-
-    <div class="story" onclick="storyMessage('The first little memory 🤍')">
-        <div class="story-ring">
-            <img src="foto1.jpg">
-        </div>
-        <div class="story-name">First</div>
-    </div>
-
-    <div class="story" onclick="storyMessage('A moment I would replay forever.')">
-        <div class="story-ring">
-            <img src="foto2.jpg">
-        </div>
-        <div class="story-name">Us</div>
-    </div>
-
-    <div class="story" onclick="storyMessage('You made an ordinary day feel special.')">
-        <div class="story-ring">
-            <img src="foto3.jpg">
-        </div>
-        <div class="story-name">Little Joy</div>
-    </div>
-
-    <div class="story" onclick="storyMessage('Still one of my favorite memories.')">
-        <div class="story-ring">
-            <img src="foto4.jpg">
-        </div>
-        <div class="story-name">Favorite</div>
-    </div>
-
-    <div class="story" onclick="storyMessage('If memories had a home, this would be it.')">
-        <div class="story-ring">
-            <img src="foto5.jpg">
-        </div>
-        <div class="story-name">Home</div>
-    </div>
-
-    <div class="story" onclick="storyMessage('And somehow, I still choose you.')">
-        <div class="story-ring">
-            <img src="foto6.jpg">
-        </div>
-        <div class="story-name">Always</div>
-    </div>
-
-    <div class="story" onclick="storyMessage('There is still so much more to our story.')">
-        <div class="story-ring">
-            <img src="foto7.jpg">
-        </div>
-        <div class="story-name">Next</div>
-    </div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =====================================================
-     FEED
-===================================================== -->
-
-<section class="section">
-
-<div class="container">
-
-<div class="section-head">
-
-    <div>
-        <div class="section-kicker">02 / The feed</div>
-        <h2 class="section-title">Memories</h2>
-    </div>
-
-    <div class="section-desc">
-        Double tap a memory.
-        It might remember that you did.
-    </div>
-
-</div>
-
-<div class="feed">
-
-<!-- POST 1 -->
-
-<article class="post">
-
-<div class="post-top">
-
-    <div class="post-user">
-        <img class="mini-avatar" src="foto1.jpg">
-        <div>
-            <div class="user-name">deandra.archive</div>
-            <span class="user-loc">somewhere with you</span>
+            <!-- Story Footer Quick Reply Input -->
+            <div class="absolute bottom-4 left-0 right-0 z-20 px-4 flex items-center gap-3">
+                <input type="text" placeholder="Send message to Deandra..." class="flex-1 bg-white/10 border border-white/20 backdrop-blur-md rounded-full px-4 py-2.5 text-xs text-white placeholder-gray-300 focus:outline-none">
+                <button onclick="shootStoryHeart()" class="text-white text-xl hover:text-pink-500 transition-colors">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+            </div>
         </div>
     </div>
 
-    <div class="post-number">01 / 07</div>
+    <!-- BOYFRIEND CERTIFICATE MODAL -->
+    <div id="certificateModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-sm w-full rounded-3xl p-6 text-center border-2 border-yellow-500/50 shadow-2xl space-y-4 relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-24 h-24 bg-yellow-500/20 rounded-full blur-2xl"></div>
+            
+            <i class="fa-solid fa-award text-5xl text-yellow-400 animate-bounce"></i>
+            <div>
+                <span class="text-[10px] font-bold text-yellow-400 uppercase tracking-widest block">Official Award</span>
+                <h2 class="text-xl font-extrabold text-white">Best Boyfriend Certificate</h2>
+            </div>
 
-</div>
+            <p class="text-xs text-gray-300 italic">"Sertifikat Penghargaan Resmi diberikan kepada:"</p>
+            
+            <div class="py-2 border-y border-yellow-500/30">
+                <h3 class="text-lg font-bold text-pink-400">AKBAR</h3>
+                <p class="text-[11px] text-gray-400">Sebagai Pacar Terbaik & Terfavorit Deandra ✨</p>
+            </div>
 
-<div class="post-img-wrap"
-     ondblclick="doubleLike(this)">
+            <p class="text-[10px] text-gray-400">Lulus Ujian Ketahanan Sabar, Perhatian, dan Kelucuan dengan Nilai 100/100 🏆</p>
 
-    <img class="post-img" src="foto1.jpg">
-
-    <div class="big-heart">♥</div>
-
-</div>
-
-<div class="post-actions">
-
-    <button class="action" onclick="likePost(this)">♡</button>
-
-    <button class="action" onclick="showToast('This memory is now saved ♡')">♡</button>
-
-    <button class="action" onclick="showToast('There is nowhere else to send this memory.')">↗</button>
-
-</div>
-
-<div class="post-body">
-
-    <div class="likes">
-        <span class="like-count">127</span> likes
-    </div>
-
-    <div class="caption">
-        <b>deandra.archive</b>
-        If I could keep one feeling forever,
-        it would be the feeling of having you beside me.
-    </div>
-
-    <div class="post-date">
-        ARCHIVED WITH LOVE
-    </div>
-
-</div>
-
-</article>
-
-<!-- POST 2 -->
-
-<article class="post">
-
-<div class="post-top">
-
-    <div class="post-user">
-        <img class="mini-avatar" src="foto2.jpg">
-        <div>
-            <div class="user-name">deandra.archive</div>
-            <span class="user-loc">memory no. 002</span>
+            <button onclick="closeCertificateModal()" class="w-full bg-gradient-to-r from-yellow-500 to-pink-500 text-black font-bold py-2.5 rounded-full text-xs shadow-lg">
+                Klaim & Simpan Sertifikat 💕
+            </button>
         </div>
     </div>
 
-    <div class="post-number">02 / 07</div>
+    <!-- FLOATING MUSIC WIDGET -->
+    <div id="musicSticker" class="fixed bottom-16 right-4 z-40 glass-card rounded-full p-2 pr-4 flex items-center gap-3 shadow-2xl border border-pink-500/30 hover:scale-105 transition-transform cursor-pointer" onclick="toggleAudio()">
+        <div class="relative w-10 h-10 rounded-full overflow-hidden shrink-0 border border-pink-500/50">
+            <img id="musicCover" src="foto1.jpg" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover animate-spin-slow">
+        </div>
 
-</div>
+        <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+                <i class="fa-solid fa-music text-[10px] text-pink-400"></i>
+                <span class="text-xs font-bold text-white tracking-wide">Shape of My Heart</span>
+            </div>
+            <span class="text-[10px] text-gray-400">For Akbar 🤍 • Deandra</span>
+        </div>
 
-<div class="post-img-wrap"
-     ondblclick="doubleLike(this)">
-
-    <img class="post-img" src="foto2.jpg">
-
-    <div class="big-heart">♥</div>
-
-</div>
-
-<div class="post-actions">
-
-    <button class="action" onclick="likePost(this)">♡</button>
-
-    <button class="action" onclick="showToast('Saved to our private collection.')">♡</button>
-
-    <button class="action" onclick="showToast('Only us can see this.')">↗</button>
-
-</div>
-
-<div class="post-body">
-
-    <div class="likes">
-        <span class="like-count">98</span> likes
-    </div>
-
-    <div class="caption">
-        <b>deandra.archive</b>
-        Some moments are small when they happen,
-        but become everything when you remember them.
-    </div>
-
-    <div class="post-date">PRIVATE MEMORY</div>
-
-</div>
-
-</article>
-
-<!-- POST 3 -->
-
-<article class="post">
-
-<div class="post-top">
-
-    <div class="post-user">
-        <img class="mini-avatar" src="foto3.jpg">
-        <div>
-            <div class="user-name">deandra.archive</div>
-            <span class="user-loc">memory no. 003</span>
+        <div class="flex items-end gap-0.5 h-4 ml-1">
+            <div class="eq-bar w-0.5 bg-pink-500 rounded-full"></div>
+            <div class="eq-bar w-0.5 bg-pink-500 rounded-full"></div>
+            <div class="eq-bar w-0.5 bg-pink-500 rounded-full"></div>
+            <div class="eq-bar w-0.5 bg-pink-500 rounded-full"></div>
         </div>
     </div>
 
-    <div class="post-number">03 / 07</div>
-
-</div>
-
-<div class="post-img-wrap"
-     ondblclick="doubleLike(this)">
-
-    <img class="post-img" src="foto3.jpg">
-
-    <div class="big-heart">♥</div>
-
-</div>
-
-<div class="post-actions">
-
-    <button class="action" onclick="likePost(this)">♡</button>
-
-    <button class="action" onclick="showToast('Memory saved.')">♡</button>
-
-    <button class="action" onclick="showToast('Some things are better kept between us.')">↗</button>
-
-</div>
-
-<div class="post-body">
-
-    <div class="likes">
-        <span class="like-count">214</span> likes
-    </div>
-
-    <div class="caption">
-        <b>deandra.archive</b>
-        You are my favorite part of all the ordinary days.
-    </div>
-
-    <div class="post-date">ARCHIVED / FOREVER</div>
-
-</div>
-
-</article>
-
-<!-- POST 4 -->
-
-<article class="post">
-
-<div class="post-top">
-
-    <div class="post-user">
-        <img class="mini-avatar" src="foto4.jpg">
-        <div>
-            <div class="user-name">deandra.archive</div>
-            <span class="user-loc">memory no. 004</span>
-        </div>
-    </div>
-
-    <div class="post-number">04 / 07</div>
-
-</div>
-
-<div class="post-img-wrap"
-     ondblclick="doubleLike(this)">
-
-    <img class="post-img" src="foto4.jpg">
-
-    <div class="big-heart">♥</div>
-
-</div>
-
-<div class="post-actions">
-
-    <button class="action" onclick="likePost(this)">♡</button>
-
-    <button class="action" onclick="showToast('Added to favorites.')">♡</button>
-
-    <button class="action" onclick="showToast('Sent to the private archive.')">↗</button>
-
-</div>
-
-<div class="post-body">
-
-    <div class="likes">
-        <span class="like-count">176</span> likes
-    </div>
-
-    <div class="caption">
-        <b>deandra.archive</b>
-        Maybe forever isn't a length of time.
-        Maybe it's just a collection of moments like this.
-    </div>
-
-    <div class="post-date">PRIVATE / FAVORITE</div>
-
-</div>
-
-</article>
-
-<!-- POST 5 -->
-
-<article class="post">
-
-<div class="post-top">
-
-    <div class="post-user">
-        <img class="mini-avatar" src="foto5.jpg">
-        <div>
-            <div class="user-name">deandra.archive</div>
-            <span class="user-loc">memory no. 005</span>
-        </div>
-    </div>
-
-    <div class="post-number">05 / 07</div>
-
-</div>
-
-<div class="post-img-wrap"
-     ondblclick="doubleLike(this)">
-
-    <img class="post-img" src="foto5.jpg">
-
-    <div class="big-heart">♥</div>
-
-</div>
-
-<div class="post-actions">
-
-    <button class="action" onclick="likePost(this)">♡</button>
-
-    <button class="action" onclick="showToast('This one stays with us.')">♡</button>
-
-    <button class="action" onclick="showToast('Private archive only.')">↗</button>
-
-</div>
-
-<div class="post-body">
-
-    <div class="likes">
-        <span class="like-count">245</span> likes
-    </div>
-
-    <div class="caption">
-        <b>deandra.archive</b>
-        Loving you somehow makes even the quiet moments feel loud.
-    </div>
-
-    <div class="post-date">MEMORY / 005</div>
-
-</div>
-
-</article>
-
-<!-- POST 6 -->
-
-<article class="post">
-
-<div class="post-top">
-
-    <div class="post-user">
-        <img class="mini-avatar" src="foto6.jpg">
-        <div>
-            <div class="user-name">deandra.archive</div>
-            <span class="user-loc">memory no. 006</span>
-        </div>
-    </div>
-
-    <div class="post-number">06 / 07</div>
-
-</div>
-
-<div class="post-img-wrap"
-     ondblclick="doubleLike(this)">
-
-    <img class="post-img" src="foto6.jpg">
-
-    <div class="big-heart">♥</div>
-
-</div>
-
-<div class="post-actions">
-
-    <button class="action" onclick="likePost(this)">♡</button>
-
-    <button class="action" onclick="showToast('Favorite memory unlocked.')">♡</button>
-
-    <button class="action" onclick="showToast('This belongs in the archive.')">↗</button>
-
-</div>
-
-<div class="post-body">
-
-    <div class="likes">
-        <span class="like-count">301</span> likes
-    </div>
-
-    <div class="caption">
-        <b>deandra.archive</b>
-        Out of every version of my life,
-        I hope there is always one where I find you.
-    </div>
-
-    <div class="post-date">MEMORY / 006</div>
-
-</div>
-
-</article>
-
-<!-- POST 7 -->
-
-<article class="post">
-
-<div class="post-top">
-
-    <div class="post-user">
-        <img class="mini-avatar" src="foto7.jpg">
-        <div>
-            <div class="user-name">deandra.archive</div>
-            <span class="user-loc">memory no. 007</span>
-        </div>
-    </div>
-
-    <div class="post-number">07 / 07</div>
-
-</div>
-
-<div class="post-img-wrap"
-     ondblclick="doubleLike(this)">
-
-    <img class="post-img" src="foto7.jpg">
-
-    <div class="big-heart">♥</div>
-
-</div>
-
-<div class="post-actions">
-
-    <button class="action" onclick="likePost(this)">♡</button>
-
-    <button class="action" onclick="showToast('The last memory... for now.')">♡</button>
-
-    <button class="action" onclick="showToast('There is still more to come.')">↗</button>
-
-</div>
-
-<div class="post-body">
-
-    <div class="likes">
-        <span class="like-count">∞</span> likes
-    </div>
-
-    <div class="caption">
-        <b>deandra.archive</b>
-        This isn't the end of our story.
-        It's just another page.
-    </div>
-
-    <div class="post-date">TO BE CONTINUED</div>
-
-</div>
-
-</article>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =====================================================
-     TIMELINE
-===================================================== -->
-
-<section class="section">
-
-<div class="container">
-
-<div class="section-head">
-
-    <div>
-        <div class="section-kicker">03 / Chronology</div>
-        <h2 class="section-title">Our Story</h2>
-    </div>
-
-    <div class="section-desc">
-        A timeline of little moments
-        that became something bigger.
-    </div>
-
-</div>
-
-<div class="timeline">
-
-    <div class="timeline-item">
-
-        <div class="timeline-dot"></div>
-
-        <div class="timeline-year">CHAPTER 01</div>
-
-        <h3>The Beginning</h3>
-
-        <p>
-            Before everything became familiar,
-            there was simply a beginning.
-            Two people. One story.
-        </p>
-
-    </div>
-
-    <div class="timeline-item">
-
-        <div class="timeline-dot"></div>
-
-        <div class="timeline-year">CHAPTER 02</div>
-
-        <h3>Getting Closer</h3>
-
-        <p>
-            Slowly, conversations became longer,
-            smiles became easier,
-            and having each other started feeling natural.
-        </p>
-
-    </div>
-
-    <div class="timeline-item">
-
-        <div class="timeline-dot"></div>
-
-        <div class="timeline-year">CHAPTER 03</div>
-
-        <h3>The Little Things</h3>
-
-        <p>
-            It wasn't always the big moments.
-            Sometimes it was simply the way
-            you showed up.
-        </p>
-
-    </div>
-
-    <div class="timeline-item">
-
-        <div class="timeline-dot"></div>
-
-        <div class="timeline-year">CHAPTER 04</div>
-
-        <h3>Us</h3>
-
-        <p>
-            Somewhere between all the little moments,
-            “you and me” quietly became “us”.
-        </p>
-
-    </div>
-
-    <div class="timeline-item">
-
-        <div class="timeline-dot"></div>
-
-        <div class="timeline-year">CHAPTER 05</div>
-
-        <h3>To Be Continued</h3>
-
-        <p>
-            The archive is still incomplete.
-            There are pages we haven't written yet.
-        </p>
-
-    </div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =====================================================
-     MUSIC
-===================================================== -->
-
-<section class="section" id="music">
-
-<div class="container">
-
-<div class="section-head">
-
-    <div>
-        <div class="section-kicker">04 / Soundtrack</div>
-        <h2 class="section-title">Our Song</h2>
-    </div>
-
-    <div class="section-desc">
-        Press play and let the archive
-        feel a little more alive.
-    </div>
-
-</div>
-
-<div class="music-card">
-
-    <div class="vinyl" id="vinyl"></div>
-
-    <div class="music-info">
-
-        <div class="music-label">NOW PLAYING</div>
-
-        <h3>Shape of My Heart</h3>
-
-        <p>
-            A little soundtrack for our little archive.
-        </p>
-
-    </div>
-
-    <button class="music-btn" id="musicBtn">
-        ▶
-    </button>
-
-</div>
-
-<audio id="music" loop>
-    <source src="shapeofmyheart.mp3" type="audio/mpeg">
-</audio>
-
-</div>
-
-</section>
-
-<!-- =====================================================
-     GAME
-===================================================== -->
-
-<section class="section">
-
-<div class="container">
-
-<div class="section-head">
-
-    <div>
-        <div class="section-kicker">05 / Interactive</div>
-        <h2 class="section-title">How Well?</h2>
-    </div>
-
-    <div class="section-desc">
-        Let's see if you really remember
-        the little things.
-    </div>
-
-</div>
-
-<div class="game-card">
-
-    <div id="gameIntro">
-
-        <div class="game-icon">♢</div>
-
-        <h3>How Well Do You Know Us?</h3>
-
-        <p>
-            Three tiny questions.
-            One tiny challenge.
-            A secret reward if you make it through.
-        </p>
-
-        <button class="game-start" onclick="startQuiz()">
-            Start The Game
-        </button>
-
-    </div>
-
-    <div class="quiz" id="quiz">
-
-        <div class="question" id="question">
-            Question
-        </div>
-
-        <div class="answers" id="answers"></div>
-
-    </div>
-
-    <div class="game-result" id="gameResult">
-
-        <div class="game-icon">✦</div>
-
-        <h3 id="resultTitle">
-            You know us.
-        </h3>
-
-        <p id="resultText"></p>
-
-        <button class="game-start" onclick="unlockGame()">
-            Claim Memory
-        </button>
-
-    </div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =====================================================
-     ACHIEVEMENTS
-===================================================== -->
-
-<section class="section">
-
-<div class="container">
-
-<div class="section-head">
-
-    <div>
-        <div class="section-kicker">06 / Collection</div>
-        <h2 class="section-title">Achievements</h2>
-    </div>
-
-    <div class="section-desc">
-        Some badges are hidden.
-        Explore the archive to unlock them.
-    </div>
-
-</div>
-
-<div class="achievements">
-
-    <div class="badge unlocked">
-
-        <div class="badge-icon">♡</div>
-
-        <h4>First Look</h4>
-
-        <p>Entered the archive.</p>
-
-    </div>
-
-    <div class="badge" id="badgeHeart">
-
-        <div class="badge-icon">♥</div>
-
-        <h4>Heart Keeper</h4>
-
-        <p>Double tap a memory.</p>
-
-    </div>
-
-    <div class="badge" id="badgeMusic">
-
-        <div class="badge-icon">♫</div>
-
-        <h4>Soundtrack</h4>
-
-        <p>Play our song.</p>
-
-    </div>
-
-    <div class="badge" id="badgeStory">
-
-        <div class="badge-icon">◎</div>
-
-        <h4>Story Hunter</h4>
-
-        <p>Open a story.</p>
-
-    </div>
-
-    <div class="badge" id="badgeGame">
-
-        <div class="badge-icon">◇</div>
-
-        <h4>Love Detective</h4>
-
-        <p>Complete the game.</p>
-
-    </div>
-
-    <div class="badge" id="badgeSecret">
-
-        <div class="badge-icon">✦</div>
-
-        <h4>Archive Keeper</h4>
-
-        <p>Find the hidden room.</p>
-
-    </div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =====================================================
-     SECRET MEMORY
-===================================================== -->
-
-<section class="section">
-
-<div class="container">
-
-<div class="section-head">
-
-    <div>
-        <div class="section-kicker">07 / Restricted</div>
-        <h2 class="section-title">Hidden Memory</h2>
-    </div>
-
-    <div class="section-desc">
-        Not everything should be visible
-        at first glance.
-    </div>
-
-</div>
-
-<div class="secret-wrap">
-
-<div class="locked-memory" id="lockedMemory"
-     onclick="unlockMemory()">
-
-    <img src="foto7.jpg">
-
-    <div class="lock-overlay">
-
-        <div class="lock-icon">♧</div>
-
-        <h3>Something is hidden here.</h3>
-
-        <p>Tap to reveal the memory.</p>
-
-    </div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =====================================================
-     DM
-===================================================== -->
-
-<section class="section">
-
-<div class="container">
-
-<div class="section-head">
-
-    <div>
-        <div class="section-kicker">08 / Private messages</div>
-        <h2 class="section-title">One Last DM</h2>
-    </div>
-
-    <div class="section-desc">
-        A conversation that was never
-        meant for anyone else.
-    </div>
-
-</div>
-
-<div class="dm">
-
-    <div class="dm-head">
-
-        <img src="foto1.jpg">
-
-        <div>
-            <strong>Deandra</strong>
-            <span>● online in our archive</span>
-        </div>
-
-    </div>
-
-    <div class="dm-body" id="dmBody">
-
-        <div class="message left">
-            hey, akbar...
-        </div>
-
-        <div class="message left">
-            do you know what my favorite part of all this is?
-        </div>
-
-        <div class="typing" id="typing">
-            Deandra is typing...
-        </div>
-
-        <div class="message right">
-            what?
-        </div>
-
-        <div class="message left">
-            that somewhere along the way,
-            you stopped feeling like a part of my day...
-            and started feeling like home.
-        </div>
-
-    </div>
-
-</div>
-
-</div>
-
-</section>
-
-<!-- =====================================================
-     LOVE LETTER
-===================================================== -->
-
-<section class="section">
-
-<div class="container">
-
-<div class="section-head">
-
-    <div>
-        <div class="section-kicker">09 / Final page</div>
-        <h2 class="section-title">A Letter</h2>
-    </div>
-
-</div>
-
-<div class="letter">
-
-    <h3>Dear Akbar,</h3>
-
-    <p>
-        I don't think I could fit everything I feel for you
-        into one website, one letter, or even a thousand words.
-        But if this little archive could keep one thing forever,
-        I would want it to keep the feeling of us.
-    </p>
-
-    <br>
-
-    <p>
-        Thank you for every conversation, every laugh,
-        every little moment that somehow became a memory
-        worth keeping. Thank you for being someone I can
-        choose again and again.
-    </p>
-
-    <br>
-
-    <p>
-        Maybe one day we'll look back at this and laugh
-        at how dramatic I was for making an entire website.
-        But I hope when that day comes, we'll still be here,
-        still choosing each other, still adding new pages
-        to this archive.
-    </p>
-
-    <div class="signature">
-        Always,<br>
-        Deandra ♡
-    </div>
-
-</div>
-
-</div>
-
-</section>
-
-<footer>
-
-    <div class="footer-logo">
-        D<span>×</span>A
-    </div>
-
-    <p>
-        MADE WITH LOVE · PRIVATE ARCHIVE · 2026
-    </p>
-
-</footer>
-
-</main>
-
-<!-- =====================================================
-     SECRET ROOM
-===================================================== -->
-
-<div class="secret-room" id="secretRoom">
-
-<div class="secret-content">
-
-    <div class="tiny">
-        ARCHIVE / RESTRICTED ACCESS
-    </div>
-
-    <h2>
-        You found<br>
-        the secret room.
-    </h2>
-
-    <p>
-        There are some things that don't need
-        a public feed, a caption, or an audience.
-        They just need two people who understand
-        exactly why they matter.
-        <br><br>
-        If you are reading this,
-        congratulations.
-        You officially know where the hidden part
-        of our story lives.
-    </p>
-
-    <button class="close-secret" onclick="closeSecret()">
-        Return to Archive
-    </button>
-
-</div>
-
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-
-/* =====================================================
-   PARTICLES
-===================================================== */
-
-const particles = document.getElementById("particles");
-
-for(let i=0;i<35;i++){
-
-    const p = document.createElement("span");
-
-    p.className = "particle";
-
-    p.style.left = Math.random()*100 + "%";
-    p.style.animationDuration = (7 + Math.random()*12) + "s";
-    p.style.animationDelay = (-Math.random()*15) + "s";
-
-    particles.appendChild(p);
-}
-
-/* =====================================================
-   OPENING
-===================================================== */
-
-const opening = document.getElementById("opening");
-const pinScreen = document.getElementById("pinScreen");
-const main = document.getElementById("main");
-
-document.getElementById("enterBtn").addEventListener("click",()=>{
-
-    opening.classList.add("hide");
-
-    setTimeout(()=>{
-
-        opening.style.display="none";
-        pinScreen.style.display="flex";
-
-    },1000);
-
-});
-
-/* =====================================================
-   PIN
-===================================================== */
-
-let enteredPin = "";
-const correctPin = "1111";
-
-const dots = document.querySelectorAll(".pin-dot");
-
-document.querySelectorAll(".key").forEach(key=>{
-
-    key.addEventListener("click",()=>{
-
-        if(enteredPin.length >= 4) return;
-
-        enteredPin += key.dataset.key;
-
-        dots[enteredPin.length-1].classList.add("active");
-
-        if(enteredPin.length === 4){
-
-            setTimeout(checkPin,250);
-
-        }
-
-    });
-
-});
-
-function checkPin(){
-
-    if(enteredPin === correctPin){
-
-        pinScreen.style.opacity="0";
-
-        setTimeout(()=>{
-
-            pinScreen.style.display="none";
-            main.style.display="block";
-            document.body.classList.remove("locked");
-
-            showToast("Welcome to our private archive ♡");
-
-        },700);
-
-    }else{
-
-        document.getElementById("pinError").textContent =
-            "That wasn't it. Try again.";
-
-        enteredPin="";
-
-        dots.forEach(dot=>dot.classList.remove("active"));
-
-        setTimeout(()=>{
-            document.getElementById("pinError").textContent="";
-        },1200);
-
-    }
-
-}
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-let toastTimer;
-
-function showToast(message){
-
-    const toast = document.getElementById("toast");
-
-    toast.textContent = message;
-    toast.classList.add("show");
-
-    clearTimeout(toastTimer);
-
-    toastTimer = setTimeout(()=>{
-        toast.classList.remove("show");
-    },2200);
-
-}
-
-/* =====================================================
-   NAV SCROLL
-===================================================== */
-
-function scrollToId(id){
-
-    document.getElementById(id).scrollIntoView({
-        behavior:"smooth"
-    });
-
-}
-
-/* =====================================================
-   STORY
-===================================================== */
-
-function storyMessage(message){
-
-    document.getElementById("badgeStory").classList.add("unlocked");
-
-    showToast(message);
-
-}
-
-/* =====================================================
-   LIKE
-===================================================== */
-
-function likePost(button){
-
-    button.classList.toggle("liked");
-
-    const post = button.closest(".post");
-    const count = post.querySelector(".like-count");
-
-    if(button.classList.contains("liked")){
-
-        if(count.textContent !== "∞"){
-            count.textContent =
-                Number(count.textContent) + 1;
-        }
-
-        button.textContent="♥";
-
-    }else{
-
-        if(count.textContent !== "∞"){
-            count.textContent =
-                Number(count.textContent) - 1;
-        }
-
-        button.textContent="♡";
-
-    }
-
-}
-
-/* =====================================================
-   DOUBLE TAP
-===================================================== */
-
-function doubleLike(container){
-
-    const heart = container.querySelector(".big-heart");
-
-    heart.classList.remove("show");
-
-    void heart.offsetWidth;
-
-    heart.classList.add("show");
-
-    const post = container.closest(".post");
-    const likeButton = post.querySelector(".action");
-
-    if(!likeButton.classList.contains("liked")){
-        likePost(likeButton);
-    }
-
-    document.getElementById("badgeHeart")
-        .classList.add("unlocked");
-
-}
-
-/* =====================================================
-   MUSIC
-===================================================== */
-
-const music = document.getElementById("music");
-const musicBtn = document.getElementById("musicBtn");
-const vinyl = document.getElementById("vinyl");
-
-musicBtn.addEventListener("click",()=>{
-
-    if(music.paused){
-
-        music.play()
-        .then(()=>{
-
-            musicBtn.textContent="Ⅱ";
-            vinyl.classList.add("playing");
-
-            document.getElementById("badgeMusic")
-                .classList.add("unlocked");
-
-        })
-        .catch(()=>{
-
-            showToast("Add shapeofmyheart.mp3 to the folder.");
-
-        });
-
-    }else{
-
-        music.pause();
-
-        musicBtn.textContent="▶";
-        vinyl.classList.remove("playing");
-
-    }
-
-});
-
-/* =====================================================
-   QUIZ
-===================================================== */
-
-const questions = [
-
-    {
-        q:"What makes a memory special?",
-        answers:[
-            "The place",
-            "The camera",
-            "The person in it",
-            "The weather"
-        ],
-        correct:2
-    },
-
-    {
-        q:"Where does this little archive belong?",
-        answers:[
-            "Somewhere public",
-            "On the internet",
-            "Between us",
-            "In a museum"
-        ],
-        correct:2
-    },
-
-    {
-        q:"What comes next?",
-        answers:[
-            "The End",
-            "Nothing",
-            "Another chapter",
-            "Delete archive"
-        ],
-        correct:2
-    }
-
-];
-
-let currentQuestion=0;
-let score=0;
-
-function startQuiz(){
-
-    document.getElementById("gameIntro").style.display="none";
-    document.getElementById("quiz").style.display="block";
-
-    currentQuestion=0;
-    score=0;
-
-    loadQuestion();
-
-}
-
-function loadQuestion(){
-
-    const q=questions[currentQuestion];
-
-    document.getElementById("question").textContent=q.q;
-
-    const answers=document.getElementById("answers");
-
-    answers.innerHTML="";
-
-    q.answers.forEach((answer,index)=>{
-
-        const btn=document.createElement("button");
-
-        btn.className="answer";
-        btn.textContent=answer;
-
-        btn.onclick=()=>{
-
-            if(index===q.correct){
-                score++;
+    <!-- Hidden Audio Tag -->
+    <audio id="bgAudio" loop preload="auto">
+        <source src="shapeofmyheart.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        /* WEB AUDIO API SOUND SYNTHESIZER (No external audio files required!) */
+        const SoundFX = {
+            ctx: null,
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            },
+            playBeep(freq = 440, type = 'sine', duration = 0.1) {
+                try {
+                    this.init();
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            },
+            playMatchSound() {
+                this.playBeep(523.25, 'triangle', 0.15);
+                setTimeout(() => this.playBeep(659.25, 'triangle', 0.2), 100);
+            },
+            playVictorySound() {
+                this.playBeep(440, 'sine', 0.1);
+                setTimeout(() => this.playBeep(554.37, 'sine', 0.1), 100);
+                setTimeout(() => this.playBeep(659.25, 'sine', 0.1), 200);
+                setTimeout(() => this.playBeep(880, 'sine', 0.3), 300);
+            },
+            playErrorSound() {
+                this.playBeep(180, 'sawtooth', 0.2);
             }
-
-            currentQuestion++;
-
-            if(currentQuestion < questions.length){
-
-                loadQuestion();
-
-            }else{
-
-                finishQuiz();
-
-            }
-
         };
 
-        answers.appendChild(btn);
-
-    });
-
-}
-
-function finishQuiz(){
-
-    document.getElementById("quiz").style.display="none";
-    document.getElementById("gameResult").style.display="block";
-
-    const title=document.getElementById("resultTitle");
-    const text=document.getElementById("resultText");
-
-    if(score===3){
-
-        title.textContent="You know us. ♡";
-
-        text.textContent=
-            "Three out of three. The hidden part of the archive is yours.";
-
-    }else if(score===2){
-
-        title.textContent="Almost there.";
-
-        text.textContent=
-            "You got two right. Maybe explore the archive once more.";
-
-    }else{
-
-        title.textContent="The archive is still mysterious.";
-
-        text.textContent=
-            "Maybe the memories will give you a few clues.";
-
-    }
-
-}
-
-function unlockGame(){
-
-    document.getElementById("badgeGame")
-        .classList.add("unlocked");
-
-    showToast("Achievement unlocked — Love Detective ✦");
-
-}
-
-/* =====================================================
-   HIDDEN MEMORY
-===================================================== */
-
-function unlockMemory(){
-
-    const memory=document.getElementById("lockedMemory");
-
-    if(memory.classList.contains("unlocked")) return;
-
-    memory.classList.add("unlocked");
-
-    document.getElementById("badgeSecret")
-        .classList.add("unlocked");
-
-    setTimeout(()=>{
-
-        showToast("Memory revealed. Keep it safe ♡");
-
-    },500);
-
-}
-
-/* =====================================================
-   SECRET ROOM
-===================================================== */
-
-function openSecret(){
-
-    document.getElementById("secretRoom")
-        .classList.add("show");
-
-    document.getElementById("badgeSecret")
-        .classList.add("unlocked");
-
-}
-
-function closeSecret(){
-
-    document.getElementById("secretRoom")
-        .classList.remove("show");
-
-}
-
-/* =====================================================
-   KONAMI / SECRET KEY
-===================================================== */
-
-let secretSequence=[];
-
-document.addEventListener("keydown",(e)=>{
-
-    secretSequence.push(e.key.toLowerCase());
-
-    if(secretSequence.length>8){
-        secretSequence.shift();
-    }
-
-    if(secretSequence.join("")==="akbar111"){
-
-        openSecret();
-
-        secretSequence=[];
-
-    }
-
-});
-
-/* =====================================================
-   PARALLAX
-===================================================== */
-
-window.addEventListener("scroll",()=>{
-
-    const photo=document.querySelector(".profile-photo");
-
-    if(!photo) return;
-
-    const y=window.scrollY;
-
-    if(y<window.innerHeight){
-
-        photo.style.transform=
-            `translateY(${y*.06}px)`;
-
-    }
-
-});
-
-/* =====================================================
-   CURSOR GLOW
-===================================================== */
-
-const glow=document.createElement("div");
-
-glow.style.position="fixed";
-glow.style.width="180px";
-glow.style.height="180px";
-glow.style.borderRadius="50%";
-glow.style.pointerEvents="none";
-glow.style.zIndex="0";
-glow.style.background=
-    "radial-gradient(circle,rgba(201,170,112,.055),transparent 70%)";
-glow.style.transform="translate(-50%,-50%)";
-
-document.body.appendChild(glow);
-
-document.addEventListener("mousemove",(e)=>{
-
-    glow.style.left=e.clientX+"px";
-    glow.style.top=e.clientY+"px";
-
-});
-
-</script>
-
+        const APP_STATE = {
+            correctPin: '1111',
+            enteredPin: '',
+            isPlayingAudio: false,
+            currentTab: 'feed',
+            currentStoryIndex: 0,
+            storyInterval: null,
+            posts: [
+                {
+                    id: 1,
+                    author: "deandra_aa",
+                    tagged: "akbar_myboy",
+                    avatar: "foto1.jpg",
+                    image: "foto1.jpg",
+                    likes: 1111,
+                    isLiked: true,
+                    location: "In My Heart 💖 | Boyfriend Day",
+                    caption: "Happy National Boyfriend Day, Akbar! 💖 Terima kasih udah selalu jadi sosok paling hangat, sabar, dan pengertian. Bersamamu selalu terasa spesial! 🤍✨ #NationalBoyfriendDay #MyBoy",
+                    timeAgo: "2 hours ago",
+                    comments: [
+                        { user: "akbar_myboy", text: "Makasih banyak sayanggg! 🥰 Love you so much!" }
+                    ]
+                },
+                {
+                    id: 2,
+                    author: "deandra_aa",
+                    tagged: "akbar_myboy",
+                    avatar: "foto1.jpg",
+                    image: "foto2.jpg",
+                    likes: 890,
+                    isLiked: false,
+                    location: "Our Safe Place ✨",
+                    caption: "Setiap momen bareng kamu selalu jadi favoritku. You are truly my safe place and my favorite person Akbar! 🌸💫",
+                    timeAgo: "4 hours ago",
+                    comments: []
+                },
+                {
+                    id: 3,
+                    author: "deandra_aa",
+                    tagged: "akbar_myboy",
+                    avatar: "foto1.jpg",
+                    image: "foto3.jpg",
+                    likes: 1024,
+                    isLiked: true,
+                    location: "Cozy Moments ☕",
+                    caption: "Terima kasih untuk semua perhatian kecil, kesabaran, dan tawa yang gak pernah berhenti kamu kasih setiap hari 🫶✨",
+                    timeAgo: "6 hours ago",
+                    comments: []
+                },
+                {
+                    id: 4,
+                    author: "deandra_aa",
+                    tagged: "akbar_myboy",
+                    avatar: "foto1.jpg",
+                    image: "foto4.jpg",
+                    likes: 756,
+                    isLiked: false,
+                    location: "Laughing Together 😁",
+                    caption: "Gak cuma pacar terbaik, tapi kamu juga bestie paling asik diajak cerita dan bercanda kapan pun! 🌟",
+                    timeAgo: "8 hours ago",
+                    comments: []
+                },
+                {
+                    id: 5,
+                    author: "deandra_aa",
+                    tagged: "akbar_myboy",
+                    avatar: "foto1.jpg",
+                    image: "foto5.jpg",
+                    likes: 932,
+                    isLiked: true,
+                    location: "Sweet Memories 🍯",
+                    caption: "Semoga hari-hari kita ke depan makin penuh tawa, kebahagiaan, dan kasih sayang yang gak pernah habis 🥰🤍",
+                    timeAgo: "12 hours ago",
+                    comments: []
+                },
+                {
+                    id: 6,
+                    author: "deandra_aa",
+                    tagged: "akbar_myboy",
+                    avatar: "foto1.jpg",
+                    image: "foto6.jpg",
+                    likes: 1200,
+                    isLiked: true,
+                    location: "Under The Same Sky 🌌",
+                    caption: "Dunia mungkin berisik, tapi pas sama kamu semuanya terasa begitu tenang dan indah 🌸✨",
+                    timeAgo: "1 day ago",
+                    comments: []
+                },
+                {
+                    id: 7,
+                    author: "deandra_aa",
+                    tagged: "akbar_myboy",
+                    avatar: "foto1.jpg",
+                    image: "foto7.jpg",
+                    likes: 2026,
+                    isLiked: true,
+                    location: "Forever & Always 💖",
+                    caption: "I love you more than words can say, Akbar! Happy Boyfriend Day once again! 🥰 Forever my boy @akbar_myboy 🤍",
+                    timeAgo: "1 day ago",
+                    comments: [
+                        { user: "akbar_myboy", text: "Forever and always with you sayang 🤍" }
+                    ]
+                }
+            ]
+        };
+
+        function pressPin(num) {
+            SoundFX.playBeep(600, 'sine', 0.05);
+            if (APP_STATE.enteredPin.length < 4) {
+                APP_STATE.enteredPin += num;
+                updatePinDots();
+
+                if (APP_STATE.enteredPin.length === 4) {
+                    setTimeout(verifyPin, 200);
+                }
+            }
+        }
+
+        function backspacePin() {
+            SoundFX.playBeep(300, 'sine', 0.05);
+            if (APP_STATE.enteredPin.length > 0) {
+                APP_STATE.enteredPin = APP_STATE.enteredPin.slice(0, -1);
+                updatePinDots();
+            }
+        }
+
+        function clearPin() {
+            APP_STATE.enteredPin = '';
+            updatePinDots();
+        }
+
+        function updatePinDots() {
+            const dots = document.querySelectorAll('#pinDots .dot');
+            dots.forEach((dot, index) => {
+                if (index < APP_STATE.enteredPin.length) {
+                    dot.classList.add('bg-pink-500', 'border-pink-500', 'scale-110');
+                    dot.classList.remove('border-gray-600');
+                } else {
+                    dot.classList.remove('bg-pink-500', 'border-pink-500', 'scale-110');
+                    dot.classList.add('border-gray-600');
+                }
+            });
+        }
+
+        function verifyPin() {
+            const errorMsg = document.getElementById('pinErrorMsg');
+            const card = document.querySelector('#pinLockScreen > div');
+
+            if (APP_STATE.enteredPin === APP_STATE.correctPin) {
+                SoundFX.playVictorySound();
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+
+                document.getElementById('pinLockScreen').classList.add('opacity-0', 'pointer-events-none');
+                document.getElementById('mainContent').classList.remove('opacity-0');
+
+                playAudio();
+
+                setTimeout(() => {
+                    document.getElementById('pinLockScreen').style.display = 'none';
+                }, 700);
+
+            } else {
+                SoundFX.playErrorSound();
+                card.classList.add('shake-animation');
+                errorMsg.classList.remove('opacity-0');
+
+                setTimeout(() => {
+                    card.classList.remove('shake-animation');
+                    clearPin();
+                }, 500);
+
+                setTimeout(() => {
+                    errorMsg.classList.add('opacity-0');
+                }, 2000);
+            }
+        }
+
+        function switchTab(tabName) {
+            APP_STATE.currentTab = tabName;
+            
+            // Hide all views
+            document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+            
+            // Show target view
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+
+            // Update Nav Buttons active state
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-pink-500');
+                btn.classList.add('text-gray-400');
+            });
+
+            const activeBtn = document.getElementById(`nav-${tabName}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-gray-400');
+                activeBtn.classList.add('text-pink-500');
+            }
+
+            if (tabName === 'games') {
+                initMemoryGame();
+                initQuizGame();
+                renderCoupons();
+            }
+        }
+
+        function renderFeed() {
+            const container = document.getElementById('feedContainer');
+            container.innerHTML = '';
+
+            APP_STATE.posts.forEach((post, index) => {
+                const postEl = document.createElement('article');
+                postEl.className = "bg-igCard border border-igBorder rounded-2xl overflow-hidden shadow-lg mb-6";
+
+                postEl.innerHTML = `
+                    <div class="p-3 flex items-center justify-between border-b border-gray-800/60">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-full p-[2px] story-gradient">
+                                <img src="${post.avatar}" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover rounded-full border border-black">
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white flex items-center gap-1">
+                                    ${post.author} <i class="fa-solid fa-circle-check text-blue-400 text-[10px]"></i>
+                                    <span class="text-[10px] text-gray-400 font-normal">with @${post.tagged}</span>
+                                </h4>
+                                <p class="text-[10px] text-gray-400">${post.location}</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-ellipsis text-gray-400"></i>
+                    </div>
+
+                    <div class="relative w-full aspect-square bg-gray-900 overflow-hidden cursor-pointer" onclick="handleDoubleTapImage(${index}, event)">
+                        <img src="${post.image}" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80'" class="w-full h-full object-cover">
+                        <i id="heartPop-${index}" class="fa-solid fa-heart heart-pop text-6xl text-pink-500 drop-shadow-2xl"></i>
+                    </div>
+
+                    <div class="p-3.5 space-y-2">
+                        <div class="flex items-center justify-between text-xl">
+                            <div class="flex items-center gap-4">
+                                <button onclick="toggleLikePost(${index})" class="transition-transform active:scale-125">
+                                    <i id="likeIcon-${index}" class="${post.isLiked ? 'fa-solid fa-heart text-pink-500' : 'fa-regular fa-heart text-white'}"></i>
+                                </button>
+                                <button onclick="focusCommentInput(${index})" class="text-white hover:text-gray-400">
+                                    <i class="fa-regular fa-comment"></i>
+                                </button>
+                                <button onclick="switchTab('dm')" class="text-white hover:text-gray-400">
+                                    <i class="fa-regular fa-paper-plane"></i>
+                                </button>
+                            </div>
+                            <i class="fa-regular fa-bookmark text-white"></i>
+                        </div>
+
+                        <p class="text-xs font-bold text-white">
+                            Liked by <span class="font-bold">akbar_myboy</span> and <span id="likeCount-${index}">${post.likes.toLocaleString()}</span> others
+                        </p>
+
+                        <div class="text-xs leading-relaxed text-gray-200">
+                            <span class="font-bold text-white mr-1.5">${post.author}</span>
+                            <span>${post.caption}</span>
+                        </div>
+
+                        <div id="commentsList-${index}" class="space-y-1 pt-1">
+                            ${post.comments.map(c => `
+                                <p class="text-[11px] text-gray-300">
+                                    <span class="font-semibold text-white mr-1">${c.user}</span> ${c.text}
+                                </p>
+                            `).join('')}
+                        </div>
+
+                        <p class="text-[9px] text-gray-500 uppercase tracking-wider pt-1">${post.timeAgo}</p>
+
+                        <div class="pt-2 flex items-center border-t border-gray-800/80 gap-2">
+                            <input id="commentInput-${index}" type="text" placeholder="Add a comment as @akbar_myboy..." class="flex-1 bg-transparent text-xs text-white placeholder-gray-500 focus:outline-none" onkeypress="handleCommentKeyPress(${index}, event)">
+                            <button onclick="addComment(${index})" class="text-xs font-bold text-pink-500 hover:text-pink-400">Post</button>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(postEl);
+            });
+        }
+
+        let lastTap = 0;
+        function handleDoubleTapImage(index, event) {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
+            if (tapLength < 300 && tapLength > 0) {
+                triggerHeartPop(index);
+                if (!APP_STATE.posts[index].isLiked) {
+                    toggleLikePost(index);
+                }
+            }
+            lastTap = currentTime;
+        }
+
+        function triggerHeartPop(index) {
+            SoundFX.playBeep(880, 'sine', 0.15);
+            const heart = document.getElementById(`heartPop-${index}`);
+            heart.classList.add('active');
+            setTimeout(() => {
+                heart.classList.remove('active');
+            }, 600);
+        }
+
+        function toggleLikePost(index) {
+            const post = APP_STATE.posts[index];
+            post.isLiked = !post.isLiked;
+            post.likes += post.isLiked ? 1 : -1;
+
+            const icon = document.getElementById(`likeIcon-${index}`);
+            const count = document.getElementById(`likeCount-${index}`);
+
+            if (post.isLiked) {
+                icon.className = 'fa-solid fa-heart text-pink-500';
+                SoundFX.playBeep(700, 'sine', 0.1);
+            } else {
+                icon.className = 'fa-regular fa-heart text-white';
+            }
+            count.textContent = post.likes.toLocaleString();
+        }
+
+        function focusCommentInput(index) {
+            document.getElementById(`commentInput-${index}`).focus();
+        }
+
+        function handleCommentKeyPress(index, event) {
+            if (event.key === 'Enter') {
+                addComment(index);
+            }
+        }
+
+        function addComment(index) {
+            const input = document.getElementById(`commentInput-${index}`);
+            const text = input.value.trim();
+            if (text !== '') {
+                SoundFX.playBeep(600, 'sine', 0.08);
+                APP_STATE.posts[index].comments.push({ user: 'akbar_myboy', text: text });
+                
+                const commentsContainer = document.getElementById(`commentsList-${index}`);
+                const p = document.createElement('p');
+                p.className = 'text-[11px] text-gray-300';
+                p.innerHTML = `<span class="font-semibold text-white mr-1">akbar_myboy</span> ${text}`;
+                commentsContainer.appendChild(p);
+
+                input.value = '';
+            }
+        }
+
+        /* GAME 1: MEMORY MATCH ENGINE */
+        const MEMORY_ITEMS = [
+            { id: 1, img: 'foto1.jpg', text: 'My Favorite Smile 😁' },
+            { id: 2, img: 'foto2.jpg', text: 'Best Date Ever ☕' },
+            { id: 3, img: 'foto3.jpg', text: 'Sweetest Hug 🤗' },
+            { id: 4, img: 'foto4.jpg', text: 'Cozy Moments 🌸' },
+            { id: 5, img: 'foto5.jpg', text: 'Handsome Akbar 😎' },
+            { id: 6, img: 'foto6.jpg', text: 'Forever Love 💖' }
+        ];
+
+        let memoryState = {
+            cards: [],
+            flippedCards: [],
+            matchedPairs: 0,
+            moves: 0
+        };
+
+        function initMemoryGame() {
+            memoryState.cards = [...MEMORY_ITEMS, ...MEMORY_ITEMS]
+                .sort(() => Math.random() - 0.5)
+                .map((item, index) => ({ ...item, uniqueId: index, isFlipped: false, isMatched: false }));
+
+            memoryState.flippedCards = [];
+            memoryState.matchedPairs = 0;
+            memoryState.moves = 0;
+
+            document.getElementById('memoryMoves').textContent = '0';
+            document.getElementById('memoryMatches').textContent = '0 / 6';
+
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+
+            memoryState.cards.forEach((card, idx) => {
+                const cardEl = document.createElement('div');
+                cardEl.className = "aspect-square perspective-1000 cursor-pointer";
+                cardEl.onclick = () => flipMemoryCard(idx);
+
+                cardEl.innerHTML = `
+                    <div id="memoryCardInner-${idx}" class="w-full h-full relative transform-style-3d transition-transform duration-500 rounded-xl">
+                        <!-- Front Face (Hidden) -->
+                        <div class="absolute inset-0 bg-gradient-to-tr from-gray-900 to-gray-800 border border-gray-700 rounded-xl flex items-center justify-center backface-hidden shadow-md">
+                            <i class="fa-solid fa-heart text-pink-500 text-xl"></i>
+                        </div>
+                        <!-- Back Face (Revealed) -->
+                        <div class="absolute inset-0 rounded-xl overflow-hidden border-2 border-pink-500 rotate-y-180 backface-hidden">
+                            <img src="${card.img}" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80'" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(cardEl);
+            });
+        }
+
+        function flipMemoryCard(index) {
+            const card = memoryState.cards[index];
+            if (card.isFlipped || card.isMatched || memoryState.flippedCards.length === 2) return;
+
+            SoundFX.playBeep(500, 'sine', 0.08);
+            card.isFlipped = true;
+            document.getElementById(`memoryCardInner-${index}`).classList.add('rotate-y-180');
+            memoryState.flippedCards.push({ card, index });
+
+            if (memoryState.flippedCards.length === 2) {
+                memoryState.moves++;
+                document.getElementById('memoryMoves').textContent = memoryState.moves;
+
+                const [c1, c2] = memoryState.flippedCards;
+                if (c1.card.id === c2.card.id) {
+                    // Match found!
+                    SoundFX.playMatchSound();
+                    c1.card.isMatched = true;
+                    c2.card.isMatched = true;
+                    memoryState.matchedPairs++;
+                    document.getElementById('memoryMatches').textContent = `${memoryState.matchedPairs} / 6`;
+                    memoryState.flippedCards = [];
+
+                    if (memoryState.matchedPairs === 6) {
+                        setTimeout(() => {
+                            SoundFX.playVictorySound();
+                            confetti({ particleCount: 80, spread: 60 });
+                            alert('Horeee! Akbar berhasil mencocokkan semua foto kenangan kita! Deandra makin sayang 💖');
+                        }, 400);
+                    }
+                } else {
+                    // No match
+                    setTimeout(() => {
+                        c1.card.isFlipped = false;
+                        c2.card.isFlipped = false;
+                        document.getElementById(`memoryCardInner-${c1.index}`).classList.remove('rotate-y-180');
+                        document.getElementById(`memoryCardInner-${c2.index}`).classList.remove('rotate-y-180');
+                        memoryState.flippedCards = [];
+                    }, 900);
+                }
+            }
+        }
+
+        /* GAME 2: LOVE CATCHER CANVAS GAME ENGINE */
+        let catcherGame = {
+            active: false,
+            score: 0,
+            lives: 3,
+            basketX: 120,
+            items: [],
+            animId: null
+        };
+
+        function startCatcherGame() {
+            document.getElementById('catcherOverlay').classList.add('hidden');
+            catcherGame.active = true;
+            catcherGame.score = 0;
+            catcherGame.lives = 3;
+            catcherGame.items = [];
+            
+            document.getElementById('catcherScore').textContent = '0';
+            document.getElementById('catcherLives').textContent = '❤️❤️❤️';
+
+            const canvas = document.getElementById('catcherCanvas');
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+            catcherGame.basketX = canvas.width / 2 - 25;
+
+            // Setup Touch and Key Listeners
+            document.getElementById('btnMoveLeft').onclick = () => moveBasket(-30);
+            document.getElementById('btnMoveRight').onclick = () => moveBasket(30);
+
+            if (catcherGame.animId) cancelAnimationFrame(catcherGame.animId);
+            runCatcherLoop();
+        }
+
+        function moveBasket(dir) {
+            const canvas = document.getElementById('catcherCanvas');
+            catcherGame.basketX = Math.max(0, Math.min(canvas.width - 50, catcherGame.basketX + dir));
+        }
+
+        function runCatcherLoop() {
+            if (!catcherGame.active) return;
+
+            const canvas = document.getElementById('catcherCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Spawn items
+            if (Math.random() < 0.04) {
+                const types = ['heart', 'star', 'bomb'];
+                const type = Math.random() < 0.6 ? 'heart' : (Math.random() < 0.8 ? 'star' : 'bomb');
+                catcherGame.items.push({
+                    x: Math.random() * (canvas.width - 30),
+                    y: 0,
+                    type: type,
+                    speed: Math.random() * 2 + 2
+                });
+            }
+
+            // Draw Basket (Akbar's Basket)
+            ctx.fillStyle = '#E1306C';
+            ctx.beginPath();
+            ctx.roundRect(catcherGame.basketX, canvas.height - 30, 50, 18, 9);
+            ctx.fill();
+            ctx.fillStyle = '#FFF';
+            ctx.font = '10px sans-serif';
+            ctx.fillText('AKBAR', catcherGame.basketX + 8, canvas.height - 18);
+
+            // Update & Draw Items
+            for (let i = catcherGame.items.length - 1; i >= 0; i--) {
+                const item = catcherGame.items[i];
+                item.y += item.speed;
+
+                ctx.font = '20px sans-serif';
+                const icon = item.type === 'heart' ? '💖' : (item.type === 'star' ? '⭐' : '💣');
+                ctx.fillText(icon, item.x, item.y);
+
+                // Collision detection
+                if (item.y >= canvas.height - 35 && item.y <= canvas.height - 10 &&
+                    item.x >= catcherGame.basketX - 15 && item.x <= catcherGame.basketX + 45) {
+                    
+                    if (item.type === 'heart') {
+                        catcherGame.score += 10;
+                        SoundFX.playBeep(800, 'sine', 0.1);
+                    } else if (item.type === 'star') {
+                        catcherGame.score += 25;
+                        SoundFX.playMatchSound();
+                    } else {
+                        catcherGame.lives--;
+                        SoundFX.playErrorSound();
+                        document.getElementById('catcherLives').textContent = '❤️'.repeat(catcherGame.lives);
+                    }
+
+                    document.getElementById('catcherScore').textContent = catcherGame.score;
+                    catcherGame.items.splice(i, 1);
+
+                    if (catcherGame.lives <= 0) {
+                        endCatcherGame();
+                        return;
+                    }
+                } else if (item.y > canvas.height) {
+                    catcherGame.items.splice(i, 1);
+                }
+            }
+
+            catcherGame.animId = requestAnimationFrame(runCatcherLoop);
+        }
+
+        function endCatcherGame() {
+            catcherGame.active = false;
+            const overlay = document.getElementById('catcherOverlay');
+            overlay.innerHTML = `
+                <i class="fa-solid fa-trophy text-4xl text-yellow-400"></i>
+                <h3 class="text-base font-bold text-white">Game Over!</h3>
+                <p class="text-xs text-pink-400 font-bold">Skor Akhir Akbar: ${catcherGame.score} Poin!</p>
+                <p class="text-[11px] text-gray-300">Hebat banget pacar Deandra! 💕</p>
+                <button onclick="startCatcherGame()" class="bg-pink-500 hover:bg-pink-600 text-white font-bold px-6 py-2 rounded-full text-xs">
+                    Main Lagi 🔄
+                </button>
+            `;
+            overlay.classList.remove('hidden');
+        }
+
+        /* GAME 3: TRIVIA QUIZ ENGINE */
+        const QUIZ_QUESTIONS = [
+            {
+                q: "1. Siapa pacar Paling Gemes & Cantik yang bikin website ini?",
+                options: ["Deandra 💕", "Deandra Pacar Akbar", "Deandra Sayang", "Semua Jawaban Benar! 😍"],
+                correct: 3
+            },
+            {
+                q: "2. Makanan / minuman favorit Deandra pas ngedate sama Akbar?",
+                options: ["Boba & Dimsum", "Seblak Level 10", "Kopi Susu", "Apa aja asal sama Akbar ☕"],
+                correct: 3
+            },
+            {
+                q: "3. Kalau Deandra lagi ngambek random, cara luluhin paling ampuh?",
+                options: ["Dipeluk & Dikasih Makanan", "Dibiarkan 3 hari", "Dikasih Soal Ujian", "Dibelikan Pesawat"],
+                correct: 0
+            },
+            {
+                q: "4. Apa hal yang paling bikin Deandra bahagia bersamamu?",
+                options: ["Perhatian tulus Akbar", "Senyum manis Akbar", "Sabar meladeni Deandra", "Semua Hal tentang Akbar! ✨"],
+                correct: 3
+            },
+            {
+                q: "5. Apa harapan Deandra di Boyfriend Day kali ini?",
+                options: ["Akbar sehat & sukses", "Kita makin langgeng", "Makin sayang selamanya", "Semuanya & Bareng Terus! 💖"],
+                correct: 3
+            }
+        ];
+
+        let quizState = { currentStep: 0, score: 0 };
+
+        function initQuizGame() {
+            quizState.currentStep = 0;
+            quizState.score = 0;
+            renderQuizStep();
+        }
+
+        function renderQuizStep() {
+            const q = QUIZ_QUESTIONS[quizState.currentStep];
+            document.getElementById('quizStepText').textContent = `Pertanyaan ${quizState.currentStep + 1} dari 5`;
+            document.getElementById('quizScoreText').textContent = `Score: ${quizState.score}`;
+            document.getElementById('quizQuestion').textContent = q.q;
+
+            const opts = document.getElementById('quizOptions');
+            opts.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3 rounded-xl bg-white/5 hover:bg-pink-500/20 border border-white/10 text-xs font-medium text-gray-200 hover:text-white hover:border-pink-500 transition-all active:scale-98 flex items-center justify-between";
+                btn.innerHTML = `<span>${opt}</span> <i class="fa-regular fa-circle"></i>`;
+                btn.onclick = () => answerQuiz(idx);
+                opts.appendChild(btn);
+            });
+        }
+
+        function answerQuiz(selectedIdx) {
+            const q = QUIZ_QUESTIONS[quizState.currentStep];
+            if (selectedIdx === q.correct) {
+                SoundFX.playMatchSound();
+                quizState.score += 20;
+            } else {
+                SoundFX.playBeep(400, 'sine', 0.1);
+            }
+
+            quizState.currentStep++;
+            if (quizState.currentStep < QUIZ_QUESTIONS.length) {
+                renderQuizStep();
+            } else {
+                // Quiz Finish
+                document.getElementById('certificateModal').classList.remove('hidden');
+                confetti({ particleCount: 100, spread: 80 });
+            }
+        }
+
+        function closeCertificateModal() {
+            document.getElementById('certificateModal').classList.add('hidden');
+            initQuizGame();
+        }
+
+        /* GAME 4: LOVE COUPONS ENGINE */
+        const COUPONS = [
+            { id: 1, title: '🎟️ Dinner & Date Option', desc: 'Bebas pilih tempat ngedate & Deandra ikut aja!', claimed: false },
+            { id: 2, title: '🎟️ Unlimited Hugs & Kisses', desc: 'Berlaku kapan pun tanpa batas!', claimed: false },
+            { id: 3, title: '🎟️ Maafkan Ngambek Random', desc: 'Kartu bebas salah 1x pas Deandra ngambek!', claimed: false },
+            { id: 4, title: '🎟️ Late Night Call / Game', desc: 'Begadang ditemenin Deandra sepuasnya!', claimed: false }
+        ];
+
+        function renderCoupons() {
+            const grid = document.getElementById('couponsGrid');
+            grid.innerHTML = '';
+
+            COUPONS.forEach(c => {
+                const card = document.createElement('div');
+                card.className = "glass-card p-4 rounded-2xl border border-pink-500/30 flex flex-col justify-between text-center space-y-2 relative overflow-hidden";
+                card.innerHTML = `
+                    <h4 class="text-xs font-bold text-pink-400">${c.title}</h4>
+                    <p class="text-[10px] text-gray-300">${c.desc}</p>
+                    <button onclick="claimCoupon(${c.id})" id="btnCoupon-${c.id}" class="w-full bg-pink-500/20 hover:bg-pink-500 text-pink-300 hover:text-white border border-pink-500/40 py-1.5 rounded-full text-[10px] font-bold transition-all">
+                        ${c.claimed ? 'Sudah Diklaim ✅' : 'Klaim Kupon 🎁'}
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function claimCoupon(id) {
+            SoundFX.playVictorySound();
+            const c = COUPONS.find(item => item.id === id);
+            if (c) {
+                c.claimed = true;
+                renderCoupons();
+                confetti({ particleCount: 50, spread: 50 });
+            }
+        }
+
+        function switchGameMode(mode) {
+            document.querySelectorAll('.game-container').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.game-pill-btn').forEach(btn => {
+                btn.className = "game-pill-btn px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap bg-gray-800 text-gray-300 hover:text-white";
+            });
+
+            document.getElementById(`game-view-${mode}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`btn-game-${mode}`);
+            if (activeBtn) {
+                activeBtn.className = "game-pill-btn active px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg";
+            }
+        }
+
+        function openStoryModal(index) {
+            APP_STATE.currentStoryIndex = index;
+            document.getElementById('storyModal').classList.remove('hidden');
+            renderStoryContent();
+        }
+
+        function closeStoryModal() {
+            document.getElementById('storyModal').classList.add('hidden');
+            if (APP_STATE.storyInterval) clearInterval(APP_STATE.storyInterval);
+        }
+
+        function renderStoryContent() {
+            const post = APP_STATE.posts[APP_STATE.currentStoryIndex];
+            document.getElementById('storyModalImg').src = post.image;
+            document.getElementById('storyModalCaption').textContent = post.caption;
+
+            const progressContainer = document.getElementById('storyProgressBars');
+            progressContainer.innerHTML = '';
+            
+            APP_STATE.posts.forEach((_, i) => {
+                const bar = document.createElement('div');
+                bar.className = 'flex-1 h-0.5 bg-white/30 rounded-full overflow-hidden';
+                const fill = document.createElement('div');
+                fill.className = 'h-full bg-white transition-all duration-100';
+                fill.style.width = i < APP_STATE.currentStoryIndex ? '100%' : '0%';
+                bar.appendChild(fill);
+                progressContainer.appendChild(bar);
+            });
+
+            if (APP_STATE.storyInterval) clearInterval(APP_STATE.storyInterval);
+            let progress = 0;
+            const activeFill = progressContainer.children[APP_STATE.currentStoryIndex].firstChild;
+            
+            APP_STATE.storyInterval = setInterval(() => {
+                progress += 2;
+                activeFill.style.width = `${progress}%`;
+                if (progress >= 100) {
+                    clearInterval(APP_STATE.storyInterval);
+                    nextStory();
+                }
+            }, 100);
+        }
+
+        function nextStory() {
+            if (APP_STATE.currentStoryIndex < APP_STATE.posts.length - 1) {
+                APP_STATE.currentStoryIndex++;
+                renderStoryContent();
+            } else {
+                closeStoryModal();
+            }
+        }
+
+        function prevStory() {
+            if (APP_STATE.currentStoryIndex > 0) {
+                APP_STATE.currentStoryIndex--;
+                renderStoryContent();
+            }
+        }
+
+        function shootStoryHeart() {
+            SoundFX.playBeep(900, 'sine', 0.15);
+            confetti({ particleCount: 30, spread: 40, origin: { y: 0.9 } });
+        }
+
+        function handleDmKeyPress(e) {
+            if (e.key === 'Enter') sendDmMessage();
+        }
+
+        function sendDmMessage() {
+            const input = document.getElementById('dmInput');
+            const val = input.value.trim();
+            if (val !== '') {
+                SoundFX.playBeep(650, 'sine', 0.08);
+                const area = document.getElementById('dmScrollArea');
+                
+                const bubble = document.createElement('div');
+                bubble.className = 'flex items-end justify-end gap-2';
+                bubble.innerHTML = `
+                    <div class="bg-pink-600 text-white p-3 rounded-2xl rounded-br-none text-xs max-w-[80%] shadow-lg">
+                        <p>${val}</p>
+                        <span class="text-[8px] opacity-70 block text-right mt-1">Just now</span>
+                    </div>
+                `;
+                area.appendChild(bubble);
+                input.value = '';
+                area.scrollTop = area.scrollHeight;
+
+                // Deandra Auto Reply Simulation
+                setTimeout(() => {
+                    document.getElementById('dmTypingIndicator').classList.remove('hidden');
+                }, 1000);
+
+                setTimeout(() => {
+                    document.getElementById('dmTypingIndicator').classList.add('hidden');
+                    const reply = document.createElement('div');
+                    reply.className = 'flex items-end gap-2 max-w-[80%]';
+                    reply.innerHTML = `
+                        <img src="foto1.jpg" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=300&q=80'" class="w-6 h-6 rounded-full object-cover">
+                        <div class="bg-gray-800 text-gray-100 p-3 rounded-2xl rounded-bl-none text-xs shadow-lg">
+                            <p>Makasih pesan manisnya Akbar sayang! I love you so much!! 💕</p>
+                            <span class="text-[8px] opacity-60 block text-right mt-1">Just now</span>
+                        </div>
+                    `;
+                    area.appendChild(reply);
+                    SoundFX.playBeep(800, 'sine', 0.1);
+                    area.scrollTop = area.scrollHeight;
+                }, 3000);
+            }
+        }
+
+        function openLyricsDrawer() {
+            document.getElementById('lyricsDrawer').classList.remove('hidden');
+        }
+
+        function closeLyricsDrawer() {
+            document.getElementById('lyricsDrawer').classList.add('hidden');
+        }
+
+        function playAudio() {
+            const audio = document.getElementById('bgAudio');
+            audio.play().then(() => {
+                APP_STATE.isPlayingAudio = true;
+                updateAudioUI();
+            }).catch(() => {});
+        }
+
+        function toggleAudio() {
+            const audio = document.getElementById('bgAudio');
+            if (APP_STATE.isPlayingAudio) {
+                audio.pause();
+                APP_STATE.isPlayingAudio = false;
+            } else {
+                audio.play();
+                APP_STATE.isPlayingAudio = true;
+            }
+            updateAudioUI();
+        }
+
+        function updateAudioUI() {
+            const icon = document.getElementById('soundIcon');
+            const cover = document.getElementById('musicCover');
+            const eqBars = document.querySelectorAll('.eq-bar');
+
+            if (APP_STATE.isPlayingAudio) {
+                icon.className = 'fa-solid fa-volume-high text-pink-500';
+                cover.classList.add('animate-spin-slow');
+                eqBars.forEach(b => b.style.animationPlayState = 'running');
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark text-gray-500';
+                cover.classList.remove('animate-spin-slow');
+                eqBars.forEach(b => b.style.animationPlayState = 'paused');
+            }
+        }
+
+        function startRelationshipCounter() {
+            // Reference starting date
+            const startDate = new Date('2023-10-03T00:00:00');
+
+            function updateCounter() {
+                const now = new Date();
+                const diff = now - startDate;
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const mins = Math.floor((diff / (1000 * 60)) % 60);
+                const secs = Math.floor((diff / 1000) % 60);
+
+                document.getElementById('timerDays').textContent = days;
+                document.getElementById('timerHours').textContent = hours;
+                document.getElementById('timerMins').textContent = mins;
+                document.getElementById('timerSecs').textContent = secs;
+            }
+
+            updateCounter();
+            setInterval(updateCounter, 1000);
+        }
+
+        function initFloatingHearts() {
+            const canvas = document.getElementById('bgHeartsCanvas');
+            const ctx = canvas.getContext('2d');
+
+            function resizeCanvas() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+
+            const hearts = Array.from({ length: 30 }, () => ({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 10 + 6,
+                speedY: Math.random() * 0.8 + 0.3,
+                opacity: Math.random() * 0.5 + 0.2
+            }));
+
+            function drawHeart(x, y, size, opacity) {
+                ctx.save();
+                ctx.globalAlpha = opacity;
+                ctx.fillStyle = '#E1306C';
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.bezierCurveTo(x - size / 2, y - size / 2, x - size, y + size / 3, x, y + size);
+                ctx.bezierCurveTo(x + size, y + size / 3, x + size / 2, y - size / 2, x, y);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                hearts.forEach(h => {
+                    h.y -= h.speedY;
+                    if (h.y < -20) {
+                        h.y = canvas.height + 20;
+                        h.x = Math.random() * canvas.width;
+                    }
+                    drawHeart(h.x, h.y, h.size, h.opacity);
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        window.onload = function() {
+            renderFeed();
+            initFloatingHearts();
+            startRelationshipCounter();
+        };
+    </script>
 </body>
-    </html>
+</html>
+```
