@@ -3,12 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instagram • Deandra & Akbar</title>
+<meta name="theme-color" content="#080808">
+
+<title>The Private Archive — Deandra × Akbar</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+:root{
+    --black:#070707;
+    --black2:#0d0d0d;
+    --card:#111111;
+    --ivory:#f4f0e8;
+    --muted:#9a968e;
+    --gold:#c9aa70;
+    --gold2:#e3c993;
+    --line:rgba(255,255,255,.09);
+    --glass:rgba(255,255,255,.055);
+}
+
 *{
     margin:0;
     padding:0;
@@ -20,202 +35,508 @@ html{
 }
 
 body{
+    background:var(--black);
+    color:var(--ivory);
     font-family:"DM Sans",sans-serif;
-    background:#fafafa;
-    color:#171717;
     overflow-x:hidden;
+}
+
+body.locked{
+    overflow:hidden;
 }
 
 button{
     font-family:inherit;
+}
+
+img{
+    display:block;
+    width:100%;
+}
+
+::selection{
+    background:var(--gold);
+    color:#000;
+}
+
+/* =====================================================
+   GRAIN
+===================================================== */
+
+.grain{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:9999;
+    opacity:.055;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+}
+
+/* =====================================================
+   PARTICLES
+===================================================== */
+
+.particles{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+    overflow:hidden;
+}
+
+.particle{
+    position:absolute;
+    width:2px;
+    height:2px;
+    border-radius:50%;
+    background:var(--gold2);
+    opacity:0;
+    animation:floatParticle linear infinite;
+}
+
+@keyframes floatParticle{
+    0%{
+        transform:translateY(110vh) scale(.4);
+        opacity:0;
+    }
+    15%{opacity:.7}
+    80%{opacity:.35}
+    100%{
+        transform:translateY(-10vh) scale(1.3);
+        opacity:0;
+    }
+}
+
+/* =====================================================
+   OPENING
+===================================================== */
+
+#opening{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    background:
+        radial-gradient(circle at 50% 45%,rgba(201,170,112,.12),transparent 28%),
+        #050505;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    transition:1.2s ease;
+}
+
+#opening.hide{
+    opacity:0;
+    visibility:hidden;
+    transform:scale(1.04);
+}
+
+.opening-inner{
+    width:min(90%,520px);
+    position:relative;
+    z-index:2;
+}
+
+.eyebrow{
+    color:var(--gold2);
+    font-size:10px;
+    letter-spacing:5px;
+    text-transform:uppercase;
+    margin-bottom:25px;
+}
+
+.opening-title{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(46px,11vw,92px);
+    font-weight:400;
+    line-height:.9;
+    letter-spacing:-3px;
+}
+
+.opening-title em{
+    color:var(--gold2);
+    font-weight:400;
+}
+
+.opening-sub{
+    color:var(--muted);
+    margin:25px auto 38px;
+    font-size:13px;
+    line-height:1.8;
+    max-width:370px;
+}
+
+.open-btn{
+    position:relative;
+    border:1px solid rgba(201,170,112,.6);
+    background:rgba(201,170,112,.05);
+    color:var(--ivory);
+    padding:16px 34px;
+    border-radius:50px;
+    letter-spacing:3px;
+    font-size:10px;
+    text-transform:uppercase;
     cursor:pointer;
+    overflow:hidden;
+    transition:.4s;
 }
 
-.hidden{
-    display:none!important;
+.open-btn::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    transform:translateX(-110%);
+    background:var(--gold);
+    transition:.5s;
+    z-index:-1;
 }
 
-/* =========================
-   PIN SCREEN
-========================= */
+.open-btn:hover{
+    color:#000;
+    box-shadow:0 0 40px rgba(201,170,112,.2);
+}
+
+.open-btn:hover::before{
+    transform:translateX(0);
+}
+
+/* =====================================================
+   PIN
+===================================================== */
 
 #pinScreen{
     position:fixed;
     inset:0;
-    z-index:9999;
-    background:#fff;
-    display:flex;
+    z-index:900;
+    background:#070707;
+    display:none;
     align-items:center;
     justify-content:center;
-    padding:25px;
+    text-align:center;
 }
 
 .pin-box{
-    width:100%;
-    max-width:390px;
-    text-align:center;
+    width:min(90%,380px);
 }
 
-.insta-logo{
+.pin-symbol{
+    width:65px;
+    height:65px;
+    margin:0 auto 25px;
+    border:1px solid rgba(201,170,112,.4);
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    color:var(--gold2);
+    font-size:22px;
+}
+
+.pin-title{
     font-family:"Playfair Display",serif;
-    font-style:italic;
-    font-size:48px;
-    margin-bottom:12px;
-}
-
-.pin-box h2{
-    font-size:20px;
+    font-size:34px;
     margin-bottom:8px;
 }
 
-.pin-box p{
-    color:#737373;
-    font-size:14px;
-    line-height:1.6;
-    margin-bottom:25px;
+.pin-sub{
+    color:var(--muted);
+    font-size:12px;
+    margin-bottom:28px;
 }
 
-.pin-input{
-    width:100%;
-    height:52px;
-    border:1px solid #dbdbdb;
-    border-radius:10px;
-    text-align:center;
-    font-size:22px;
-    letter-spacing:9px;
-    outline:none;
+.pin-dots{
+    display:flex;
+    justify-content:center;
+    gap:13px;
+    margin-bottom:30px;
 }
 
-.pin-input:focus{
-    border-color:#777;
+.pin-dot{
+    width:9px;
+    height:9px;
+    border:1px solid var(--gold);
+    border-radius:50%;
+    transition:.2s;
 }
 
-.login-btn{
-    width:100%;
-    height:45px;
-    margin-top:13px;
-    border:0;
-    border-radius:9px;
-    background:#0095f6;
-    color:#fff;
-    font-weight:700;
-    font-size:14px;
+.pin-dot.active{
+    background:var(--gold);
+    box-shadow:0 0 12px rgba(201,170,112,.7);
+}
+
+.keypad{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    max-width:280px;
+    margin:auto;
+}
+
+.key{
+    height:58px;
+    border:1px solid var(--line);
+    background:var(--glass);
+    color:var(--ivory);
+    border-radius:15px;
+    cursor:pointer;
+    font-size:16px;
+    transition:.25s;
+}
+
+.key:hover{
+    border-color:var(--gold);
+    color:var(--gold2);
+    transform:translateY(-2px);
+}
+
+.key.zero{
+    grid-column:2;
 }
 
 .pin-error{
-    color:#ed4956;
-    font-size:13px;
-    margin-top:12px;
-    min-height:18px;
+    height:18px;
+    margin-top:18px;
+    font-size:11px;
+    color:#c98787;
 }
 
-.from-to{
-    margin-top:35px;
-    font-size:13px;
-    color:#737373;
+/* =====================================================
+   MAIN
+===================================================== */
+
+#main{
+    display:none;
+    position:relative;
+    z-index:2;
 }
 
-.from-to strong{
-    color:#171717;
+.container{
+    width:min(1120px,92%);
+    margin:auto;
 }
 
-/* =========================
-   APP
-========================= */
+/* =====================================================
+   NAV
+===================================================== */
 
-#app{
-    min-height:100vh;
-}
-
-.navbar{
+.nav{
     position:fixed;
     top:0;
     left:0;
     right:0;
-    height:60px;
-    background:rgba(255,255,255,.95);
-    backdrop-filter:blur(12px);
-    border-bottom:1px solid #dbdbdb;
-    z-index:1000;
+    z-index:100;
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(to bottom,rgba(5,5,5,.95),transparent);
+    pointer-events:none;
 }
 
 .nav-inner{
-    max-width:975px;
-    height:100%;
-    margin:auto;
+    width:min(1120px,92%);
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 18px;
+    pointer-events:auto;
 }
 
-.nav-logo{
+.logo{
     font-family:"Playfair Display",serif;
-    font-style:italic;
-    font-size:28px;
+    font-size:21px;
+    letter-spacing:-.5px;
 }
 
-.nav-icons{
+.logo span{
+    color:var(--gold2);
+}
+
+.nav-actions{
     display:flex;
-    gap:20px;
-    font-size:23px;
+    gap:8px;
 }
 
-.nav-icons span{
-    cursor:pointer;
-    transition:.2s;
-}
-
-.nav-icons span:hover{
-    transform:scale(1.12);
-}
-
-.music-control{
-    position:fixed;
-    right:18px;
-    bottom:20px;
-    z-index:1500;
-    width:48px;
-    height:48px;
+.nav-btn{
+    width:38px;
+    height:38px;
     border-radius:50%;
-    border:1px solid #ddd;
-    background:#fff;
-    box-shadow:0 5px 25px rgba(0,0,0,.15);
-    font-size:20px;
+    border:1px solid var(--line);
+    background:rgba(0,0,0,.35);
+    color:var(--ivory);
+    cursor:pointer;
+    transition:.3s;
 }
 
-/* =========================
-   MAIN
-========================= */
+.nav-btn:hover{
+    border-color:var(--gold);
+    color:var(--gold2);
+}
 
-.main{
-    width:100%;
-    max-width:975px;
+/* =====================================================
+   HERO PROFILE
+===================================================== */
+
+.hero{
+    min-height:100vh;
+    padding-top:100px;
+    display:flex;
+    align-items:center;
+}
+
+.profile-grid{
+    display:grid;
+    grid-template-columns:1fr 1.2fr;
+    gap:70px;
+    align-items:center;
+}
+
+.profile-photo{
+    position:relative;
+    max-width:430px;
     margin:auto;
-    padding-top:80px;
-    padding-bottom:80px;
 }
 
-.content{
-    width:100%;
-    max-width:630px;
-    margin:auto;
+.profile-photo::before{
+    content:"";
+    position:absolute;
+    inset:-15px;
+    border:1px solid rgba(201,170,112,.25);
+    transform:rotate(3deg);
 }
 
-/* =========================
+.profile-photo img{
+    aspect-ratio:4/5;
+    object-fit:cover;
+    filter:saturate(.8) contrast(1.04);
+}
+
+.profile-photo::after{
+    content:"PRIVATE / 001";
+    position:absolute;
+    bottom:-28px;
+    left:0;
+    color:var(--gold);
+    font-size:9px;
+    letter-spacing:4px;
+}
+
+.profile-info .small{
+    color:var(--gold2);
+    font-size:10px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    margin-bottom:18px;
+}
+
+.profile-info h1{
+    font-family:"Playfair Display",serif;
+    font-weight:400;
+    font-size:clamp(50px,8vw,88px);
+    line-height:.88;
+    letter-spacing:-4px;
+}
+
+.profile-info h1 em{
+    color:var(--gold2);
+}
+
+.profile-bio{
+    color:var(--muted);
+    line-height:1.8;
+    font-size:13px;
+    max-width:470px;
+    margin:28px 0;
+}
+
+.profile-stats{
+    display:flex;
+    gap:40px;
+    border-top:1px solid var(--line);
+    padding-top:25px;
+}
+
+.stat strong{
+    display:block;
+    font-family:"Playfair Display",serif;
+    font-size:24px;
+    font-weight:400;
+}
+
+.stat span{
+    color:var(--muted);
+    font-size:9px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.scroll-hint{
+    margin-top:55px;
+    color:#666;
+    font-size:9px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+}
+
+.scroll-hint::after{
+    content:"↓";
+    display:block;
+    color:var(--gold);
+    font-size:18px;
+    margin-top:8px;
+    animation:bounce 1.5s infinite;
+}
+
+@keyframes bounce{
+    50%{transform:translateY(6px)}
+}
+
+/* =====================================================
+   SECTION
+===================================================== */
+
+.section{
+    padding:120px 0;
+    position:relative;
+}
+
+.section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    margin-bottom:35px;
+}
+
+.section-kicker{
+    color:var(--gold);
+    letter-spacing:4px;
+    font-size:9px;
+    text-transform:uppercase;
+    margin-bottom:10px;
+}
+
+.section-title{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(35px,6vw,62px);
+    font-weight:400;
+    line-height:1;
+}
+
+.section-desc{
+    color:var(--muted);
+    font-size:11px;
+    max-width:250px;
+    line-height:1.7;
+}
+
+/* =====================================================
    STORIES
-========================= */
+===================================================== */
 
 .stories{
-    background:#fff;
-    border:1px solid #dbdbdb;
-    border-radius:8px;
-    padding:16px 10px;
     display:flex;
-    gap:17px;
+    gap:18px;
     overflow-x:auto;
     scrollbar-width:none;
-    margin-bottom:20px;
+    padding:10px 5px 25px;
 }
 
 .stories::-webkit-scrollbar{
@@ -223,1171 +544,2220 @@ button{
 }
 
 .story{
-    min-width:66px;
-    text-align:center;
-    font-size:11px;
+    min-width:95px;
     cursor:pointer;
+    text-align:center;
 }
 
 .story-ring{
-    width:64px;
-    height:64px;
-    border-radius:50%;
+    width:82px;
+    height:82px;
     padding:3px;
-    background:linear-gradient(45deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f5bd5);
-    margin:auto auto 5px;
+    margin:auto;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--gold),#66502d,var(--gold2));
+    transition:.4s;
+}
+
+.story:hover .story-ring{
+    transform:scale(1.08);
+    box-shadow:0 0 30px rgba(201,170,112,.2);
 }
 
 .story-ring img{
     width:100%;
     height:100%;
-    object-fit:cover;
     border-radius:50%;
-    border:3px solid white;
+    object-fit:cover;
+    border:3px solid var(--black);
 }
 
 .story-name{
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+    font-size:9px;
+    margin-top:10px;
+    color:#bbb;
 }
 
-/* =========================
-   POST
-========================= */
+/* =====================================================
+   FEED
+===================================================== */
+
+.feed{
+    max-width:650px;
+    margin:auto;
+}
 
 .post{
-    background:#fff;
-    border:1px solid #dbdbdb;
-    border-radius:8px;
-    margin-bottom:20px;
+    background:#0c0c0c;
+    border:1px solid var(--line);
+    margin-bottom:35px;
     overflow:hidden;
 }
 
-.post-head{
-    height:58px;
+.post-top{
+    padding:15px;
     display:flex;
+    justify-content:space-between;
     align-items:center;
-    padding:0 14px;
-    gap:11px;
-}
-
-.avatar{
-    width:34px;
-    height:34px;
-    border-radius:50%;
-    overflow:hidden;
-}
-
-.avatar img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
 }
 
 .post-user{
-    font-weight:700;
-    font-size:14px;
+    display:flex;
+    gap:10px;
+    align-items:center;
 }
 
-.post-sub{
-    color:#737373;
+.mini-avatar{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.user-name{
     font-size:11px;
 }
 
-.more{
-    margin-left:auto;
-    font-size:20px;
-}
-
-.post-image{
-    width:100%;
-    aspect-ratio:1/1;
-    object-fit:cover;
+.user-loc{
     display:block;
-    cursor:pointer;
+    color:#666;
+    font-size:8px;
+    margin-top:3px;
 }
 
-.post-actions{
-    display:flex;
-    align-items:center;
-    gap:16px;
-    padding:12px 14px 5px;
-    font-size:25px;
+.post-number{
+    color:#666;
+    font-size:9px;
+    letter-spacing:2px;
 }
 
-.post-actions span{
-    cursor:pointer;
-    transition:.15s;
-}
-
-.post-actions span:hover{
-    transform:scale(1.12);
-}
-
-.save{
-    margin-left:auto;
-}
-
-.liked{
-    color:#ed4956;
-}
-
-.post-body{
-    padding:0 14px 16px;
-}
-
-.likes{
-    font-size:13px;
-    font-weight:700;
-    margin-bottom:7px;
-}
-
-.caption{
-    font-size:14px;
-    line-height:1.55;
-}
-
-.caption b{
-    margin-right:5px;
-}
-
-.comment-line{
-    color:#737373;
-    font-size:13px;
-    margin-top:8px;
-}
-
-.date{
-    color:#aaa;
-    font-size:10px;
-    text-transform:uppercase;
-    margin-top:10px;
-    letter-spacing:.5px;
-}
-
-/* =========================
-   SPECIAL CARD
-========================= */
-
-.special{
-    background:#fff;
-    border:1px solid #dbdbdb;
-    border-radius:8px;
-    padding:30px 22px;
-    text-align:center;
-    margin-bottom:20px;
-}
-
-.special h2{
-    font-family:"Playfair Display",serif;
-    font-size:28px;
-    margin-bottom:10px;
-}
-
-.special p{
-    color:#737373;
-    line-height:1.7;
-    font-size:14px;
-}
-
-.gradient-btn{
-    margin-top:20px;
-    border:0;
-    padding:12px 25px;
-    border-radius:25px;
-    color:#fff;
-    font-weight:700;
-    background:linear-gradient(45deg,#feda75,#d62976,#962fbf,#4f5bd5);
-}
-
-/* =========================
-   PROFILE
-========================= */
-
-.profile{
-    background:#fff;
-    border:1px solid #dbdbdb;
-    border-radius:8px;
-    padding:28px 20px;
-    margin-bottom:20px;
-}
-
-.profile-top{
-    display:flex;
-    align-items:center;
-    gap:30px;
-    margin-bottom:25px;
-}
-
-.profile-pic{
-    width:95px;
-    height:95px;
-    border-radius:50%;
-    padding:3px;
-    background:linear-gradient(45deg,#feda75,#d62976,#962fbf);
-}
-
-.profile-pic img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    border-radius:50%;
-    border:3px solid white;
-}
-
-.profile-info{
-    flex:1;
-}
-
-.profile-info h2{
-    font-size:20px;
-    margin-bottom:8px;
-}
-
-.stats{
-    display:flex;
-    gap:25px;
-}
-
-.stat{
-    text-align:center;
-}
-
-.stat strong{
-    display:block;
-}
-
-.stat span{
-    font-size:12px;
-}
-
-.bio{
-    font-size:13px;
-    line-height:1.6;
-}
-
-.bio .script{
-    font-family:"Playfair Display",serif;
-    font-style:italic;
-    font-size:18px;
-}
-
-/* =========================
-   GRID
-========================= */
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:3px;
-}
-
-.grid img{
-    width:100%;
-    aspect-ratio:1/1;
-    object-fit:cover;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.grid img:hover{
-    filter:brightness(.8);
-}
-
-/* =========================
-   GAME
-========================= */
-
-.game{
-    background:#111;
-    color:white;
-    border-radius:12px;
-    padding:28px 20px;
-    text-align:center;
-    margin-bottom:20px;
-    overflow:hidden;
+.post-img-wrap{
     position:relative;
-}
-
-.game h2{
-    font-family:"Playfair Display",serif;
-    font-size:28px;
-    margin-bottom:7px;
-}
-
-.game p{
-    color:#aaa;
-    font-size:13px;
-}
-
-.game-area{
-    position:relative;
-    height:280px;
-    margin-top:15px;
-    border:1px solid #333;
-    border-radius:10px;
     overflow:hidden;
 }
 
-.heart{
+.post-img{
+    aspect-ratio:1/1;
+    object-fit:cover;
+    transition:1s;
+}
+
+.post:hover .post-img{
+    transform:scale(1.025);
+}
+
+.big-heart{
     position:absolute;
-    font-size:28px;
-    cursor:pointer;
-    animation:heartPop 1.8s linear forwards;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%) scale(0);
+    font-size:90px;
+    color:white;
+    filter:drop-shadow(0 5px 20px rgba(0,0,0,.4));
+    pointer-events:none;
+}
+
+.big-heart.show{
+    animation:heartPop .9s ease forwards;
 }
 
 @keyframes heartPop{
-    0%{
-        transform:scale(.5);
-        opacity:0;
-    }
-    15%{
-        opacity:1;
-    }
-    100%{
-        transform:translateY(-40px) scale(1.2);
-        opacity:0;
-    }
+    0%{transform:translate(-50%,-50%) scale(0)}
+    25%{transform:translate(-50%,-50%) scale(1.15)}
+    70%{transform:translate(-50%,-50%) scale(1)}
+    100%{transform:translate(-50%,-50%) scale(0)}
 }
 
-.score{
-    margin-top:12px;
-    font-weight:700;
+.post-actions{
+    padding:15px 15px 5px;
+    display:flex;
+    gap:15px;
 }
 
-/* =========================
-   SECRET
-========================= */
-
-.secret{
-    background:#fff;
-    border:1px solid #dbdbdb;
-    border-radius:8px;
-    padding:30px 20px;
-    text-align:center;
-    margin-bottom:20px;
-}
-
-.lock{
-    font-size:45px;
-    margin-bottom:10px;
-}
-
-.secret h2{
-    font-family:"Playfair Display",serif;
-}
-
-.secret-message{
-    display:none;
-    margin-top:20px;
-    font-family:"Playfair Display",serif;
-    font-style:italic;
+.action{
+    border:0;
+    background:none;
+    color:#bbb;
     font-size:20px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.action:hover{
+    color:var(--gold2);
+    transform:scale(1.1);
+}
+
+.action.liked{
+    color:#d58c8c;
+}
+
+.post-body{
+    padding:8px 15px 20px;
+}
+
+.likes{
+    font-size:10px;
+    margin-bottom:8px;
+}
+
+.caption{
+    font-size:12px;
+    line-height:1.7;
+    color:#bbb;
+}
+
+.caption b{
+    color:var(--ivory);
+}
+
+.post-date{
+    color:#555;
+    font-size:8px;
+    letter-spacing:2px;
+    margin-top:12px;
+}
+
+/* =====================================================
+   TIMELINE
+===================================================== */
+
+.timeline{
+    position:relative;
+    max-width:800px;
+    margin:60px auto 0;
+}
+
+.timeline::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;
+    bottom:0;
+    width:1px;
+    background:linear-gradient(to bottom,transparent,var(--gold),transparent);
+}
+
+.timeline-item{
+    width:50%;
+    padding:25px 45px;
+    position:relative;
+}
+
+.timeline-item:nth-child(odd){
+    text-align:right;
+}
+
+.timeline-item:nth-child(even){
+    margin-left:50%;
+}
+
+.timeline-dot{
+    position:absolute;
+    top:32px;
+    width:9px;
+    height:9px;
+    border:1px solid var(--gold);
+    border-radius:50%;
+    background:var(--black);
+    box-shadow:0 0 15px rgba(201,170,112,.3);
+}
+
+.timeline-item:nth-child(odd) .timeline-dot{
+    right:-5px;
+}
+
+.timeline-item:nth-child(even) .timeline-dot{
+    left:-5px;
+}
+
+.timeline-year{
+    color:var(--gold);
+    font-size:9px;
+    letter-spacing:3px;
+}
+
+.timeline-item h3{
+    font-family:"Playfair Display",serif;
+    font-size:25px;
+    font-weight:400;
+    margin:8px 0;
+}
+
+.timeline-item p{
+    color:var(--muted);
+    font-size:11px;
     line-height:1.7;
 }
 
-.secret-message.show{
-    display:block;
-    animation:fadeUp .8s ease;
+/* =====================================================
+   MUSIC
+===================================================== */
+
+.music-card{
+    max-width:720px;
+    margin:50px auto;
+    padding:28px;
+    border:1px solid var(--line);
+    background:linear-gradient(135deg,#101010,#090909);
+    display:flex;
+    align-items:center;
+    gap:25px;
+    position:relative;
+    overflow:hidden;
 }
 
-@keyframes fadeUp{
-    from{
-        opacity:0;
-        transform:translateY(15px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+.vinyl{
+    width:100px;
+    height:100px;
+    flex:none;
+    border-radius:50%;
+    background:
+        repeating-radial-gradient(circle,#171717 0,#171717 2px,#0a0a0a 3px,#171717 4px);
+    border:4px solid #191919;
+    box-shadow:0 10px 35px rgba(0,0,0,.6);
+    display:grid;
+    place-items:center;
+    animation:spin 8s linear infinite;
+    animation-play-state:paused;
 }
 
-/* =========================
-   LETTER
-========================= */
+.vinyl.playing{
+    animation-play-state:running;
+}
 
-.letter{
-    background:#fff;
-    border:1px solid #dbdbdb;
-    border-radius:8px;
-    padding:35px 28px;
+.vinyl::after{
+    content:"";
+    width:27px;
+    height:27px;
+    background:var(--gold);
+    border-radius:50%;
+    box-shadow:inset 0 0 0 8px #171717;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+.music-info{
+    flex:1;
+}
+
+.music-label{
+    color:var(--gold);
+    font-size:8px;
+    letter-spacing:3px;
+}
+
+.music-info h3{
+    font-family:"Playfair Display",serif;
+    font-size:27px;
+    font-weight:400;
+    margin:5px 0;
+}
+
+.music-info p{
+    color:#777;
+    font-size:10px;
+}
+
+.music-btn{
+    border:1px solid var(--gold);
+    background:none;
+    color:var(--gold2);
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    cursor:pointer;
+}
+
+/* =====================================================
+   GAME
+===================================================== */
+
+.game-card{
+    max-width:650px;
+    margin:50px auto;
+    padding:45px 30px;
+    text-align:center;
+    border:1px solid var(--line);
+    background:
+        radial-gradient(circle at 50% 0,rgba(201,170,112,.08),transparent 50%),
+        #0c0c0c;
+}
+
+.game-icon{
+    font-size:30px;
     margin-bottom:20px;
 }
 
-.letter h2{
+.game-card h3{
     font-family:"Playfair Display",serif;
-    font-size:30px;
-    margin-bottom:22px;
+    font-size:32px;
+    font-weight:400;
+}
+
+.game-card p{
+    color:var(--muted);
+    font-size:11px;
+    line-height:1.7;
+    margin:12px auto 25px;
+    max-width:420px;
+}
+
+.game-start{
+    padding:13px 25px;
+    border-radius:30px;
+    border:1px solid var(--gold);
+    color:var(--gold2);
+    background:none;
+    cursor:pointer;
+    font-size:9px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.quiz{
+    display:none;
+}
+
+.question{
+    font-family:"Playfair Display",serif;
+    font-size:25px;
+    margin-bottom:25px;
+}
+
+.answers{
+    display:grid;
+    gap:10px;
+}
+
+.answer{
+    border:1px solid var(--line);
+    background:#111;
+    color:#bbb;
+    padding:14px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.answer:hover{
+    border-color:var(--gold);
+    color:var(--gold2);
+}
+
+.game-result{
+    display:none;
+}
+
+/* =====================================================
+   ACHIEVEMENTS
+===================================================== */
+
+.achievements{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:45px;
+}
+
+.badge{
+    border:1px solid var(--line);
+    background:var(--glass);
+    padding:25px 15px;
+    text-align:center;
+    opacity:.38;
+    filter:grayscale(1);
+    transition:.5s;
+}
+
+.badge.unlocked{
+    opacity:1;
+    filter:none;
+    border-color:rgba(201,170,112,.4);
+    box-shadow:0 0 30px rgba(201,170,112,.05);
+}
+
+.badge-icon{
+    font-size:25px;
+    margin-bottom:12px;
+}
+
+.badge h4{
+    font-family:"Playfair Display",serif;
+    font-weight:400;
+    font-size:17px;
+}
+
+.badge p{
+    color:#777;
+    font-size:8px;
+    margin-top:6px;
+}
+
+/* =====================================================
+   SECRET MEMORY
+===================================================== */
+
+.secret-wrap{
+    max-width:800px;
+    margin:auto;
+    text-align:center;
+}
+
+.locked-memory{
+    position:relative;
+    min-height:300px;
+    border:1px solid var(--line);
+    overflow:hidden;
+    cursor:pointer;
+    background:#111;
+}
+
+.locked-memory img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:blur(18px) brightness(.3);
+    transform:scale(1.08);
+    transition:1s;
+}
+
+.lock-overlay{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.3);
+}
+
+.lock-icon{
+    font-size:35px;
+    margin-bottom:15px;
+}
+
+.lock-overlay h3{
+    font-family:"Playfair Display",serif;
+    font-size:28px;
+    font-weight:400;
+}
+
+.lock-overlay p{
+    color:#aaa;
+    font-size:10px;
+    margin-top:8px;
+}
+
+.locked-memory.unlocked img{
+    filter:brightness(.65);
+    transform:scale(1);
+}
+
+.locked-memory.unlocked .lock-overlay{
+    opacity:0;
+}
+
+/* =====================================================
+   DM
+===================================================== */
+
+.dm{
+    max-width:650px;
+    margin:50px auto;
+    border:1px solid var(--line);
+    background:#0c0c0c;
+}
+
+.dm-head{
+    padding:17px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.dm-head img{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.dm-head strong{
+    font-size:11px;
+}
+
+.dm-head span{
+    display:block;
+    color:#5f9b70;
+    font-size:8px;
+    margin-top:3px;
+}
+
+.dm-body{
+    min-height:330px;
+    padding:25px;
+    display:flex;
+    flex-direction:column;
+    justify-content:end;
+    gap:10px;
+}
+
+.message{
+    max-width:75%;
+    padding:12px 15px;
+    border-radius:17px;
+    font-size:11px;
+    line-height:1.6;
+}
+
+.message.left{
+    align-self:flex-start;
+    background:#191919;
+    color:#bbb;
+    border-bottom-left-radius:4px;
+}
+
+.message.right{
+    align-self:flex-end;
+    background:#d6bd88;
+    color:#17120b;
+    border-bottom-right-radius:4px;
+}
+
+.typing{
+    display:none;
+    color:#666;
+    font-size:10px;
+}
+
+/* =====================================================
+   LOVE LETTER
+===================================================== */
+
+.letter{
+    max-width:750px;
+    margin:50px auto;
+    padding:60px 45px;
+    background:
+        linear-gradient(rgba(244,240,232,.97),rgba(244,240,232,.97)),
+        #f4f0e8;
+    color:#24211c;
+    position:relative;
+    box-shadow:0 30px 80px rgba(0,0,0,.3);
+}
+
+.letter::before{
+    content:"PRIVATE ARCHIVE";
+    position:absolute;
+    top:20px;
+    left:25px;
+    color:#9a8152;
+    font-size:7px;
+    letter-spacing:3px;
+}
+
+.letter::after{
+    content:"♡";
+    position:absolute;
+    bottom:20px;
+    right:25px;
+    color:#9a8152;
+    font-size:25px;
+}
+
+.letter h3{
+    font-family:"Playfair Display",serif;
+    font-size:35px;
+    font-weight:400;
+    margin-bottom:25px;
 }
 
 .letter p{
     font-family:"Playfair Display",serif;
-    line-height:1.9;
-    font-size:16px;
-    color:#333;
-    margin-bottom:15px;
+    font-size:15px;
+    line-height:2;
+    color:#504a40;
 }
 
 .signature{
-    text-align:right;
+    margin-top:30px;
+    color:#9a8152;
     font-family:"Playfair Display",serif;
     font-style:italic;
-    font-size:21px;
-    margin-top:25px;
+    font-size:20px;
 }
 
-/* =========================
-   STORY MODAL
-========================= */
+/* =====================================================
+   SECRET ROOM
+===================================================== */
 
-.story-modal{
+.secret-room{
+    display:none;
     position:fixed;
     inset:0;
-    z-index:5000;
-    background:#000;
-    display:none;
+    z-index:800;
+    background:
+        radial-gradient(circle at center,rgba(201,170,112,.1),transparent 35%),
+        #050505;
     align-items:center;
     justify-content:center;
+    text-align:center;
+    padding:25px;
 }
 
-.story-modal.show{
+.secret-room.show{
     display:flex;
+    animation:fadeIn .8s ease;
 }
 
-.story-modal img{
-    max-height:90vh;
-    max-width:90vw;
-    object-fit:contain;
+@keyframes fadeIn{
+    from{opacity:0}
+    to{opacity:1}
 }
 
-.close-story{
-    position:absolute;
-    top:20px;
-    right:25px;
-    color:white;
-    font-size:30px;
+.secret-content{
+    max-width:600px;
+}
+
+.secret-content .tiny{
+    color:var(--gold);
+    letter-spacing:4px;
+    font-size:8px;
+}
+
+.secret-content h2{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(42px,8vw,75px);
+    font-weight:400;
+    margin:20px 0;
+}
+
+.secret-content p{
+    color:#aaa;
+    line-height:1.9;
+    font-size:12px;
+}
+
+.close-secret{
+    margin-top:35px;
+    border:1px solid var(--line);
+    background:none;
+    color:#aaa;
+    padding:12px 20px;
     cursor:pointer;
 }
 
-.story-caption{
-    position:absolute;
-    bottom:30px;
-    left:20px;
-    right:20px;
-    color:#fff;
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer{
+    padding:100px 0 60px;
     text-align:center;
-    font-size:14px;
 }
 
-/* =========================
-   IMAGE MODAL
-========================= */
+.footer-logo{
+    font-family:"Playfair Display",serif;
+    font-size:45px;
+}
 
-.image-modal{
+.footer-logo span{
+    color:var(--gold);
+}
+
+footer p{
+    color:#555;
+    font-size:9px;
+    letter-spacing:2px;
+    margin-top:15px;
+}
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast{
     position:fixed;
-    inset:0;
-    z-index:6000;
-    background:rgba(0,0,0,.85);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+    left:50%;
+    bottom:30px;
+    transform:translate(-50%,20px);
+    background:#171717;
+    border:1px solid var(--line);
+    padding:13px 20px;
+    font-size:10px;
+    color:#ddd;
+    opacity:0;
+    pointer-events:none;
+    transition:.4s;
+    z-index:1200;
 }
 
-.image-modal.show{
-    display:flex;
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
 }
 
-.image-modal img{
-    max-width:90%;
-    max-height:90%;
-    object-fit:contain;
-}
-
-.close-image{
-    position:absolute;
-    top:20px;
-    right:25px;
-    color:#fff;
-    font-size:32px;
-}
-
-/* =========================
+/* =====================================================
    RESPONSIVE
-========================= */
+===================================================== */
 
-@media(max-width:650px){
+@media(max-width:750px){
 
-    .navbar{
-        height:55px;
+    .profile-grid{
+        grid-template-columns:1fr;
+        gap:60px;
     }
 
-    .nav-inner{
-        padding:0 15px;
+    .profile-photo{
+        max-width:300px;
     }
 
-    .nav-logo{
-        font-size:25px;
+    .profile-info{
+        text-align:center;
     }
 
-    .main{
-        padding-top:68px;
+    .profile-bio{
+        margin-left:auto;
+        margin-right:auto;
     }
 
-    .content{
+    .profile-stats{
+        justify-content:center;
+    }
+
+    .scroll-hint{
+        margin-top:35px;
+    }
+
+    .section{
+        padding:90px 0;
+    }
+
+    .section-head{
+        display:block;
+    }
+
+    .section-desc{
+        margin-top:15px;
+    }
+
+    .timeline::before{
+        left:10px;
+    }
+
+    .timeline-item,
+    .timeline-item:nth-child(even){
         width:100%;
+        margin-left:0;
+        text-align:left;
+        padding-left:40px;
+        padding-right:0;
     }
 
-    .stories,
-    .post,
-    .special,
-    .profile,
-    .secret,
+    .timeline-item:nth-child(odd) .timeline-dot,
+    .timeline-item:nth-child(even) .timeline-dot{
+        left:6px;
+        right:auto;
+    }
+
+    .music-card{
+        padding:20px;
+        gap:15px;
+    }
+
+    .vinyl{
+        width:75px;
+        height:75px;
+    }
+
+    .music-info h3{
+        font-size:21px;
+    }
+
+    .achievements{
+        grid-template-columns:1fr 1fr;
+    }
+
     .letter{
-        border-left:0;
-        border-right:0;
-        border-radius:0;
+        padding:50px 25px;
     }
 
-    .profile-top{
-        gap:18px;
+    .letter h3{
+        font-size:29px;
+    }
+}
+
+@media(max-width:430px){
+    .opening-title{
+        font-size:52px;
     }
 
-    .profile-pic{
-        width:82px;
-        height:82px;
+    .achievements{
+        grid-template-columns:1fr;
     }
 
-    .stats{
-        gap:16px;
-    }
-
-    .letter{
-        padding:30px 20px;
+    .profile-stats{
+        gap:25px;
     }
 }
 </style>
 </head>
 
-<body>
+<body class="locked">
 
-<!-- =========================
+<div class="grain"></div>
+<div class="particles" id="particles"></div>
+
+<!-- =====================================================
+     OPENING
+===================================================== -->
+
+<section id="opening">
+
+    <div class="opening-inner">
+
+        <div class="eyebrow">A Private Digital Archive</div>
+
+        <h1 class="opening-title">
+            Deandra<br>
+            <em>×</em> Akbar
+        </h1>
+
+        <p class="opening-sub">
+            Some memories are not meant to be posted.
+            They are meant to be kept somewhere only
+            two people know how to find.
+        </p>
+
+        <button class="open-btn" id="enterBtn">
+            Enter The Archive
+        </button>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
      PIN
-========================= -->
+===================================================== -->
 
 <section id="pinScreen">
 
     <div class="pin-box">
 
-        <div class="insta-logo">Instagram</div>
+        <div class="pin-symbol">♡</div>
 
-        <h2>Private Account 🔒</h2>
+        <div class="eyebrow">Private Access</div>
 
-        <p>
-            This account contains a little piece of someone's heart.
-            <br>
-            Enter the PIN to continue.
+        <h2 class="pin-title">A little secret.</h2>
+
+        <p class="pin-sub">
+            Enter the four numbers that belong to us.
         </p>
 
-        <input
-            id="pinInput"
-            class="pin-input"
-            type="password"
-            maxlength="4"
-            inputmode="numeric"
-            placeholder="••••"
-        >
-
-        <button class="login-btn" onclick="checkPin()">
-            Log in
-        </button>
-
-        <div id="pinError" class="pin-error"></div>
-
-        <div class="from-to">
-            from <strong>Deandra</strong>
-            <br>
-            to <strong>Akbar</strong>
+        <div class="pin-dots">
+            <span class="pin-dot"></span>
+            <span class="pin-dot"></span>
+            <span class="pin-dot"></span>
+            <span class="pin-dot"></span>
         </div>
+
+        <div class="keypad">
+
+            <button class="key" data-key="1">1</button>
+            <button class="key" data-key="2">2</button>
+            <button class="key" data-key="3">3</button>
+
+            <button class="key" data-key="4">4</button>
+            <button class="key" data-key="5">5</button>
+            <button class="key" data-key="6">6</button>
+
+            <button class="key" data-key="7">7</button>
+            <button class="key" data-key="8">8</button>
+            <button class="key" data-key="9">9</button>
+
+            <button class="key zero" data-key="0">0</button>
+
+        </div>
+
+        <div class="pin-error" id="pinError"></div>
 
     </div>
 
 </section>
 
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
-<!-- =========================
-     APP
-========================= -->
+<main id="main">
 
-<div id="app" class="hidden">
-
-<header class="navbar">
+<nav class="nav">
 
     <div class="nav-inner">
 
-        <div class="nav-logo">
-            Instagram
+        <div class="logo">
+            D<span>×</span>A
         </div>
 
-        <div class="nav-icons">
-            <span onclick="scrollToId('home')">⌂</span>
-            <span onclick="scrollToId('profile')">♡</span>
-            <span onclick="scrollToId('letter')">♧</span>
+        <div class="nav-actions">
+
+            <button class="nav-btn" onclick="scrollToId('music')">
+                ♫
+            </button>
+
+            <button class="nav-btn" onclick="openSecret()">
+                ✦
+            </button>
+
         </div>
 
     </div>
 
-</header>
+</nav>
 
+<!-- =====================================================
+     HERO
+===================================================== -->
 
-<main class="main">
+<section class="hero">
 
-<div class="content" id="home">
+<div class="container">
 
-<!-- STORIES -->
+<div class="profile-grid">
 
-<div class="stories">
+    <div class="profile-photo">
 
-    <div class="story" onclick="openStory(1)">
-        <div class="story-ring">
-            <img src="foto1.jpg">
-        </div>
-        <div class="story-name">first memory</div>
+        <img src="foto1.jpg" alt="Memory">
+
     </div>
 
-    <div class="story" onclick="openStory(2)">
-        <div class="story-ring">
-            <img src="foto2.jpg">
-        </div>
-        <div class="story-name">you</div>
-    </div>
+    <div class="profile-info">
 
-    <div class="story" onclick="openStory(3)">
-        <div class="story-ring">
-            <img src="foto3.jpg">
+        <div class="small">
+            The Private Archive / 2026
         </div>
-        <div class="story-name">us</div>
-    </div>
 
-    <div class="story" onclick="openStory(4)">
-        <div class="story-ring">
-            <img src="foto4.jpg">
-        </div>
-        <div class="story-name">little things</div>
-    </div>
+        <h1>
+            Deandra<br>
+            <em>for Akbar.</em>
+        </h1>
 
-    <div class="story" onclick="openStory(5)">
-        <div class="story-ring">
-            <img src="foto5.jpg">
-        </div>
-        <div class="story-name">favorite</div>
-    </div>
+        <p class="profile-bio">
+            Welcome to our little corner of the internet.
+            No followers. No strangers. No algorithm.
+            Just memories, little moments, and a story
+            that belongs to us.
+        </p>
 
-    <div class="story" onclick="openStory(6)">
-        <div class="story-ring">
-            <img src="foto6.jpg">
-        </div>
-        <div class="story-name">always</div>
-    </div>
+        <div class="profile-stats">
 
-    <div class="story" onclick="openStory(7)">
-        <div class="story-ring">
-            <img src="foto7.jpg">
+            <div class="stat">
+                <strong>07</strong>
+                <span>Memories</span>
+            </div>
+
+            <div class="stat">
+                <strong>∞</strong>
+                <span>Feelings</span>
+            </div>
+
+            <div class="stat">
+                <strong>01</strong>
+                <span>Us</span>
+            </div>
+
         </div>
-        <div class="story-name">♡</div>
+
+        <div class="scroll-hint">
+            Explore the archive
+        </div>
+
     </div>
 
 </div>
 
+</div>
+
+</section>
+
+<!-- =====================================================
+     STORIES
+===================================================== -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="section-head">
+
+    <div>
+        <div class="section-kicker">01 / Little moments</div>
+        <h2 class="section-title">Our Stories</h2>
+    </div>
+
+    <div class="section-desc">
+        Tap each circle.
+        Some stories have something
+        hidden inside.
+    </div>
+
+</div>
+
+<div class="stories">
+
+    <div class="story" onclick="storyMessage('The first little memory 🤍')">
+        <div class="story-ring">
+            <img src="foto1.jpg">
+        </div>
+        <div class="story-name">First</div>
+    </div>
+
+    <div class="story" onclick="storyMessage('A moment I would replay forever.')">
+        <div class="story-ring">
+            <img src="foto2.jpg">
+        </div>
+        <div class="story-name">Us</div>
+    </div>
+
+    <div class="story" onclick="storyMessage('You made an ordinary day feel special.')">
+        <div class="story-ring">
+            <img src="foto3.jpg">
+        </div>
+        <div class="story-name">Little Joy</div>
+    </div>
+
+    <div class="story" onclick="storyMessage('Still one of my favorite memories.')">
+        <div class="story-ring">
+            <img src="foto4.jpg">
+        </div>
+        <div class="story-name">Favorite</div>
+    </div>
+
+    <div class="story" onclick="storyMessage('If memories had a home, this would be it.')">
+        <div class="story-ring">
+            <img src="foto5.jpg">
+        </div>
+        <div class="story-name">Home</div>
+    </div>
+
+    <div class="story" onclick="storyMessage('And somehow, I still choose you.')">
+        <div class="story-ring">
+            <img src="foto6.jpg">
+        </div>
+        <div class="story-name">Always</div>
+    </div>
+
+    <div class="story" onclick="storyMessage('There is still so much more to our story.')">
+        <div class="story-ring">
+            <img src="foto7.jpg">
+        </div>
+        <div class="story-name">Next</div>
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     FEED
+===================================================== -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="section-head">
+
+    <div>
+        <div class="section-kicker">02 / The feed</div>
+        <h2 class="section-title">Memories</h2>
+    </div>
+
+    <div class="section-desc">
+        Double tap a memory.
+        It might remember that you did.
+    </div>
+
+</div>
+
+<div class="feed">
 
 <!-- POST 1 -->
 
 <article class="post">
 
-    <div class="post-head">
+<div class="post-top">
 
-        <div class="avatar">
-            <img src="foto1.jpg">
-        </div>
-
+    <div class="post-user">
+        <img class="mini-avatar" src="foto1.jpg">
         <div>
-            <div class="post-user">deandra</div>
-            <div class="post-sub">Boyfriend Day • 2026</div>
+            <div class="user-name">deandra.archive</div>
+            <span class="user-loc">somewhere with you</span>
         </div>
-
-        <div class="more">•••</div>
-
     </div>
 
-    <img
-        class="post-image"
-        src="foto1.jpg"
-        ondblclick="likePost(this)"
-        onclick="openImage(this.src)"
-    >
+    <div class="post-number">01 / 07</div>
 
-    <div class="post-actions">
+</div>
 
-        <span onclick="likePost(this.closest('.post'))">♡</span>
-        <span onclick="showComment()">♡</span>
-        <span onclick="sharePost()">➤</span>
-        <span class="save">♡</span>
+<div class="post-img-wrap"
+     ondblclick="doubleLike(this)">
 
+    <img class="post-img" src="foto1.jpg">
+
+    <div class="big-heart">♥</div>
+
+</div>
+
+<div class="post-actions">
+
+    <button class="action" onclick="likePost(this)">♡</button>
+
+    <button class="action" onclick="showToast('This memory is now saved ♡')">♡</button>
+
+    <button class="action" onclick="showToast('There is nowhere else to send this memory.')">↗</button>
+
+</div>
+
+<div class="post-body">
+
+    <div class="likes">
+        <span class="like-count">127</span> likes
     </div>
 
-    <div class="post-body">
-
-        <div class="likes" id="likeCount1">
-            111 likes
-        </div>
-
-        <div class="caption">
-            <b>deandra</b>
-            happy boyfriend day to the person who somehow
-            makes ordinary days feel a little more special. 🤍
-        </div>
-
-        <div class="comment-line">
-            View all 7 comments
-        </div>
-
-        <div class="date">
-            october 2, 2026
-        </div>
-
+    <div class="caption">
+        <b>deandra.archive</b>
+        If I could keep one feeling forever,
+        it would be the feeling of having you beside me.
     </div>
+
+    <div class="post-date">
+        ARCHIVED WITH LOVE
+    </div>
+
+</div>
 
 </article>
-
 
 <!-- POST 2 -->
 
 <article class="post">
 
-    <div class="post-head">
+<div class="post-top">
 
-        <div class="avatar">
-            <img src="foto2.jpg">
-        </div>
-
+    <div class="post-user">
+        <img class="mini-avatar" src="foto2.jpg">
         <div>
-            <div class="post-user">deandra</div>
-            <div class="post-sub">somewhere between then & now</div>
+            <div class="user-name">deandra.archive</div>
+            <span class="user-loc">memory no. 002</span>
         </div>
-
-        <div class="more">•••</div>
-
     </div>
 
-    <img
-        class="post-image"
-        src="foto2.jpg"
-        ondblclick="likePost(this.closest('.post'))"
-        onclick="openImage(this.src)"
-    >
+    <div class="post-number">02 / 07</div>
 
-    <div class="post-actions">
-        <span onclick="likePost(this.closest('.post'))">♡</span>
-        <span>💬</span>
-        <span>➤</span>
-        <span class="save">♡</span>
+</div>
+
+<div class="post-img-wrap"
+     ondblclick="doubleLike(this)">
+
+    <img class="post-img" src="foto2.jpg">
+
+    <div class="big-heart">♥</div>
+
+</div>
+
+<div class="post-actions">
+
+    <button class="action" onclick="likePost(this)">♡</button>
+
+    <button class="action" onclick="showToast('Saved to our private collection.')">♡</button>
+
+    <button class="action" onclick="showToast('Only us can see this.')">↗</button>
+
+</div>
+
+<div class="post-body">
+
+    <div class="likes">
+        <span class="like-count">98</span> likes
     </div>
 
-    <div class="post-body">
-
-        <div class="likes">
-            87 likes
-        </div>
-
-        <div class="caption">
-            <b>deandra</b>
-            If I could save moments the way Instagram saves
-            memories, I'd probably save every moment with you.
-        </div>
-
-        <div class="comment-line">
-            ♡ akbar liked this
-        </div>
-
-        <div class="date">
-            a memory worth keeping
-        </div>
-
+    <div class="caption">
+        <b>deandra.archive</b>
+        Some moments are small when they happen,
+        but become everything when you remember them.
     </div>
+
+    <div class="post-date">PRIVATE MEMORY</div>
+
+</div>
 
 </article>
 
+<!-- POST 3 -->
 
-<!-- SPECIAL MESSAGE -->
+<article class="post">
 
-<section class="special">
+<div class="post-top">
 
-    <h2>For You, Akbar. 🤍</h2>
+    <div class="post-user">
+        <img class="mini-avatar" src="foto3.jpg">
+        <div>
+            <div class="user-name">deandra.archive</div>
+            <span class="user-loc">memory no. 003</span>
+        </div>
+    </div>
 
-    <p>
-        You just unlocked a tiny corner of our story.
-        But don't leave yet...
-        there are still things hidden inside this account.
-    </p>
+    <div class="post-number">03 / 07</div>
 
-    <button
-        class="gradient-btn"
-        onclick="scrollToId('game')"
-    >
-        Explore our account →
+</div>
+
+<div class="post-img-wrap"
+     ondblclick="doubleLike(this)">
+
+    <img class="post-img" src="foto3.jpg">
+
+    <div class="big-heart">♥</div>
+
+</div>
+
+<div class="post-actions">
+
+    <button class="action" onclick="likePost(this)">♡</button>
+
+    <button class="action" onclick="showToast('Memory saved.')">♡</button>
+
+    <button class="action" onclick="showToast('Some things are better kept between us.')">↗</button>
+
+</div>
+
+<div class="post-body">
+
+    <div class="likes">
+        <span class="like-count">214</span> likes
+    </div>
+
+    <div class="caption">
+        <b>deandra.archive</b>
+        You are my favorite part of all the ordinary days.
+    </div>
+
+    <div class="post-date">ARCHIVED / FOREVER</div>
+
+</div>
+
+</article>
+
+<!-- POST 4 -->
+
+<article class="post">
+
+<div class="post-top">
+
+    <div class="post-user">
+        <img class="mini-avatar" src="foto4.jpg">
+        <div>
+            <div class="user-name">deandra.archive</div>
+            <span class="user-loc">memory no. 004</span>
+        </div>
+    </div>
+
+    <div class="post-number">04 / 07</div>
+
+</div>
+
+<div class="post-img-wrap"
+     ondblclick="doubleLike(this)">
+
+    <img class="post-img" src="foto4.jpg">
+
+    <div class="big-heart">♥</div>
+
+</div>
+
+<div class="post-actions">
+
+    <button class="action" onclick="likePost(this)">♡</button>
+
+    <button class="action" onclick="showToast('Added to favorites.')">♡</button>
+
+    <button class="action" onclick="showToast('Sent to the private archive.')">↗</button>
+
+</div>
+
+<div class="post-body">
+
+    <div class="likes">
+        <span class="like-count">176</span> likes
+    </div>
+
+    <div class="caption">
+        <b>deandra.archive</b>
+        Maybe forever isn't a length of time.
+        Maybe it's just a collection of moments like this.
+    </div>
+
+    <div class="post-date">PRIVATE / FAVORITE</div>
+
+</div>
+
+</article>
+
+<!-- POST 5 -->
+
+<article class="post">
+
+<div class="post-top">
+
+    <div class="post-user">
+        <img class="mini-avatar" src="foto5.jpg">
+        <div>
+            <div class="user-name">deandra.archive</div>
+            <span class="user-loc">memory no. 005</span>
+        </div>
+    </div>
+
+    <div class="post-number">05 / 07</div>
+
+</div>
+
+<div class="post-img-wrap"
+     ondblclick="doubleLike(this)">
+
+    <img class="post-img" src="foto5.jpg">
+
+    <div class="big-heart">♥</div>
+
+</div>
+
+<div class="post-actions">
+
+    <button class="action" onclick="likePost(this)">♡</button>
+
+    <button class="action" onclick="showToast('This one stays with us.')">♡</button>
+
+    <button class="action" onclick="showToast('Private archive only.')">↗</button>
+
+</div>
+
+<div class="post-body">
+
+    <div class="likes">
+        <span class="like-count">245</span> likes
+    </div>
+
+    <div class="caption">
+        <b>deandra.archive</b>
+        Loving you somehow makes even the quiet moments feel loud.
+    </div>
+
+    <div class="post-date">MEMORY / 005</div>
+
+</div>
+
+</article>
+
+<!-- POST 6 -->
+
+<article class="post">
+
+<div class="post-top">
+
+    <div class="post-user">
+        <img class="mini-avatar" src="foto6.jpg">
+        <div>
+            <div class="user-name">deandra.archive</div>
+            <span class="user-loc">memory no. 006</span>
+        </div>
+    </div>
+
+    <div class="post-number">06 / 07</div>
+
+</div>
+
+<div class="post-img-wrap"
+     ondblclick="doubleLike(this)">
+
+    <img class="post-img" src="foto6.jpg">
+
+    <div class="big-heart">♥</div>
+
+</div>
+
+<div class="post-actions">
+
+    <button class="action" onclick="likePost(this)">♡</button>
+
+    <button class="action" onclick="showToast('Favorite memory unlocked.')">♡</button>
+
+    <button class="action" onclick="showToast('This belongs in the archive.')">↗</button>
+
+</div>
+
+<div class="post-body">
+
+    <div class="likes">
+        <span class="like-count">301</span> likes
+    </div>
+
+    <div class="caption">
+        <b>deandra.archive</b>
+        Out of every version of my life,
+        I hope there is always one where I find you.
+    </div>
+
+    <div class="post-date">MEMORY / 006</div>
+
+</div>
+
+</article>
+
+<!-- POST 7 -->
+
+<article class="post">
+
+<div class="post-top">
+
+    <div class="post-user">
+        <img class="mini-avatar" src="foto7.jpg">
+        <div>
+            <div class="user-name">deandra.archive</div>
+            <span class="user-loc">memory no. 007</span>
+        </div>
+    </div>
+
+    <div class="post-number">07 / 07</div>
+
+</div>
+
+<div class="post-img-wrap"
+     ondblclick="doubleLike(this)">
+
+    <img class="post-img" src="foto7.jpg">
+
+    <div class="big-heart">♥</div>
+
+</div>
+
+<div class="post-actions">
+
+    <button class="action" onclick="likePost(this)">♡</button>
+
+    <button class="action" onclick="showToast('The last memory... for now.')">♡</button>
+
+    <button class="action" onclick="showToast('There is still more to come.')">↗</button>
+
+</div>
+
+<div class="post-body">
+
+    <div class="likes">
+        <span class="like-count">∞</span> likes
+    </div>
+
+    <div class="caption">
+        <b>deandra.archive</b>
+        This isn't the end of our story.
+        It's just another page.
+    </div>
+
+    <div class="post-date">TO BE CONTINUED</div>
+
+</div>
+
+</article>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     TIMELINE
+===================================================== -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="section-head">
+
+    <div>
+        <div class="section-kicker">03 / Chronology</div>
+        <h2 class="section-title">Our Story</h2>
+    </div>
+
+    <div class="section-desc">
+        A timeline of little moments
+        that became something bigger.
+    </div>
+
+</div>
+
+<div class="timeline">
+
+    <div class="timeline-item">
+
+        <div class="timeline-dot"></div>
+
+        <div class="timeline-year">CHAPTER 01</div>
+
+        <h3>The Beginning</h3>
+
+        <p>
+            Before everything became familiar,
+            there was simply a beginning.
+            Two people. One story.
+        </p>
+
+    </div>
+
+    <div class="timeline-item">
+
+        <div class="timeline-dot"></div>
+
+        <div class="timeline-year">CHAPTER 02</div>
+
+        <h3>Getting Closer</h3>
+
+        <p>
+            Slowly, conversations became longer,
+            smiles became easier,
+            and having each other started feeling natural.
+        </p>
+
+    </div>
+
+    <div class="timeline-item">
+
+        <div class="timeline-dot"></div>
+
+        <div class="timeline-year">CHAPTER 03</div>
+
+        <h3>The Little Things</h3>
+
+        <p>
+            It wasn't always the big moments.
+            Sometimes it was simply the way
+            you showed up.
+        </p>
+
+    </div>
+
+    <div class="timeline-item">
+
+        <div class="timeline-dot"></div>
+
+        <div class="timeline-year">CHAPTER 04</div>
+
+        <h3>Us</h3>
+
+        <p>
+            Somewhere between all the little moments,
+            “you and me” quietly became “us”.
+        </p>
+
+    </div>
+
+    <div class="timeline-item">
+
+        <div class="timeline-dot"></div>
+
+        <div class="timeline-year">CHAPTER 05</div>
+
+        <h3>To Be Continued</h3>
+
+        <p>
+            The archive is still incomplete.
+            There are pages we haven't written yet.
+        </p>
+
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     MUSIC
+===================================================== -->
+
+<section class="section" id="music">
+
+<div class="container">
+
+<div class="section-head">
+
+    <div>
+        <div class="section-kicker">04 / Soundtrack</div>
+        <h2 class="section-title">Our Song</h2>
+    </div>
+
+    <div class="section-desc">
+        Press play and let the archive
+        feel a little more alive.
+    </div>
+
+</div>
+
+<div class="music-card">
+
+    <div class="vinyl" id="vinyl"></div>
+
+    <div class="music-info">
+
+        <div class="music-label">NOW PLAYING</div>
+
+        <h3>Shape of My Heart</h3>
+
+        <p>
+            A little soundtrack for our little archive.
+        </p>
+
+    </div>
+
+    <button class="music-btn" id="musicBtn">
+        ▶
     </button>
 
-</section>
-
-
-<!-- PROFILE -->
-
-<section class="profile" id="profile">
-
-    <div class="profile-top">
-
-        <div class="profile-pic">
-            <img src="foto7.jpg">
-        </div>
-
-        <div class="profile-info">
-
-            <h2>deandra ♡ akbar</h2>
-
-            <div class="stats">
-
-                <div class="stat">
-                    <strong>7</strong>
-                    <span>memories</span>
-                </div>
-
-                <div class="stat">
-                    <strong>∞</strong>
-                    <span>moments</span>
-                </div>
-
-                <div class="stat">
-                    <strong>1</strong>
-                    <span>favorite</span>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="bio">
-
-        <div class="script">
-            "a little archive of us."
-        </div>
-
-        <br>
-
-        not everything needs to be posted.
-        some things are better kept between two people.
-        <br><br>
-
-        ♡ boyfriend day
-        <br>
-        ♡ deandra → akbar
-
-    </div>
-
-</section>
-
-
-<!-- PHOTO GRID -->
-
-<section class="post">
-
-    <div class="post-head">
-
-        <div class="avatar">
-            <img src="foto7.jpg">
-        </div>
-
-        <div>
-            <div class="post-user">our archive</div>
-            <div class="post-sub">7 posts • countless memories</div>
-        </div>
-
-    </div>
-
-    <div class="grid">
-
-        <img src="foto1.jpg" onclick="openImage(this.src)">
-        <img src="foto2.jpg" onclick="openImage(this.src)">
-        <img src="foto3.jpg" onclick="openImage(this.src)">
-        <img src="foto4.jpg" onclick="openImage(this.src)">
-        <img src="foto5.jpg" onclick="openImage(this.src)">
-        <img src="foto6.jpg" onclick="openImage(this.src)">
-        <img src="foto7.jpg" onclick="openImage(this.src)">
-
-    </div>
-
-</section>
-
-
-<!-- GAME -->
-
-<section class="game" id="game">
-
-    <h2>Catch My Hearts ♡</h2>
-
-    <p>
-        tap the hearts before they disappear.
-        let's see how much love you can collect.
-    </p>
-
-    <div class="game-area" id="gameArea"></div>
-
-    <div class="score">
-        Hearts collected: <span id="score">0</span> / 10
-    </div>
-
-</section>
-
-
-<!-- SECRET -->
-
-<section class="secret">
-
-    <div class="lock" id="lock">
-        🔐
-    </div>
-
-    <h2>There Is Something Hidden...</h2>
-
-    <p style="margin-top:10px;color:#737373;font-size:13px;">
-        collect 10 hearts first.
-    </p>
-
-    <div class="secret-message" id="secretMessage">
-
-        "If I had to choose one person
-        to keep in all the little chapters
-        of my life...
-
-        <br><br>
-
-        I'd still choose you."
-
-        <br><br>
-
-        — Deandra 🤍
-
-    </div>
-
-</section>
-
-
-<!-- FINAL LETTER -->
-
-<section class="letter" id="letter">
-
-    <h2>Dear Akbar,</h2>
-
-    <p>
-        Happy Boyfriend Day.
-    </p>
-
-    <p>
-        I know this is just a little website,
-        a few pictures, a song, some silly games,
-        and a bunch of words on a screen.
-    </p>
-
-    <p>
-        But behind every little thing here,
-        there's a thought about you.
-    </p>
-
-    <p>
-        Thank you for being someone I can laugh with,
-        talk to, miss, annoy, and still choose
-        at the end of the day.
-    </p>
-
-    <p>
-        Maybe I can't give you everything in the world,
-        but I hope I can always give you a place
-        where you feel loved.
-    </p>
-
-    <p>
-        So whenever you forget how much you mean to me,
-        come back here.
-    </p>
-
-    <p>
-        Scroll through the pictures.
-        Play the little game.
-        Listen to our song.
-        Read this again.
-    </p>
-
-    <p>
-        And remember that somewhere,
-        someone is very grateful
-        that you exist.
-    </p>
-
-    <div class="signature">
-        always yours,<br>
-        Deandra ♡
-    </div>
-
-</section>
-
-
-<div style="
-text-align:center;
-color:#aaa;
-font-size:11px;
-padding:20px;
-">
-    made with love • deandra × akbar
-    <br><br>
-    end of our little instagram.
 </div>
 
-
-</div>
-</main>
-
-
-<!-- MUSIC -->
-
-<audio id="bgMusic" loop>
+<audio id="music" loop>
     <source src="shapeofmyheart.mp3" type="audio/mpeg">
 </audio>
 
-<button class="music-control" id="musicBtn" onclick="toggleMusic()">
-    ♫
-</button>
+</div>
 
+</section>
 
-<!-- STORY MODAL -->
+<!-- =====================================================
+     GAME
+===================================================== -->
 
-<div class="story-modal" id="storyModal">
+<section class="section">
 
-    <div class="close-story" onclick="closeStory()">×</div>
+<div class="container">
 
-    <img id="storyImage">
+<div class="section-head">
 
-    <div class="story-caption" id="storyCaption"></div>
+    <div>
+        <div class="section-kicker">05 / Interactive</div>
+        <h2 class="section-title">How Well?</h2>
+    </div>
+
+    <div class="section-desc">
+        Let's see if you really remember
+        the little things.
+    </div>
 
 </div>
 
+<div class="game-card">
 
-<!-- IMAGE MODAL -->
+    <div id="gameIntro">
 
-<div class="image-modal" id="imageModal" onclick="closeImage()">
+        <div class="game-icon">♢</div>
 
-    <div class="close-image">×</div>
+        <h3>How Well Do You Know Us?</h3>
 
-    <img id="modalImage">
+        <p>
+            Three tiny questions.
+            One tiny challenge.
+            A secret reward if you make it through.
+        </p>
+
+        <button class="game-start" onclick="startQuiz()">
+            Start The Game
+        </button>
+
+    </div>
+
+    <div class="quiz" id="quiz">
+
+        <div class="question" id="question">
+            Question
+        </div>
+
+        <div class="answers" id="answers"></div>
+
+    </div>
+
+    <div class="game-result" id="gameResult">
+
+        <div class="game-icon">✦</div>
+
+        <h3 id="resultTitle">
+            You know us.
+        </h3>
+
+        <p id="resultText"></p>
+
+        <button class="game-start" onclick="unlockGame()">
+            Claim Memory
+        </button>
+
+    </div>
 
 </div>
 
+</div>
+
+</section>
+
+<!-- =====================================================
+     ACHIEVEMENTS
+===================================================== -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="section-head">
+
+    <div>
+        <div class="section-kicker">06 / Collection</div>
+        <h2 class="section-title">Achievements</h2>
+    </div>
+
+    <div class="section-desc">
+        Some badges are hidden.
+        Explore the archive to unlock them.
+    </div>
+
+</div>
+
+<div class="achievements">
+
+    <div class="badge unlocked">
+
+        <div class="badge-icon">♡</div>
+
+        <h4>First Look</h4>
+
+        <p>Entered the archive.</p>
+
+    </div>
+
+    <div class="badge" id="badgeHeart">
+
+        <div class="badge-icon">♥</div>
+
+        <h4>Heart Keeper</h4>
+
+        <p>Double tap a memory.</p>
+
+    </div>
+
+    <div class="badge" id="badgeMusic">
+
+        <div class="badge-icon">♫</div>
+
+        <h4>Soundtrack</h4>
+
+        <p>Play our song.</p>
+
+    </div>
+
+    <div class="badge" id="badgeStory">
+
+        <div class="badge-icon">◎</div>
+
+        <h4>Story Hunter</h4>
+
+        <p>Open a story.</p>
+
+    </div>
+
+    <div class="badge" id="badgeGame">
+
+        <div class="badge-icon">◇</div>
+
+        <h4>Love Detective</h4>
+
+        <p>Complete the game.</p>
+
+    </div>
+
+    <div class="badge" id="badgeSecret">
+
+        <div class="badge-icon">✦</div>
+
+        <h4>Archive Keeper</h4>
+
+        <p>Find the hidden room.</p>
+
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     SECRET MEMORY
+===================================================== -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="section-head">
+
+    <div>
+        <div class="section-kicker">07 / Restricted</div>
+        <h2 class="section-title">Hidden Memory</h2>
+    </div>
+
+    <div class="section-desc">
+        Not everything should be visible
+        at first glance.
+    </div>
+
+</div>
+
+<div class="secret-wrap">
+
+<div class="locked-memory" id="lockedMemory"
+     onclick="unlockMemory()">
+
+    <img src="foto7.jpg">
+
+    <div class="lock-overlay">
+
+        <div class="lock-icon">♧</div>
+
+        <h3>Something is hidden here.</h3>
+
+        <p>Tap to reveal the memory.</p>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     DM
+===================================================== -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="section-head">
+
+    <div>
+        <div class="section-kicker">08 / Private messages</div>
+        <h2 class="section-title">One Last DM</h2>
+    </div>
+
+    <div class="section-desc">
+        A conversation that was never
+        meant for anyone else.
+    </div>
+
+</div>
+
+<div class="dm">
+
+    <div class="dm-head">
+
+        <img src="foto1.jpg">
+
+        <div>
+            <strong>Deandra</strong>
+            <span>● online in our archive</span>
+        </div>
+
+    </div>
+
+    <div class="dm-body" id="dmBody">
+
+        <div class="message left">
+            hey, akbar...
+        </div>
+
+        <div class="message left">
+            do you know what my favorite part of all this is?
+        </div>
+
+        <div class="typing" id="typing">
+            Deandra is typing...
+        </div>
+
+        <div class="message right">
+            what?
+        </div>
+
+        <div class="message left">
+            that somewhere along the way,
+            you stopped feeling like a part of my day...
+            and started feeling like home.
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =====================================================
+     LOVE LETTER
+===================================================== -->
+
+<section class="section">
+
+<div class="container">
+
+<div class="section-head">
+
+    <div>
+        <div class="section-kicker">09 / Final page</div>
+        <h2 class="section-title">A Letter</h2>
+    </div>
+
+</div>
+
+<div class="letter">
+
+    <h3>Dear Akbar,</h3>
+
+    <p>
+        I don't think I could fit everything I feel for you
+        into one website, one letter, or even a thousand words.
+        But if this little archive could keep one thing forever,
+        I would want it to keep the feeling of us.
+    </p>
+
+    <br>
+
+    <p>
+        Thank you for every conversation, every laugh,
+        every little moment that somehow became a memory
+        worth keeping. Thank you for being someone I can
+        choose again and again.
+    </p>
+
+    <br>
+
+    <p>
+        Maybe one day we'll look back at this and laugh
+        at how dramatic I was for making an entire website.
+        But I hope when that day comes, we'll still be here,
+        still choosing each other, still adding new pages
+        to this archive.
+    </p>
+
+    <div class="signature">
+        Always,<br>
+        Deandra ♡
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+
+    <div class="footer-logo">
+        D<span>×</span>A
+    </div>
+
+    <p>
+        MADE WITH LOVE · PRIVATE ARCHIVE · 2026
+    </p>
+
+</footer>
+
+</main>
+
+<!-- =====================================================
+     SECRET ROOM
+===================================================== -->
+
+<div class="secret-room" id="secretRoom">
+
+<div class="secret-content">
+
+    <div class="tiny">
+        ARCHIVE / RESTRICTED ACCESS
+    </div>
+
+    <h2>
+        You found<br>
+        the secret room.
+    </h2>
+
+    <p>
+        There are some things that don't need
+        a public feed, a caption, or an audience.
+        They just need two people who understand
+        exactly why they matter.
+        <br><br>
+        If you are reading this,
+        congratulations.
+        You officially know where the hidden part
+        of our story lives.
+    </p>
+
+    <button class="close-secret" onclick="closeSecret()">
+        Return to Archive
+    </button>
+
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
 
-/* =========================
-   PIN
-========================= */
+/* =====================================================
+   PARTICLES
+===================================================== */
 
-const CORRECT_PIN = "1111";
+const particles = document.getElementById("particles");
 
-const pinScreen = document.getElementById("pinScreen");
-const app = document.getElementById("app");
-const pinInput = document.getElementById("pinInput");
-const pinError = document.getElementById("pinError");
+for(let i=0;i<35;i++){
 
-function checkPin(){
+    const p = document.createElement("span");
 
-    if(pinInput.value === CORRECT_PIN){
+    p.className = "particle";
 
-        pinScreen.style.opacity = "0";
-        pinScreen.style.transition = ".5s";
+    p.style.left = Math.random()*100 + "%";
+    p.style.animationDuration = (7 + Math.random()*12) + "s";
+    p.style.animationDelay = (-Math.random()*15) + "s";
 
-        setTimeout(() => {
-
-            pinScreen.classList.add("hidden");
-            app.classList.remove("hidden");
-
-            startMusic();
-
-        },500);
-
-    }else{
-
-        pinError.textContent = "Wrong PIN. Try again ♡";
-
-        pinInput.value = "";
-
-        pinInput.animate([
-            {transform:"translateX(-8px)"},
-            {transform:"translateX(8px)"},
-            {transform:"translateX(-5px)"},
-            {transform:"translateX(5px)"},
-            {transform:"translateX(0)"}
-        ],{
-            duration:350
-        });
-
-    }
+    particles.appendChild(p);
 }
 
-pinInput.addEventListener("keydown",function(e){
+/* =====================================================
+   OPENING
+===================================================== */
 
-    if(e.key === "Enter"){
-        checkPin();
-    }
+const opening = document.getElementById("opening");
+const pinScreen = document.getElementById("pinScreen");
+const main = document.getElementById("main");
+
+document.getElementById("enterBtn").addEventListener("click",()=>{
+
+    opening.classList.add("hide");
+
+    setTimeout(()=>{
+
+        opening.style.display="none";
+        pinScreen.style.display="flex";
+
+    },1000);
 
 });
 
+/* =====================================================
+   PIN
+===================================================== */
 
-/* =========================
-   MUSIC
-========================= */
+let enteredPin = "";
+const correctPin = "1111";
 
-const music = document.getElementById("bgMusic");
-const musicBtn = document.getElementById("musicBtn");
+const dots = document.querySelectorAll(".pin-dot");
 
-function startMusic(){
+document.querySelectorAll(".key").forEach(key=>{
 
-    music.volume = .45;
+    key.addEventListener("click",()=>{
 
-    music.play().catch(()=>{});
+        if(enteredPin.length >= 4) return;
 
-}
+        enteredPin += key.dataset.key;
 
-function toggleMusic(){
+        dots[enteredPin.length-1].classList.add("active");
 
-    if(music.paused){
+        if(enteredPin.length === 4){
 
-        music.play();
+            setTimeout(checkPin,250);
 
-        musicBtn.textContent = "♫";
+        }
+
+    });
+
+});
+
+function checkPin(){
+
+    if(enteredPin === correctPin){
+
+        pinScreen.style.opacity="0";
+
+        setTimeout(()=>{
+
+            pinScreen.style.display="none";
+            main.style.display="block";
+            document.body.classList.remove("locked");
+
+            showToast("Welcome to our private archive ♡");
+
+        },700);
 
     }else{
 
-        music.pause();
+        document.getElementById("pinError").textContent =
+            "That wasn't it. Try again.";
 
-        musicBtn.textContent = "▶";
+        enteredPin="";
+
+        dots.forEach(dot=>dot.classList.remove("active"));
+
+        setTimeout(()=>{
+            document.getElementById("pinError").textContent="";
+        },1200);
 
     }
 
 }
 
+/* =====================================================
+   TOAST
+===================================================== */
 
-/* =========================
-   NAVIGATION
-========================= */
+let toastTimer;
+
+function showToast(message){
+
+    const toast = document.getElementById("toast");
+
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(()=>{
+        toast.classList.remove("show");
+    },2200);
+
+}
+
+/* =====================================================
+   NAV SCROLL
+===================================================== */
 
 function scrollToId(id){
 
@@ -1397,289 +2767,372 @@ function scrollToId(id){
 
 }
 
+/* =====================================================
+   STORY
+===================================================== */
 
-/* =========================
-   STORIES
-========================= */
+function storyMessage(message){
 
-const storyTexts = {
+    document.getElementById("badgeStory").classList.add("unlocked");
 
-    1:"the beginning of something beautiful.",
-    2:"my favorite person.",
-    3:"one of my favorite places is beside you.",
-    4:"it's always the little things.",
-    5:"still my favorite.",
-    6:"and hopefully, always.",
-    7:"this one is for you. ♡"
-
-};
-
-function openStory(num){
-
-    document.getElementById("storyImage").src =
-        "foto" + num + ".jpg";
-
-    document.getElementById("storyCaption").textContent =
-        storyTexts[num];
-
-    document.getElementById("storyModal")
-        .classList.add("show");
+    showToast(message);
 
 }
 
-function closeStory(){
-
-    document.getElementById("storyModal")
-        .classList.remove("show");
-
-}
-
-
-/* =========================
-   IMAGE
-========================= */
-
-function openImage(src){
-
-    document.getElementById("modalImage").src = src;
-
-    document.getElementById("imageModal")
-        .classList.add("show");
-
-}
-
-function closeImage(){
-
-    document.getElementById("imageModal")
-        .classList.remove("show");
-
-}
-
-
-/* =========================
+/* =====================================================
    LIKE
-========================= */
+===================================================== */
 
-function likePost(element){
+function likePost(button){
 
-    let post;
+    button.classList.toggle("liked");
 
-    if(element.classList.contains("post")){
-        post = element;
-    }else{
-        post = element.closest(".post");
-    }
+    const post = button.closest(".post");
+    const count = post.querySelector(".like-count");
 
-    const likeButton = post.querySelector(".post-actions span");
+    if(button.classList.contains("liked")){
 
-    likeButton.classList.toggle("liked");
+        if(count.textContent !== "∞"){
+            count.textContent =
+                Number(count.textContent) + 1;
+        }
 
-    if(likeButton.classList.contains("liked")){
-
-        likeButton.textContent = "♥";
+        button.textContent="♥";
 
     }else{
 
-        likeButton.textContent = "♡";
+        if(count.textContent !== "∞"){
+            count.textContent =
+                Number(count.textContent) - 1;
+        }
+
+        button.textContent="♡";
 
     }
 
 }
 
+/* =====================================================
+   DOUBLE TAP
+===================================================== */
 
-/* =========================
-   COMMENTS
-========================= */
+function doubleLike(container){
 
-function showComment(){
+    const heart = container.querySelector(".big-heart");
 
-    alert(
-        "💬 Akbar: \"This website is suspiciously cute.\""
-    );
+    heart.classList.remove("show");
 
-}
+    void heart.offsetWidth;
 
+    heart.classList.add("show");
 
-/* =========================
-   SHARE
-========================= */
+    const post = container.closest(".post");
+    const likeButton = post.querySelector(".action");
 
-function sharePost(){
+    if(!likeButton.classList.contains("liked")){
+        likePost(likeButton);
+    }
 
-    alert(
-        "➤ You tried to share this memory...\n\n" +
-        "But some memories are only meant for us. 🤍"
-    );
-
-}
-
-
-/* =========================
-   HEART GAME
-========================= */
-
-let score = 0;
-const gameArea = document.getElementById("gameArea");
-const scoreText = document.getElementById("score");
-
-function createHeart(){
-
-    if(score >= 10) return;
-
-    const heart = document.createElement("div");
-
-    heart.className = "heart";
-    heart.textContent = ["♡","♥","🤍","💗","💖"][Math.floor(Math.random()*5)];
-
-    heart.style.left =
-        Math.random()*85 + "%";
-
-    heart.style.top =
-        Math.random()*80 + "%";
-
-    heart.onclick = function(){
-
-        score++;
-
-        scoreText.textContent = score;
-
-        heart.remove();
-
-        if(score >= 10){
-
-            unlockSecret();
-
-        }
-
-    };
-
-    gameArea.appendChild(heart);
-
-    setTimeout(()=>{
-
-        if(heart.parentNode){
-            heart.remove();
-        }
-
-    },1800);
+    document.getElementById("badgeHeart")
+        .classList.add("unlocked");
 
 }
 
-setInterval(createHeart,900);
+/* =====================================================
+   MUSIC
+===================================================== */
 
+const music = document.getElementById("music");
+const musicBtn = document.getElementById("musicBtn");
+const vinyl = document.getElementById("vinyl");
 
-function unlockSecret(){
+musicBtn.addEventListener("click",()=>{
 
-    document.getElementById("lock").textContent = "🔓";
+    if(music.paused){
 
-    document.getElementById("secretMessage")
-        .classList.add("show");
+        music.play()
+        .then(()=>{
 
-    setTimeout(()=>{
+            musicBtn.textContent="Ⅱ";
+            vinyl.classList.add("playing");
 
-        document.getElementById("secretMessage")
-            .scrollIntoView({
-                behavior:"smooth",
-                block:"center"
-            });
+            document.getElementById("badgeMusic")
+                .classList.add("unlocked");
 
-    },300);
+        })
+        .catch(()=>{
 
-}
+            showToast("Add shapeofmyheart.mp3 to the folder.");
 
-
-/* =========================
-   DOUBLE CLICK HEART
-========================= */
-
-document.querySelectorAll(".post-image").forEach(img => {
-
-    img.addEventListener("dblclick",function(){
-
-        const heart = document.createElement("div");
-
-        heart.textContent = "♥";
-
-        heart.style.position = "fixed";
-        heart.style.left = "50%";
-        heart.style.top = "45%";
-        heart.style.transform = "translate(-50%,-50%)";
-        heart.style.fontSize = "100px";
-        heart.style.color = "#ed4956";
-        heart.style.zIndex = "9999";
-        heart.style.pointerEvents = "none";
-
-        document.body.appendChild(heart);
-
-        heart.animate([
-            {
-                transform:"translate(-50%,-50%) scale(.5)",
-                opacity:0
-            },
-            {
-                transform:"translate(-50%,-50%) scale(1.2)",
-                opacity:1
-            },
-            {
-                transform:"translate(-50%,-50%) scale(1)",
-                opacity:0
-            }
-        ],{
-            duration:800
         });
 
-        setTimeout(()=>{
-            heart.remove();
-        },800);
+    }else{
+
+        music.pause();
+
+        musicBtn.textContent="▶";
+        vinyl.classList.remove("playing");
+
+    }
+
+});
+
+/* =====================================================
+   QUIZ
+===================================================== */
+
+const questions = [
+
+    {
+        q:"What makes a memory special?",
+        answers:[
+            "The place",
+            "The camera",
+            "The person in it",
+            "The weather"
+        ],
+        correct:2
+    },
+
+    {
+        q:"Where does this little archive belong?",
+        answers:[
+            "Somewhere public",
+            "On the internet",
+            "Between us",
+            "In a museum"
+        ],
+        correct:2
+    },
+
+    {
+        q:"What comes next?",
+        answers:[
+            "The End",
+            "Nothing",
+            "Another chapter",
+            "Delete archive"
+        ],
+        correct:2
+    }
+
+];
+
+let currentQuestion=0;
+let score=0;
+
+function startQuiz(){
+
+    document.getElementById("gameIntro").style.display="none";
+    document.getElementById("quiz").style.display="block";
+
+    currentQuestion=0;
+    score=0;
+
+    loadQuestion();
+
+}
+
+function loadQuestion(){
+
+    const q=questions[currentQuestion];
+
+    document.getElementById("question").textContent=q.q;
+
+    const answers=document.getElementById("answers");
+
+    answers.innerHTML="";
+
+    q.answers.forEach((answer,index)=>{
+
+        const btn=document.createElement("button");
+
+        btn.className="answer";
+        btn.textContent=answer;
+
+        btn.onclick=()=>{
+
+            if(index===q.correct){
+                score++;
+            }
+
+            currentQuestion++;
+
+            if(currentQuestion < questions.length){
+
+                loadQuestion();
+
+            }else{
+
+                finishQuiz();
+
+            }
+
+        };
+
+        answers.appendChild(btn);
 
     });
 
-});
+}
 
+function finishQuiz(){
 
-/* =========================
-   KONAMI STYLE SECRET
-========================= */
+    document.getElementById("quiz").style.display="none";
+    document.getElementById("gameResult").style.display="block";
 
-let secretClicks = 0;
+    const title=document.getElementById("resultTitle");
+    const text=document.getElementById("resultText");
 
-document.querySelector(".nav-logo")
-.addEventListener("click",()=>{
+    if(score===3){
 
-    secretClicks++;
+        title.textContent="You know us. ♡";
 
-    if(secretClicks === 5){
+        text.textContent=
+            "Three out of three. The hidden part of the archive is yours.";
 
-        alert(
-            "🤍 You found a tiny secret.\n\n" +
-            "Deandra loves Akbar more than this website can explain."
-        );
+    }else if(score===2){
 
-        secretClicks = 0;
+        title.textContent="Almost there.";
+
+        text.textContent=
+            "You got two right. Maybe explore the archive once more.";
+
+    }else{
+
+        title.textContent="The archive is still mysterious.";
+
+        text.textContent=
+            "Maybe the memories will give you a few clues.";
+
+    }
+
+}
+
+function unlockGame(){
+
+    document.getElementById("badgeGame")
+        .classList.add("unlocked");
+
+    showToast("Achievement unlocked — Love Detective ✦");
+
+}
+
+/* =====================================================
+   HIDDEN MEMORY
+===================================================== */
+
+function unlockMemory(){
+
+    const memory=document.getElementById("lockedMemory");
+
+    if(memory.classList.contains("unlocked")) return;
+
+    memory.classList.add("unlocked");
+
+    document.getElementById("badgeSecret")
+        .classList.add("unlocked");
+
+    setTimeout(()=>{
+
+        showToast("Memory revealed. Keep it safe ♡");
+
+    },500);
+
+}
+
+/* =====================================================
+   SECRET ROOM
+===================================================== */
+
+function openSecret(){
+
+    document.getElementById("secretRoom")
+        .classList.add("show");
+
+    document.getElementById("badgeSecret")
+        .classList.add("unlocked");
+
+}
+
+function closeSecret(){
+
+    document.getElementById("secretRoom")
+        .classList.remove("show");
+
+}
+
+/* =====================================================
+   KONAMI / SECRET KEY
+===================================================== */
+
+let secretSequence=[];
+
+document.addEventListener("keydown",(e)=>{
+
+    secretSequence.push(e.key.toLowerCase());
+
+    if(secretSequence.length>8){
+        secretSequence.shift();
+    }
+
+    if(secretSequence.join("")==="akbar111"){
+
+        openSecret();
+
+        secretSequence=[];
 
     }
 
 });
 
+/* =====================================================
+   PARALLAX
+===================================================== */
 
-/* =========================
-   PAGE LOAD EFFECT
-========================= */
+window.addEventListener("scroll",()=>{
 
-window.addEventListener("load",()=>{
+    const photo=document.querySelector(".profile-photo");
 
-    document.body.style.opacity = "0";
+    if(!photo) return;
 
-    setTimeout(()=>{
+    const y=window.scrollY;
 
-        document.body.style.transition = "opacity .7s";
-        document.body.style.opacity = "1";
+    if(y<window.innerHeight){
 
-    },100);
+        photo.style.transform=
+            `translateY(${y*.06}px)`;
+
+    }
+
+});
+
+/* =====================================================
+   CURSOR GLOW
+===================================================== */
+
+const glow=document.createElement("div");
+
+glow.style.position="fixed";
+glow.style.width="180px";
+glow.style.height="180px";
+glow.style.borderRadius="50%";
+glow.style.pointerEvents="none";
+glow.style.zIndex="0";
+glow.style.background=
+    "radial-gradient(circle,rgba(201,170,112,.055),transparent 70%)";
+glow.style.transform="translate(-50%,-50%)";
+
+document.body.appendChild(glow);
+
+document.addEventListener("mousemove",(e)=>{
+
+    glow.style.left=e.clientX+"px";
+    glow.style.top=e.clientY+"px";
 
 });
 
 </script>
 
 </body>
-  </html>
+    </html>
